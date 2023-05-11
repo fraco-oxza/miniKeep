@@ -62,6 +62,8 @@ public class Note implements Serializable {
         output.append(body);
 
         this.viewed_at = new Date();
+        Notes.getInstance().save();
+
         return output.toString();
     }
 
