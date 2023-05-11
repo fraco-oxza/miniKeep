@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 
 public class UserBuilder {
     private Long registration_number;
@@ -48,7 +47,7 @@ public class UserBuilder {
     }
 
 
-    public User build() {
+    public User build()  {
         // Check non-null fields
         return new User(registration_number, first_name, last_name, email, phone_number, birthdate);
     }

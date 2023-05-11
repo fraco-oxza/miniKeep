@@ -1,12 +1,9 @@
 public class Main {
     public static void main(String[] args) throws Exception {
-        //Users users = Users.get_instance();
+        Note n = (Notes.getInstance().getUserNotes(Users.get_instance().getUser("fcarvajal22@alumnos.utalca.cl", "Fc100704"))).get(0);
+        System.out.println(n);
+        //MenuInteraction menuInteraction = new MenuInteraction();
 
-        //System.out.println(users.users_list.get(0));
-        //var r = users.users_list.get(0).isCorrectPassword("Cb321993");
-        //System.out.println(r);
-        UserInput ui = new UserInput();
-        var user = ui.getUser("Ingrese su usuario: ");
-        System.out.println(user);
+        //menuInteraction.startLoop();
     }
 }
