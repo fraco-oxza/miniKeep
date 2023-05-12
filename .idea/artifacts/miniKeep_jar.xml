@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="miniKeep:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/miniKeep_jar</output-path>
-    <root id="archive" name="miniKeep.jar">
-      <element id="module-output" name="miniKeep" />
-    </root>
-  </artifact>
-</component>
