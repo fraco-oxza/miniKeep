@@ -22,19 +22,17 @@ public class Note implements Serializable {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
-        output.append(header).append("\n\n");
+        output.append("\n").append(header).append("\n\n");
 
-        if (tags != null) {
-            output.append("Tags       : ");
-            for (int i = 0; i < tags.size(); i++) {
-                output.append(tags.get(i));
-                if (i != tags.size() - 1) {
-                    output.append(", ");
-                }
+        output.append("Tags       : ");
+        for (int i = 0; i < tags.size(); i++) {
+            output.append(tags.get(i));
+            if (i != tags.size() - 1) {
+                output.append(", ");
             }
         }
 
-        output.append("Color      : ").append(color).append("\n");
+        output.append("\nColor      : ").append(color).append("\n");
 
         output.append("Prioridad  : ");
         switch (priority) {
@@ -58,7 +56,8 @@ public class Note implements Serializable {
         output.append("Visitado   : ").append(format.format(viewed_at)).append("\n");
         output.append("Modificado : ").append(format.format(updated_at)).append("\n\n");
 
-        output.append(body);
+        output.append(body).append("\n");
+
 
         this.viewed_at = new Date();
         Notes.getInstance().save();
@@ -83,9 +82,18 @@ public class Note implements Serializable {
         return created_at;
     }
 
-    public Note(String header, String body, String color, Priority priority, long created_by) {
+    public ArrayList<String> getTags() {
+        return tags;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public Note(String header, String body, ArrayList<String> tags, String color, Priority priority, long created_by) {
         this.header = header;
         this.body = body;
+        this.tags = tags;
         this.color = color;
         this.priority = priority;
         this.created_by = created_by;

@@ -33,7 +33,7 @@ public class Notes {
         ArrayList<Note> userNotes = new ArrayList<>();
 
         for (Note note : this.notes) {
-            if (note.getCreated_by() == user.getRegistration_number()) {
+            if (note.getCreated_by() == user.getRegistration_number() && note.isDeleted()) {
                 userNotes.add(note);
             }
         }

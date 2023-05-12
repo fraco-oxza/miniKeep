@@ -104,8 +104,7 @@ public class MenuInteraction {
         System.out.println();
         int index = userInput.getInt("Indice a recuperar[0= volver]: ", 0, trashNotes.size());
 
-        if (index == 0)
-            return;
+        if (index == 0) return;
 
         trashNotes.get(index - 1).restore();
         System.out.println("## Nota recuperada con exito");
@@ -160,15 +159,13 @@ public class MenuInteraction {
 
         int index = userInput.getInt("Indice a borrar definitivamente[0= volver]: ", 0, trashNotes.size());
 
-        if (index == 0)
-            return;
+        if (index == 0) return;
 
         Note targetToRemove = trashNotes.get(index - 1);
         if (Notes.getInstance().notes.remove(targetToRemove)) {
             Notes.getInstance().save();
             System.out.println("## Nota eliminada con exito");
-        } else
-            System.err.println("Algo raro pasa, la nota no se borro");
+        } else System.err.println("Algo raro pasa, la nota no se borro");
     }
 
     private void deleteAllNotes() {
@@ -180,8 +177,7 @@ public class MenuInteraction {
             if (Notes.getInstance().notes.remove(targetToRemove)) {
                 Notes.getInstance().save();
                 System.out.println("## Nota eliminada con exito");
-            } else
-                System.err.println("Algo raro pasa, la nota no se borro");
+            } else System.err.println("Algo raro pasa, la nota no se borro");
         }
     }
 
@@ -192,8 +188,7 @@ public class MenuInteraction {
         System.out.println();
         int index = userInput.getInt("Indice a borrar[0= volver]: ", 0, userNotes.size());
 
-        if (index == 0)
-            return;
+        if (index == 0) return;
 
         userNotes.get(index - 1).markAsDeleted();
         System.out.println("## Nota eliminada con exito");
@@ -204,7 +199,13 @@ public class MenuInteraction {
         System.out.println("Debe ingresar los siguientes campos");
 
         String header = userInput.getText("Titulo: ", 1, 30);
+
         String body = userInput.getText("Cuerpo: ", 1, 200);
+
+        String textOfTags = userInput.getText("Tags[separadas por ',']: ");
+        textOfTags = textOfTags.trim().toLowerCase();
+        ArrayList<String> tags = new ArrayList<>(Arrays.asList(textOfTags.split("\\s*,\\s*")));
+
         String color = userInput.getText("Color: ");
 
         System.out.println("Prioridad: ");
@@ -232,7 +233,7 @@ public class MenuInteraction {
         }
 
         // The note is immediately saved in the file through the Notes instance
-        new Note(header, body, color, priority, user.getRegistration_number());
+        new Note(header, body, tags, color, priority, user.getRegistration_number());
     }
 
     public static void showShortNotes(ArrayList<Note> notes) {
@@ -244,14 +245,7 @@ public class MenuInteraction {
     }
 
     public static void showNotes(ArrayList<Note> notes) {
-        System.out.println("=====================================");
-        for (int i = 0; i < notes.size(); i++) {
-            System.out.println(notes.get(i));
-            if (i != notes.size() - 1)
-                System.out.println("----------------------------------------");
-        }
-        System.out.println("=====================================");
-
+        System.out.println(EncloseString.encloseIterable(notes));
     }
 
     public static void showNotesByPriority(ArrayList<Note> notes) {
@@ -266,14 +260,16 @@ public class MenuInteraction {
             notesCluster.get(note.getPriority()).add(note);
         }
 
-        System.out.println("=====================================");
-        System.out.println("Prioridad Baja");
+        System.out.println(EncloseString.encloseLevel1("Prioridad Baja"));
         showNotes(notesCluster.get(Priority.Low));
-        System.out.println("Prioridad Normal");
+
+        System.out.println(EncloseString.encloseLevel1("Prioridad Normal"));
         showNotes(notesCluster.get(Priority.Normal));
-        System.out.println("Prioridad Alta");
+
+        System.out.println(EncloseString.encloseLevel1("Prioridad Alta"));
         showNotes(notesCluster.get(Priority.High));
-        System.out.println("Prioridad Critica");
+
+        System.out.println(EncloseString.encloseLevel1("Prioridad Critica"));
         showNotes(notesCluster.get(Priority.Critical));
     }
 
@@ -288,17 +284,13 @@ public class MenuInteraction {
             }
         }
 
-        System.out.println("======================================");
         for (String color : notesCluster.keySet()) {
 
-            if (color.equals(""))
-                System.out.println("\nSin color\n");
-            else
-                System.out.println("\n" + color + "\n");
+            if (color.equals("")) System.out.println(EncloseString.encloseLevel1("Sin color"));
+            else System.out.println(EncloseString.encloseLevel1(color));
 
             showNotes(notesCluster.get(color));
         }
-        System.out.println("======================================");
     }
 
     public void notesMenu() {
@@ -314,20 +306,24 @@ public class MenuInteraction {
 
         switch (option) {
             case 1:
-                Collections.sort(userNotes, new NoteComparatorByHeader());
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.Header));
                 showNotes(userNotes);
                 break;
             case 2:
-                Collections.sort(userNotes, new NoteComparatorByCreationDate());
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
                 showNotes(userNotes);
                 break;
             case 3:
-                Collections.sort(userNotes, new NoteComparatorByCreationDate());
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
                 showNotesByPriority(userNotes);
                 break;
             case 4:
-                Collections.sort(userNotes, new NoteComparatorByCreationDate());
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
                 showNotesByColor(userNotes);
+                break;
+            case 5:
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
+                showNotesByTag(userNotes);
                 break;
             case 0:
                 userWantsToExit = true;
@@ -335,5 +331,29 @@ public class MenuInteraction {
 
         }
 
+    }
+
+    private void showNotesByTag(ArrayList<Note> userNotes) {
+        HashMap<String, ArrayList<Note>> tagNotesMap = new HashMap<>();
+
+        for (Note note : userNotes) {
+            for (String tag : note.getTags()) {
+                if (tagNotesMap.containsKey(tag)) {
+                    tagNotesMap.get(tag).add(note);
+                } else {
+                    tagNotesMap.put(tag, new ArrayList<>(Collections.singletonList(note)));
+                }
+            }
+        }
+
+        System.out.println("======================================");
+        for (String tag : tagNotesMap.keySet()) {
+
+            if (tag.equals("")) System.out.println("\nSin Tag\n");
+            else System.out.println("\n" + tag + "\n");
+
+            showNotes(tagNotesMap.get(tag));
+        }
+        System.out.println("======================================");
     }
 }
