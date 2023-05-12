@@ -104,7 +104,8 @@ public class MenuInteraction {
         System.out.println();
         int index = userInput.getInt("Indice a recuperar[0= volver]: ", 0, trashNotes.size());
 
-        if (index == 0) return;
+        if (index == 0)
+            return;
 
         trashNotes.get(index - 1).restore();
         System.out.println("## Nota recuperada con exito");
@@ -135,6 +136,8 @@ public class MenuInteraction {
         int option = userInput.getInt("Opción: ", 0, 4);
 
         switch (option) {
+            case 0:
+                return;
             case 1:
                 deleteOneNoteMenu();
                 break;
@@ -148,8 +151,7 @@ public class MenuInteraction {
             case 4:
                 recoverAllNotes(); // <-
                 break;
-            case 0:
-                return;
+
         }
     }
 
@@ -158,13 +160,15 @@ public class MenuInteraction {
 
         int index = userInput.getInt("Indice a borrar definitivamente[0= volver]: ", 0, trashNotes.size());
 
-        if (index == 0) return;
+        if (index == 0)
+            return;
 
         Note targetToRemove = trashNotes.get(index - 1);
         if (Notes.getInstance().notes.remove(targetToRemove)) {
             Notes.getInstance().save();
             System.out.println("## Nota eliminada con exito");
-        } else System.err.println("Algo raro pasa, la nota no se borro");
+        } else
+            System.err.println("Algo raro pasa, la nota no se borro");
     }
 
     private void deleteAllNotes() {
@@ -176,7 +180,8 @@ public class MenuInteraction {
             if (Notes.getInstance().notes.remove(targetToRemove)) {
                 Notes.getInstance().save();
                 System.out.println("## Nota eliminada con exito");
-            } else System.err.println("Algo raro pasa, la nota no se borro");
+            } else
+                System.err.println("Algo raro pasa, la nota no se borro");
         }
     }
 
@@ -187,7 +192,8 @@ public class MenuInteraction {
         System.out.println();
         int index = userInput.getInt("Indice a borrar[0= volver]: ", 0, userNotes.size());
 
-        if (index == 0) return;
+        if (index == 0)
+            return;
 
         userNotes.get(index - 1).markAsDeleted();
         System.out.println("## Nota eliminada con exito");
@@ -241,7 +247,8 @@ public class MenuInteraction {
         System.out.println("=====================================");
         for (int i = 0; i < notes.size(); i++) {
             System.out.println(notes.get(i));
-            if (i != notes.size() - 1) System.out.println("----------------------------------------");
+            if (i != notes.size() - 1)
+                System.out.println("----------------------------------------");
         }
         System.out.println("=====================================");
 
@@ -277,15 +284,17 @@ public class MenuInteraction {
             if (notesCluster.containsKey(note.getColor())) {
                 notesCluster.get(note.getColor()).add(note);
             } else {
-                notesCluster.put(note.getColor(), new ArrayList<Note>(Arrays.asList(note)));
+                notesCluster.put(note.getColor(), new ArrayList<>(Collections.singletonList(note)));
             }
         }
 
         System.out.println("======================================");
         for (String color : notesCluster.keySet()) {
 
-            if (color.equals("")) System.out.println("\nSin color\n");
-            else System.out.println("\n" + color + "\n");
+            if (color.equals(""))
+                System.out.println("\nSin color\n");
+            else
+                System.out.println("\n" + color + "\n");
 
             showNotes(notesCluster.get(color));
         }
@@ -325,7 +334,6 @@ public class MenuInteraction {
                 break;
 
         }
-
 
     }
 }

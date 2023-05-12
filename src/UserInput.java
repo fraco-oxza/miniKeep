@@ -1,11 +1,10 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserInput {
     private static UserInput userInputInstance = null;
-    private Scanner scanner;
+    private final Scanner scanner;
     public static final Pattern emailPattern = Pattern.compile("^[a-z0-9.\\-_]+@([a-z]+\\.)+[a-z0-9]+$", Pattern.CASE_INSENSITIVE);
     public static final Pattern phonePattern = Pattern.compile("^(\\+[0-9]{1,3})?(\\s*[0-9]\\s*)+$");
     public static final Pattern datePattern = Pattern.compile("^([0-9]{1,2})-([0-9]{1,2})-([0-9]{1,4})$");
