@@ -29,11 +29,23 @@ public class Notes {
         save();
     }
 
-    public ArrayList<Note> getUserNotes(User user) {
+    public ArrayList<Note> getTrashNotes(User user) {
         ArrayList<Note> userNotes = new ArrayList<>();
 
         for (Note note : this.notes) {
             if (note.getCreated_by() == user.getRegistration_number()) {
+                userNotes.add(note);
+            }
+        }
+
+        return userNotes;
+    }
+
+    public ArrayList<Note> getUserNotes(User user) {
+        ArrayList<Note> userNotes = new ArrayList<>();
+
+        for (Note note : this.notes) {
+            if (note.getCreated_by() == user.getRegistration_number() && !note.isDeleted()) {
                 userNotes.add(note);
             }
         }

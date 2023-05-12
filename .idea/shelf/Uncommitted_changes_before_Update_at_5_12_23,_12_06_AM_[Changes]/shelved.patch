@@ -1,0 +1,520 @@
+Index: src/Note.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.io.Serializable;\nimport java.text.DateFormat;\nimport java.text.SimpleDateFormat;\nimport java.util.ArrayList;\nimport java.util.Date;\n\npublic class Note implements Serializable {\n    private String header;\n    private ArrayList<String> tags;\n    private String body;\n    private String color;\n    private Priority priority;\n\n    public long getCreated_by() {\n        return created_by;\n    }\n\n    private final long created_by;\n    private Date created_at, updated_at, viewed_at;\n    private boolean deleted;\n\n    @Override\n    public String toString() {\n        StringBuilder output = new StringBuilder();\n\n        output.append(header).append(\"\\n\\n\");\n\n        if (tags != null) {\n            output.append(\"Tags       : \");\n            for (int i = 0; i < tags.size(); i++) {\n                output.append(tags.get(i));\n                if (i != tags.size() - 1) {\n                    output.append(\", \");\n                }\n            }\n        }\n\n        output.append(\"Color      : \").append(color).append(\"\\n\");\n\n        output.append(\"Prioridad  : \");\n        switch (priority) {\n            case Low:\n                output.append(\"Baja\");\n                break;\n            case Normal:\n                output.append(\"Normal\");\n                break;\n            case High:\n                output.append(\"Alta\");\n                break;\n            case Critical:\n                output.append(\"Critica\");\n                break;\n        }\n        output.append(\"\\n\");\n\n        DateFormat format = new SimpleDateFormat(\"dd/MM/yyyy hh:mm\");\n        output.append(\"Creado     : \").append(format.format(created_at)).append(\"\\n\");\n        output.append(\"Visitado   : \").append(format.format(viewed_at)).append(\"\\n\");\n        output.append(\"Modificado : \").append(format.format(updated_at)).append(\"\\n\\n\");\n\n        output.append(body);\n\n        this.viewed_at = new Date();\n        Notes.getInstance().save();\n\n        return output.toString();\n    }\n\n    public Note(String header, String body, String color, Priority priority, int created_by) {\n        this.header = header;\n        this.body = body;\n        this.color = color;\n        this.priority = priority;\n        this.created_by = created_by;\n        this.deleted = false;\n\n        this.updated_at = new Date();\n        this.created_at = new Date();\n        this.viewed_at = new Date();\n\n        Notes.getInstance().addNote(this);\n    }\n\n    public void setHeader(String header) {\n        this.header = header;\n        Notes.getInstance().save();\n    }\n\n    public void setTags(ArrayList<String> tags) {\n        this.tags = tags;\n\n        Notes.getInstance().save();\n    }\n\n    public void setBody(String body) {\n        this.body = body;\n\n        this.updated_at = new Date();\n        Notes.getInstance().save();\n    }\n\n    public void setColor(String color) {\n        this.color = color;\n\n        this.updated_at = new Date();\n        Notes.getInstance().save();\n    }\n\n    public void setPriority(Priority priority) {\n        this.priority = priority;\n        Notes.getInstance().save();\n    }\n\n    public void markAsDeleted() {\n        deleted = true;\n        updated_at = new Date();\n\n        Notes.getInstance().save();\n    }\n\n    public void restore() {\n        this.deleted = false;\n        updated_at = new Date();\n\n        Notes.getInstance().save();\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Note.java b/src/Note.java
+--- a/src/Note.java	(revision c1e12ac98b2bc96f084d1d01bfff1117530b945a)
++++ b/src/Note.java	(date 1683859930375)
+@@ -22,7 +22,6 @@
+     @Override
+     public String toString() {
+         StringBuilder output = new StringBuilder();
+-
+         output.append(header).append("\n\n");
+ 
+         if (tags != null) {
+@@ -54,7 +53,7 @@
+         }
+         output.append("\n");
+ 
+-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm");
++        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+         output.append("Creado     : ").append(format.format(created_at)).append("\n");
+         output.append("Visitado   : ").append(format.format(viewed_at)).append("\n");
+         output.append("Modificado : ").append(format.format(updated_at)).append("\n\n");
+@@ -64,10 +63,27 @@
+         this.viewed_at = new Date();
+         Notes.getInstance().save();
+ 
++
+         return output.toString();
+     }
+ 
+-    public Note(String header, String body, String color, Priority priority, int created_by) {
++    public String getHeader() {
++        return header;
++    }
++
++    public String getColor() {
++        return color;
++    }
++
++    public Priority getPriority() {
++        return priority;
++    }
++
++    public Date getCreated_at() {
++        return created_at;
++    }
++
++    public Note(String header, String body, String color, Priority priority, long created_by) {
+         this.header = header;
+         this.body = body;
+         this.color = color;
+@@ -112,6 +128,10 @@
+         Notes.getInstance().save();
+     }
+ 
++    public boolean isDeleted() {
++        return deleted;
++    }
++
+     public void markAsDeleted() {
+         deleted = true;
+         updated_at = new Date();
+Index: src/Main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public class Main {\n    public static void main(String[] args) throws Exception {\n        Note n = (Notes.getInstance().getUserNotes(Users.get_instance().getUser(\"fcarvajal22@alumnos.utalca.cl\", \"Fc100704\"))).get(0);\n        System.out.println(n);\n        //MenuInteraction menuInteraction = new MenuInteraction();\n\n        //menuInteraction.startLoop();\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Main.java b/src/Main.java
+--- a/src/Main.java	(revision c1e12ac98b2bc96f084d1d01bfff1117530b945a)
++++ b/src/Main.java	(date 1683855135858)
+@@ -1,9 +1,11 @@
++import java.util.Collection;
++import java.util.Collections;
++import java.util.Comparator;
++
+ public class Main {
+-    public static void main(String[] args) throws Exception {
+-        Note n = (Notes.getInstance().getUserNotes(Users.get_instance().getUser("fcarvajal22@alumnos.utalca.cl", "Fc100704"))).get(0);
+-        System.out.println(n);
+-        //MenuInteraction menuInteraction = new MenuInteraction();
++    public static void main(String[] args) {
++        MenuInteraction menuInteraction = new MenuInteraction();
+ 
+-        //menuInteraction.startLoop();
++        menuInteraction.startLoop();
+     }
+ }
+\ No newline at end of file
+Index: src/Notes.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import java.io.*;\nimport java.util.ArrayList;\n\npublic class Notes {\n    private static Notes notesInstance = null;\n    ArrayList<Note> notes;\n\n    private Notes() {\n        try {\n            FileInputStream file = new FileInputStream(\"./notes.ser\");\n            ObjectInputStream objIn = new ObjectInputStream(file);\n            notes = (ArrayList<Note>) objIn.readObject();\n            objIn.close();\n            file.close();\n        } catch (FileNotFoundException e) {\n            notes = new ArrayList<>();\n        } catch (IOException | ClassNotFoundException e) {\n            throw new RuntimeException(e);\n        }\n    }\n\n    public static Notes getInstance() {\n        if (notesInstance == null) notesInstance = new Notes();\n        return notesInstance;\n    }\n\n    public void addNote(Note note) {\n        this.notes.add(note);\n        save();\n    }\n\n    public ArrayList<Note> getUserNotes(User user) {\n        ArrayList<Note> userNotes = new ArrayList<>();\n\n        for (Note note : this.notes) {\n            if (note.getCreated_by() == user.getRegistration_number()) {\n                userNotes.add(note);\n            }\n        }\n\n        return userNotes;\n    }\n\n    public void save() {\n        try {\n            FileOutputStream file = new FileOutputStream(\"./notes.ser\");\n            ObjectOutputStream objOut = new ObjectOutputStream(file);\n            objOut.writeObject(notes);\n            objOut.close();\n            file.close();\n        } catch (IOException e) {\n            throw new RuntimeException(e);\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Notes.java b/src/Notes.java
+--- a/src/Notes.java	(revision c1e12ac98b2bc96f084d1d01bfff1117530b945a)
++++ b/src/Notes.java	(date 1683861097757)
+@@ -29,7 +29,7 @@
+         save();
+     }
+ 
+-    public ArrayList<Note> getUserNotes(User user) {
++    public ArrayList<Note> getTrashNotes(User user) {
+         ArrayList<Note> userNotes = new ArrayList<>();
+ 
+         for (Note note : this.notes) {
+@@ -37,6 +37,18 @@
+                 userNotes.add(note);
+             }
+         }
++
++        return userNotes;
++    }
++
++    public ArrayList<Note> getUserNotes(User user) {
++        ArrayList<Note> userNotes = new ArrayList<>();
++
++        for (Note note : this.notes) {
++            if (note.getCreated_by() == user.getRegistration_number() && !note.isDeleted()) {
++                userNotes.add(note);
++            }
++        }
+ 
+         return userNotes;
+     }
+Index: src/MenuInteraction.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>public class MenuInteraction {\n    private User user;\n    private final UserInput userInput = UserInput.getInstance();\n    private boolean userWantsToExit;\n\n    public MenuInteraction() {\n        user = null;\n        userWantsToExit = false;\n    }\n\n    public void startLoop() {\n        do {\n            if (user == null) {\n                sessionMenu();\n            } else {\n                generalMenu();\n            }\n        } while (!userWantsToExit);\n    }\n\n    public void signIn() {\n        String email = userInput.getText(\"Correo : \", UserInput.emailPattern);\n        String password = userInput.getText(\"Clave  : \");\n\n        User possibleUser = Users.get_instance().getUser(email, password);\n\n        if (possibleUser == null) {\n            System.out.println(\"!! Email y/o contraseña incorrecto\");\n        } else {\n            System.out.println(\"## Inicio de sesion exitoso\");\n            user = possibleUser;\n        }\n    }\n\n    public void signUp() {\n        try {\n            User user = Users.get_instance().addNewUserFromStdin();\n            System.out.println(\"## Usuario creado con exito\");\n            System.out.println(\"## Su clave es : \" + user.getPassword());\n        } catch (UserAlreadyExistsException e) {\n            System.out.println(\"!! Ya existe un usuario con su numero de matricula o correo\");\n        }\n    }\n\n    public void sessionMenu() {\n        System.out.println(\"1. Iniciar Sesión\");\n        System.out.println(\"2. Crear cuenta\");\n        System.out.println(\"0. Salir\");\n        int option = userInput.getInt(\"Opción: \", 0, 2);\n\n        switch (option) {\n            case 1:\n                signIn();\n                break;\n            case 2:\n                signUp();\n                break;\n            case 0:\n                userWantsToExit = true;\n                break;\n        }\n    }\n\n    public void generalMenu() {\n        System.out.println(\"1. Ver Notas\");\n        System.out.println(\"2. Crear Nota\");\n        System.out.println(\"3. Editar Nota\");\n        System.out.println(\"4. Eliminar Nota\");\n        System.out.println(\"5. Ver papelera\");\n        System.out.println(\"6. Cerrar sesión\");\n        System.out.println(\"0. Salir\");\n\n        int option = userInput.getInt(\"Opción: \", 0, 6);\n\n        switch (option) {\n            case 1:\n                notesMenu();\n                break;\n            case 2:\n                break;\n            case 0:\n                userWantsToExit = true;\n                break;\n\n        }\n    }\n\n    public void notesMenu() {\n        System.out.println(\"Mostrar las notas ordenadas por: \");\n        System.out.println(\"1. Nombre\");\n        System.out.println(\"2. Fecha de creación\");\n        System.out.println(\"3. Prioridad\");\n        System.out.println(\"4. Agrupados por color\");\n        System.out.println(\"5. Agrupados por temas\");\n        int option = userInput.getInt(\"Opción: \", 1, 5);\n\n        switch (option) {\n            case 1:\n                break;\n            case 2:\n                break;\n            case 0:\n                userWantsToExit = true;\n                break;\n\n        }\n    }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/MenuInteraction.java b/src/MenuInteraction.java
+--- a/src/MenuInteraction.java	(revision c1e12ac98b2bc96f084d1d01bfff1117530b945a)
++++ b/src/MenuInteraction.java	(date 1683864305103)
+@@ -1,3 +1,5 @@
++import java.util.*;
++
+ public class MenuInteraction {
+     private User user;
+     private final UserInput userInput = UserInput.getInstance();
+@@ -77,6 +79,16 @@
+                 notesMenu();
+                 break;
+             case 2:
++                createNoteMenu();
++                break;
++            case 4:
++                deleteMenu();
++                break;
++            case 5:
++                trashMenu();
++                break;
++            case 6:
++                user = null;
+                 break;
+             case 0:
+                 userWantsToExit = true;
+@@ -84,6 +96,201 @@
+ 
+         }
+     }
++
++    private void recoverOneNote() {
++        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
++        System.out.println();
++        showShortNotes(trashNotes);
++        System.out.println();
++        int index = userInput.getInt("Indice a recuperar[0= volver]: ", 0, trashNotes.size());
++
++        if (index == 0) return;
++
++        trashNotes.get(index - 1).restore();
++        System.out.println("## Nota recuperada con exito");
++    }
++
++    private void recoverAllNotes() {
++        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
++
++        // TODO: pedir confirmacion
++
++        for (Note note : trashNotes) {
++            note.restore();
++        }
++        System.out.println("## Notas recuperadas con exito");
++    }
++
++    private void trashMenu() {
++        System.out.println();
++        showShortNotes(Notes.getInstance().getTrashNotes(user));
++        System.out.println();
++
++        System.out.println("Que desea hacer en la papelera");
++        System.out.println("1. Eliminar una nota");
++        System.out.println("2. Eliminar todo");
++        System.out.println("3. Restaurar una nota");
++        System.out.println("4. Restaurar todo");
++        System.out.println("0. Volver atras");
++        int option = userInput.getInt("Opción: ", 0, 4);
++
++        switch (option) {
++            case 1:
++                deleteOneNoteMenu();
++                break;
++            case 2:
++                deleteAllNotes();
++                break;
++            case 3:
++                // TODO: Check this methods
++                recoverOneNote(); // <-
++                break;
++            case 4:
++                recoverAllNotes(); // <-
++                break;
++            case 0:
++                return;
++        }
++    }
++
++    private void deleteOneNoteMenu() {
++        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
++
++        int index = userInput.getInt("Indice a borrar definitivamente[0= volver]: ", 0, trashNotes.size());
++
++        if (index == 0) return;
++
++        Note targetToRemove = trashNotes.get(index - 1);
++        if (Notes.getInstance().notes.remove(targetToRemove)) {
++            Notes.getInstance().save();
++            System.out.println("## Nota eliminada con exito");
++        } else System.err.println("Algo raro pasa, la nota no se borro");
++    }
++
++    private void deleteAllNotes() {
++        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
++
++        // TODO: pedir una confirmacion
++
++        for (Note targetToRemove : trashNotes) {
++            if (Notes.getInstance().notes.remove(targetToRemove)) {
++                Notes.getInstance().save();
++                System.out.println("## Nota eliminada con exito");
++            } else System.err.println("Algo raro pasa, la nota no se borro");
++        }
++    }
++
++    private void deleteMenu() {
++        ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
++        System.out.println();
++        showShortNotes(userNotes);
++        System.out.println();
++        int index = userInput.getInt("Indice a borrar[0= volver]: ", 0, userNotes.size());
++
++        if (index == 0) return;
++
++        userNotes.get(index - 1).markAsDeleted();
++        System.out.println("## Nota eliminada con exito");
++    }
++
++    private void createNoteMenu() {
++        System.out.println("Creando nota");
++        System.out.println("Debe ingresar los siguientes campos");
++
++        String header = userInput.getText("Titulo: ", 1, 30);
++        String body = userInput.getText("Cuerpo: ", 1, 200);
++        String color = userInput.getText("Color: ");
++
++        System.out.println("Prioridad: ");
++        System.out.println("  0. Baja");
++        System.out.println("  1. Normal");
++        System.out.println("  2. Alta");
++        System.out.println("  3. Critica");
++        int option = userInput.getInt("Numero: ", 0, 3);
++
++        Priority priority = null;
++
++        switch (option) {
++            case 0:
++                priority = Priority.Low;
++                break;
++            case 1:
++                priority = Priority.Normal;
++                break;
++            case 2:
++                priority = Priority.High;
++                break;
++            case 3:
++                priority = Priority.Critical;
++                break;
++        }
++
++        // The note is immediately saved in the file through the Notes instance
++        new Note(header, body, color, priority, user.getRegistration_number());
++    }
++
++    public static void showShortNotes(ArrayList<Note> notes) {
++        int i = 1;
++        for (Note note : notes) {
++            System.out.printf("%d. %s\n", i, note.getHeader());
++            i++;
++        }
++    }
++
++    public static void showNotes(ArrayList<Note> notes) {
++        System.out.println("=====================================");
++        for (int i = 0; i < notes.size(); i++) {
++            System.out.println(notes.get(i));
++            if (i != notes.size() - 1) System.out.println("----------------------------------------");
++        }
++        System.out.println("=====================================");
++
++    }
++
++    public static void showNotesByPriority(ArrayList<Note> notes) {
++        HashMap<Priority, ArrayList<Note>> notesCluster = new HashMap<>();
++
++        notesCluster.put(Priority.Low, new ArrayList<Note>());
++        notesCluster.put(Priority.Normal, new ArrayList<Note>());
++        notesCluster.put(Priority.High, new ArrayList<Note>());
++        notesCluster.put(Priority.Critical, new ArrayList<Note>());
++
++        for (Note note : notes) {
++            notesCluster.get(note.getPriority()).add(note);
++        }
++
++        System.out.println("=====================================");
++        System.out.println("Prioridad Baja");
++        showNotes(notesCluster.get(Priority.Low));
++        System.out.println("Prioridad Normal");
++        showNotes(notesCluster.get(Priority.Normal));
++        System.out.println("Prioridad Alta");
++        showNotes(notesCluster.get(Priority.High));
++        System.out.println("Prioridad Critica");
++        showNotes(notesCluster.get(Priority.Critical));
++    }
++
++    public static void showNotesByColor(ArrayList<Note> notes) {
++        HashMap<String, ArrayList<Note>> notesCluster = new HashMap<>();
++
++        for (Note note : notes) {
++            if (notesCluster.containsKey(note.getColor())) {
++                notesCluster.get(note.getColor()).add(note);
++            } else {
++                notesCluster.put(note.getColor(), new ArrayList<Note>(Arrays.asList(note)));
++            }
++        }
++
++        System.out.println("======================================");
++        for (String color : notesCluster.keySet()) {
++
++            if (color.equals("")) System.out.println("\nSin color\n");
++            else System.out.println("\n" + color + "\n");
++
++            showNotes(notesCluster.get(color));
++        }
++        System.out.println("======================================");
++    }
+ 
+     public void notesMenu() {
+         System.out.println("Mostrar las notas ordenadas por: ");
+@@ -94,15 +301,31 @@
+         System.out.println("5. Agrupados por temas");
+         int option = userInput.getInt("Opción: ", 1, 5);
+ 
++        ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
++
+         switch (option) {
+             case 1:
++                Collections.sort(userNotes, new NoteComparatorByHeader());
++                showNotes(userNotes);
+                 break;
+             case 2:
++                Collections.sort(userNotes, new NoteComparatorByCreationDate());
++                showNotes(userNotes);
++                break;
++            case 3:
++                Collections.sort(userNotes, new NoteComparatorByCreationDate());
++                showNotesByPriority(userNotes);
++                break;
++            case 4:
++                Collections.sort(userNotes, new NoteComparatorByCreationDate());
++                showNotesByColor(userNotes);
+                 break;
+             case 0:
+                 userWantsToExit = true;
+                 break;
+ 
+         }
++
++
+     }
+ }
+Index: notes.ser
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/notes.ser b/notes.ser
+deleted file mode 100644
+--- a/notes.ser	(revision c1e12ac98b2bc96f084d1d01bfff1117530b945a)
++++ /dev/null	(revision c1e12ac98b2bc96f084d1d01bfff1117530b945a)
+@@ -1,8 +0,0 @@
+-�� sr java.util.ArrayListx����a� I sizexp   w   sr Note�xv���� 
+-J 
+-created_byZ deletedL bodyt Ljava/lang/String;L colorq ~ L 
+-created_att Ljava/util/Date;L headerq ~ L priorityt 
+-LPriority;L tagst Ljava/util/ArrayList;L 
+-updated_atq ~ L 	viewed_atq ~ xp    x�{Y t �mi doctor ha revelado que se ha detectado un bajo nivel de hierro en mi organismo. Este hallazgo podría explicar los síntomas de fatiga y debilidad que he estado experimentando recientemente.t Moradosr java.util.Datehj�KYt  xpw  �	�xt Debo comer mas hierro~r Priority          xr java.lang.Enum          xpt Criticalpsq ~ 
+-w  �	&��xsq ~ 
+-w  ���xx
+\ No newline at end of file
+Index: .idea/artifacts/miniKeep_jar.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/artifacts/miniKeep_jar.xml b/.idea/artifacts/miniKeep_jar.xml
+new file mode 100644
+--- /dev/null	(date 1683827635117)
++++ b/.idea/artifacts/miniKeep_jar.xml	(date 1683827635117)
+@@ -0,0 +1,8 @@
++<component name="ArtifactManager">
++  <artifact type="jar" build-on-make="true" name="miniKeep:jar">
++    <output-path>$PROJECT_DIR$/out/artifacts/miniKeep_jar</output-path>
++    <root id="archive" name="miniKeep.jar">
++      <element id="module-output" name="miniKeep" />
++    </root>
++  </artifact>
++</component>
+\ No newline at end of file
+Index: users.ser
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>��\u0000\u0005sr\u0000\u0013java.util.ArrayListx��\u001D��a�\u0003\u0000\u0001I\u0000\u0004sizexp\u0000\u0000\u0000\u0001w\u0004\u0000\u0000\u0000\u0001sr\u0000\u0004User\u0003���\u000E^�\u0002\u0000\u0006J\u0000\u0013registration_numberL\u0000\tbirthdatet\u0000\u0012Ljava/lang/String;L\u0000\u0005emailq\u0000~\u0000\u0003L\u0000\nfirst_nameq\u0000~\u0000\u0003L\u0000\tlast_nameq\u0000~\u0000\u0003L\u0000\fphone_numberq\u0000~\u0000\u0003xp\u0000\u0000\u0000\u0000x�{Yt\u0000\n11-11-2003t\u0000\u001Dfcarvajal22@alumnos.utalca.clt\u0000\tFranciscot\u0000\bCarvajalt\u0000\u000E+569 4064 9190x
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/users.ser b/users.ser
+--- a/users.ser	(revision c1e12ac98b2bc96f084d1d01bfff1117530b945a)
++++ b/users.ser	(date 1683859678207)
+@@ -1,3 +1,4 @@
+-�� sr java.util.ArrayListx����a� I sizexp   w   sr User���^� J registration_numberL 	birthdatet Ljava/lang/String;L emailq ~ L 
++�� sr java.util.ArrayListx����a� I sizexp   w   sr User���^� J registration_numberL 	birthdatet Ljava/lang/String;L emailq ~ L 
+ first_nameq ~ L 	last_nameq ~ L phone_numberq ~ xp    x�{Yt 
+-11-11-2003t fcarvajal22@alumnos.utalca.clt 	Franciscot Carvajalt +569 4064 9190x
+\ No newline at end of file
++11-11-2003t fcarvajal22@alumnos.utalca.clt 	Franciscot Carvajalt +569 4064 9190sq ~     B:5�t 
++04-07-1994t dh@gmail.comt Diegot 	Hernandezt 93243541x
+\ No newline at end of file
+Index: src/NoteComparatorByHeader.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/NoteComparatorByHeader.java b/src/NoteComparatorByHeader.java
+new file mode 100644
+--- /dev/null	(date 1683855038812)
++++ b/src/NoteComparatorByHeader.java	(date 1683855038812)
+@@ -0,0 +1,8 @@
++import java.util.Comparator;
++
++public class NoteComparatorByHeader implements Comparator<Note> {
++    @Override
++    public int compare(Note o1, Note o2) {
++        return o1.getHeader().compareTo(o2.getHeader());
++    }
++}
+Index: src/NoteComparatorByCreationDate.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/NoteComparatorByCreationDate.java b/src/NoteComparatorByCreationDate.java
+new file mode 100644
+--- /dev/null	(date 1683856553328)
++++ b/src/NoteComparatorByCreationDate.java	(date 1683856553328)
+@@ -0,0 +1,8 @@
++import java.util.Comparator;
++
++public class NoteComparatorByCreationDate implements Comparator<Note> {
++    @Override
++    public int compare(Note o1, Note o2) {
++        return o1.getCreated_at().compareTo(o2.getCreated_at());
++    }
++}
+Index: .idea/dictionaries/fraco.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/dictionaries/fraco.xml b/.idea/dictionaries/fraco.xml
+new file mode 100644
+--- /dev/null	(date 1683859496707)
++++ b/.idea/dictionaries/fraco.xml	(date 1683859496707)
+@@ -0,0 +1,3 @@
++<component name="ProjectDictionaryState">
++  <dictionary name="fraco" />
++</component>
+\ No newline at end of file
+Index: src/META-INF/MANIFEST.MF
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/META-INF/MANIFEST.MF b/src/META-INF/MANIFEST.MF
+new file mode 100644
+--- /dev/null	(date 1683827595981)
++++ b/src/META-INF/MANIFEST.MF	(date 1683827595981)
+@@ -0,0 +1,3 @@
++Manifest-Version: 1.0
++Main-Class: Main
++

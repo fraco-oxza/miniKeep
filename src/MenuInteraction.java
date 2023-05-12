@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class MenuInteraction {
     private User user;
     private final UserInput userInput = UserInput.getInstance();
@@ -77,12 +79,217 @@ public class MenuInteraction {
                 notesMenu();
                 break;
             case 2:
+                createNoteMenu();
+                break;
+            case 4:
+                deleteMenu();
+                break;
+            case 5:
+                trashMenu();
+                break;
+            case 6:
+                user = null;
                 break;
             case 0:
                 userWantsToExit = true;
                 break;
 
         }
+    }
+
+    private void recoverOneNote() {
+        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+        System.out.println();
+        showShortNotes(trashNotes);
+        System.out.println();
+        int index = userInput.getInt("Indice a recuperar[0= volver]: ", 0, trashNotes.size());
+
+        if (index == 0) return;
+
+        trashNotes.get(index - 1).restore();
+        System.out.println("## Nota recuperada con exito");
+    }
+
+    private void recoverAllNotes() {
+        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+
+        // TODO: pedir confirmacion
+
+        for (Note note : trashNotes) {
+            note.restore();
+        }
+        System.out.println("## Notas recuperadas con exito");
+    }
+
+    private void trashMenu() {
+        System.out.println();
+        showShortNotes(Notes.getInstance().getTrashNotes(user));
+        System.out.println();
+
+        System.out.println("Que desea hacer en la papelera");
+        System.out.println("1. Eliminar una nota");
+        System.out.println("2. Eliminar todo");
+        System.out.println("3. Restaurar una nota");
+        System.out.println("4. Restaurar todo");
+        System.out.println("0. Volver atras");
+        int option = userInput.getInt("Opción: ", 0, 4);
+
+        switch (option) {
+            case 1:
+                deleteOneNoteMenu();
+                break;
+            case 2:
+                deleteAllNotes();
+                break;
+            case 3:
+                // TODO: Check this methods
+                recoverOneNote(); // <-
+                break;
+            case 4:
+                recoverAllNotes(); // <-
+                break;
+            case 0:
+                return;
+        }
+    }
+
+    private void deleteOneNoteMenu() {
+        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+
+        int index = userInput.getInt("Indice a borrar definitivamente[0= volver]: ", 0, trashNotes.size());
+
+        if (index == 0) return;
+
+        Note targetToRemove = trashNotes.get(index - 1);
+        if (Notes.getInstance().notes.remove(targetToRemove)) {
+            Notes.getInstance().save();
+            System.out.println("## Nota eliminada con exito");
+        } else System.err.println("Algo raro pasa, la nota no se borro");
+    }
+
+    private void deleteAllNotes() {
+        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+
+        // TODO: pedir una confirmacion
+
+        for (Note targetToRemove : trashNotes) {
+            if (Notes.getInstance().notes.remove(targetToRemove)) {
+                Notes.getInstance().save();
+                System.out.println("## Nota eliminada con exito");
+            } else System.err.println("Algo raro pasa, la nota no se borro");
+        }
+    }
+
+    private void deleteMenu() {
+        ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
+        System.out.println();
+        showShortNotes(userNotes);
+        System.out.println();
+        int index = userInput.getInt("Indice a borrar[0= volver]: ", 0, userNotes.size());
+
+        if (index == 0) return;
+
+        userNotes.get(index - 1).markAsDeleted();
+        System.out.println("## Nota eliminada con exito");
+    }
+
+    private void createNoteMenu() {
+        System.out.println("Creando nota");
+        System.out.println("Debe ingresar los siguientes campos");
+
+        String header = userInput.getText("Titulo: ", 1, 30);
+        String body = userInput.getText("Cuerpo: ", 1, 200);
+        String color = userInput.getText("Color: ");
+
+        System.out.println("Prioridad: ");
+        System.out.println("  0. Baja");
+        System.out.println("  1. Normal");
+        System.out.println("  2. Alta");
+        System.out.println("  3. Critica");
+        int option = userInput.getInt("Numero: ", 0, 3);
+
+        Priority priority = null;
+
+        switch (option) {
+            case 0:
+                priority = Priority.Low;
+                break;
+            case 1:
+                priority = Priority.Normal;
+                break;
+            case 2:
+                priority = Priority.High;
+                break;
+            case 3:
+                priority = Priority.Critical;
+                break;
+        }
+
+        // The note is immediately saved in the file through the Notes instance
+        new Note(header, body, color, priority, user.getRegistration_number());
+    }
+
+    public static void showShortNotes(ArrayList<Note> notes) {
+        int i = 1;
+        for (Note note : notes) {
+            System.out.printf("%d. %s\n", i, note.getHeader());
+            i++;
+        }
+    }
+
+    public static void showNotes(ArrayList<Note> notes) {
+        System.out.println("=====================================");
+        for (int i = 0; i < notes.size(); i++) {
+            System.out.println(notes.get(i));
+            if (i != notes.size() - 1) System.out.println("----------------------------------------");
+        }
+        System.out.println("=====================================");
+
+    }
+
+    public static void showNotesByPriority(ArrayList<Note> notes) {
+        HashMap<Priority, ArrayList<Note>> notesCluster = new HashMap<>();
+
+        notesCluster.put(Priority.Low, new ArrayList<Note>());
+        notesCluster.put(Priority.Normal, new ArrayList<Note>());
+        notesCluster.put(Priority.High, new ArrayList<Note>());
+        notesCluster.put(Priority.Critical, new ArrayList<Note>());
+
+        for (Note note : notes) {
+            notesCluster.get(note.getPriority()).add(note);
+        }
+
+        System.out.println("=====================================");
+        System.out.println("Prioridad Baja");
+        showNotes(notesCluster.get(Priority.Low));
+        System.out.println("Prioridad Normal");
+        showNotes(notesCluster.get(Priority.Normal));
+        System.out.println("Prioridad Alta");
+        showNotes(notesCluster.get(Priority.High));
+        System.out.println("Prioridad Critica");
+        showNotes(notesCluster.get(Priority.Critical));
+    }
+
+    public static void showNotesByColor(ArrayList<Note> notes) {
+        HashMap<String, ArrayList<Note>> notesCluster = new HashMap<>();
+
+        for (Note note : notes) {
+            if (notesCluster.containsKey(note.getColor())) {
+                notesCluster.get(note.getColor()).add(note);
+            } else {
+                notesCluster.put(note.getColor(), new ArrayList<Note>(Arrays.asList(note)));
+            }
+        }
+
+        System.out.println("======================================");
+        for (String color : notesCluster.keySet()) {
+
+            if (color.equals("")) System.out.println("\nSin color\n");
+            else System.out.println("\n" + color + "\n");
+
+            showNotes(notesCluster.get(color));
+        }
+        System.out.println("======================================");
     }
 
     public void notesMenu() {
@@ -94,15 +301,31 @@ public class MenuInteraction {
         System.out.println("5. Agrupados por temas");
         int option = userInput.getInt("Opción: ", 1, 5);
 
+        ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
+
         switch (option) {
             case 1:
+                Collections.sort(userNotes, new NoteComparatorByHeader());
+                showNotes(userNotes);
                 break;
             case 2:
+                Collections.sort(userNotes, new NoteComparatorByCreationDate());
+                showNotes(userNotes);
+                break;
+            case 3:
+                Collections.sort(userNotes, new NoteComparatorByCreationDate());
+                showNotesByPriority(userNotes);
+                break;
+            case 4:
+                Collections.sort(userNotes, new NoteComparatorByCreationDate());
+                showNotesByColor(userNotes);
                 break;
             case 0:
                 userWantsToExit = true;
                 break;
 
         }
+
+
     }
 }

@@ -22,7 +22,6 @@ public class Note implements Serializable {
     @Override
     public String toString() {
         StringBuilder output = new StringBuilder();
-
         output.append(header).append("\n\n");
 
         if (tags != null) {
@@ -54,7 +53,7 @@ public class Note implements Serializable {
         }
         output.append("\n");
 
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         output.append("Creado     : ").append(format.format(created_at)).append("\n");
         output.append("Visitado   : ").append(format.format(viewed_at)).append("\n");
         output.append("Modificado : ").append(format.format(updated_at)).append("\n\n");
@@ -64,10 +63,27 @@ public class Note implements Serializable {
         this.viewed_at = new Date();
         Notes.getInstance().save();
 
+
         return output.toString();
     }
 
-    public Note(String header, String body, String color, Priority priority, int created_by) {
+    public String getHeader() {
+        return header;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public Priority getPriority() {
+        return priority;
+    }
+
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    public Note(String header, String body, String color, Priority priority, long created_by) {
         this.header = header;
         this.body = body;
         this.color = color;
@@ -110,6 +126,10 @@ public class Note implements Serializable {
     public void setPriority(Priority priority) {
         this.priority = priority;
         Notes.getInstance().save();
+    }
+
+    public boolean isDeleted() {
+        return deleted;
     }
 
     public void markAsDeleted() {
