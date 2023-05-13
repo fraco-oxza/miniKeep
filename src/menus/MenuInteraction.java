@@ -1,3 +1,16 @@
+package menus;
+
+import ioUtils.OutputFormatter;
+import ioUtils.UserInput;
+import note.Note;
+import note.NoteComparator;
+import note.NoteParameter;
+import note.Priority;
+import persistence.Notes;
+import persistence.Users;
+import user.User;
+import user.UserAlreadyExistsException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -209,7 +222,7 @@ public class MenuInteraction {
 
         Priority priority = userInput.getPriority("Prioridad");
 
-        // The note is immediately saved in the file through the Notes instance
+        // The note is immediately saved in the file through the persistence.Notes instance
         new Note(header, body, tags, color, priority, user);
         OutputFormatter.showSuccess("Nota creada con exito");
     }
