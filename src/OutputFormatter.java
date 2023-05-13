@@ -1,13 +1,17 @@
+import com.sun.istack.internal.NotNull;
+
 import java.util.*;
 
 public class OutputFormatter {
-    public static final int lineLength = 50;
+    public static final int lineLength = 100;
     public static final int padding = 4;
     public static final int leftMargin = 0;
 
     public static void showNote(Note note) {
         System.out.println(encloseIterable(Collections.singletonList(note)));
     }
+
+    public static void showUser(User user) { System.out.println(encloseIterable(Collections.singletonList(user))); }
 
     public static void showShortNotes(List<Note> notes) {
         ArrayList<String> notesHeaders = new ArrayList<>();
@@ -42,6 +46,19 @@ public class OutputFormatter {
 
         OutputFormatter.showEncloseHeader("Prioridad Critica");
         OutputFormatter.showNotes(notesCluster.get(Priority.Critical));
+    }
+
+    public static void showNotesWithPriority(List<Note> notes, @NotNull Priority priority) {
+        ArrayList<Note> filteredNotes = new ArrayList<>();
+
+        for (Note note : notes) {
+            if (note.getPriority() == priority) {
+                filteredNotes.add(note);
+            }
+        }
+
+        OutputFormatter.showEncloseHeader("Prioridad " + priority.toString());
+        OutputFormatter.showNotes(filteredNotes);
     }
 
     public static void showNotesByColor(List<Note> notes) {
@@ -99,6 +116,11 @@ public class OutputFormatter {
         System.out.print(repeat(" ", leftMargin) + "?? " + message + ": ");
     }
 
+    public static void showPromptLn(String message) {
+        showPrompt(message);
+        System.out.println();
+    }
+
     public static void showSuccess(String message, Object... args) {
         System.out.println();
         System.out.println(repeat(" ", leftMargin) + "## OK -> " + String.format(message, args));
@@ -143,6 +165,11 @@ public class OutputFormatter {
         }
         return output.toString();
     }
+
+    public static void showWithBorderLeft(String text) {
+        System.out.println(repeat(" ", leftMargin) + "║ " + text);
+    }
+
 
     public static void showEncloseHeader(String text) {
         StringBuilder output = new StringBuilder();
@@ -200,4 +227,35 @@ public class OutputFormatter {
 
         return output.toString();
     }
+
+    public static void showNotesWithColor(List<Note> userNotes, String color) {
+        ArrayList<Note> filtered = new ArrayList<>();
+
+        for (Note note : userNotes) {
+            if (note.getColor().equalsIgnoreCase(color)) {
+                filtered.add(note);
+            }
+        }
+
+        showEncloseHeader("Color: " + color);
+        showNotes(filtered);
+    }
+
+    public static void showNotesWithTag(List<Note> userNotes, String tag) {
+        ArrayList<Note> filtered = new ArrayList<>();
+
+        for (Note note : userNotes) {
+            for (String t : note.getTags()) {
+                if (tag.equalsIgnoreCase(t)) {
+                    filtered.add(note);
+                    break;
+                }
+            }
+        }
+
+        showEncloseHeader("Tag: " + tag);
+        showNotes(filtered);
+    }
+
+
 }

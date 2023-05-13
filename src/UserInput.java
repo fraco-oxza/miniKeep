@@ -127,7 +127,14 @@ public class UserInput {
 
     public Priority getPriority(String prompt) {
         OutputFormatter.showMenu("0. Baja", "1. Normal", "2. Alta", "3. Critica");
-        int index = getInt(prompt, 0,3);
+        int index = getInt(prompt, 0, 3);
+
+        return Priority.from(index);
+    }
+
+    public Priority getOptionalPriority(String prompt) {
+        OutputFormatter.showMenu("0. Baja", "1. Normal", "2. Alta", "3. Critica", "4. Todas");
+        int index = getInt(prompt, 0, 4);
 
         return Priority.from(index);
     }
@@ -136,11 +143,11 @@ public class UserInput {
         Boolean result = null;
 
         do {
-            String line = getText(prompt + "[s/n]",0,1).toLowerCase();
+            String line = getText(prompt + "[s/n]", 0, 1).toLowerCase();
 
             if (line.equals("s")) {
                 result = true;
-            } else if (line.equals("n")){
+            } else if (line.equals("n")) {
                 result = false;
             } else {
                 OutputFormatter.showError("Debe ingresar una opcion valida");
@@ -148,6 +155,18 @@ public class UserInput {
         } while (result == null);
 
         return result;
+    }
+
+    public String pickOne(String prompt, List<String> options) {
+        int printIndex = 1;
+
+        for (String option : options) {
+            OutputFormatter.showWithBorderLeft(printIndex+". " + option);
+            printIndex++;
+        }
+
+        int index = getInt(prompt, 1, options.size());
+        return options.get(index - 1);
     }
 
     public List<String> getTags(String prompt) {
