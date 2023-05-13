@@ -1,4 +1,4 @@
-package menus;
+package menu;
 
 import ioUtils.OutputFormatter;
 import ioUtils.UserInput;
@@ -9,7 +9,6 @@ import note.Priority;
 import persistence.Notes;
 import persistence.Users;
 import user.User;
-import user.UserAlreadyExistsException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,138 +23,18 @@ public class MenuInteraction {
     private final Notes notes = Notes.getInstance();
     private final UserInput userInput = UserInput.getInstance();
     private final OutputFormatter formatter;
-    private User user;
-    private boolean userWantsToExit;
+    private final User user;
+    private final boolean userWantsToExit;
 
-    public MenuInteraction(OutputFormatter formatter) {
+    public MenuInteraction(OutputFormatter formatter) throws IOException, ClassNotFoundException {
         this.formatter = formatter;
         user = null;
         userWantsToExit = false;
     }
 
-    public void startLoop() throws IOException {
-        do {
-            if (user == null) {
-                sessionMenu();
-            } else {
-                generalMenu();
-            }
-        } while (!userWantsToExit);
-    }
-
-    private void sessionMenu() {
-        OutputFormatter.showMenu("1. Iniciar Sesión", "2. Crear cuenta", "0. Salir");
-        int option = userInput.getInt("Opción", 0, 2);
-
-        switch (option) {
-            case 1:
-                signIn();
-                break;
-            case 2:
-                signUp();
-                break;
-            case 0:
-                userWantsToExit = true;
-                break;
-        }
-    }
-
-    private void signIn() {
-        String email = userInput.getText("Correo", UserInput.emailPattern);
-        String password = userInput.getText("Clave ");
-
-        User possibleUser = users.getUser(email, password);
-
-        if (possibleUser == null) {
-            OutputFormatter.showError("Email y/o contraseña incorrecto");
-        } else {
-            OutputFormatter.showSuccess("Inicio de sesion exitoso");
-            user = possibleUser;
-        }
-    }
-
-    private void signUp() {
-        try {
-            User user = userInput.addNewUser();
-            OutputFormatter.showSuccess("Usuario creado con exito");
-            OutputFormatter.showSuccess("Su clave es : " + user.getPassword());
-        } catch (UserAlreadyExistsException e) {
-            OutputFormatter.showError("Ya existe un usuario con su numero de matricula o correo");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void generalMenu() throws IOException {
-        OutputFormatter.showMenu("1. Ver Notas", "2. Crear Nota", "3. Editar Nota", "4. Eliminar Nota", "5. Ver papelera", "6. Mostrar datos de usuario", "7. Cerrar sesión", "0. Salir");
-        int option = userInput.getInt("Opción", 0, 6);
-
-        switch (option) {
-            case 1:
-                notesMenu();
-                break;
-            case 2:
-                createNoteMenu();
-                break;
-            case 3:
-                editMenu();
-                break;
-            case 4:
-                deleteMenu();
-                break;
-            case 5:
-                trashMenu();
-                break;
-            case 6:
-                userMenu();
-                break;
-            case 7:
-                user = null;
-                break;
-            case 0:
-                userWantsToExit = true;
-                break;
-        }
-    }
-
-    private void userMenu() {
-        formatter.showEncloseHeader("Datos de Usuario");
-        formatter.showUser(user);
-    }
 
     private void notesMenu() {
-        System.out.println("En que orden desea mostrar las notas: ");
-        OutputFormatter.showMenu("1. Nombre", "2. Fecha", "3. Prioridad", "4. Agrupados por color", "5. Agrupados por temas");
-        int option = userInput.getInt("Opción", 1, 5);
 
-        List<Note> userNotes = notes.getUserNotes(user);
-
-        Collections.sort(userNotes, new NoteComparator(NoteParameter.UpdateDate));
-        switch (option) {
-            case 1:
-                Collections.sort(userNotes, new NoteComparator(NoteParameter.Header));
-                formatter.showNotes(userNotes);
-                break;
-            case 2:
-                OutputFormatter.showMenu();
-                OutputFormatter.showMenu("1. Creacion", "2. Ultima Actualizacion", "3. Ultima Visita");
-                NoteParameter parameter = NoteParameter.from(userInput.getInt("Ordenar por", 1, 3));
-                Collections.sort(userNotes, new NoteComparator(parameter));
-                formatter.showNotes(userNotes);
-                break;
-            case 3:
-                notesByPriorityMenu(userNotes);
-                break;
-            case 4:
-                notesByColorMenu(userNotes);
-                break;
-            case 5:
-                notesByTagMenu(userNotes);
-                break;
-            case 0:
-                userWantsToExit = true;
-                break;
-        }
     }
 
     private void notesByTagMenu(List<Note> userNotes) {
@@ -208,7 +87,7 @@ public class MenuInteraction {
         }
     }
 
-    private void createNoteMenu() throws IOException {
+    private void createNoteMenu() throws IOException, ClassNotFoundException {
         System.out.println("Creando nota");
         System.out.println("Debe ingresar los siguientes campos");
 
@@ -227,7 +106,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Nota creada con exito");
     }
 
-    private void editMenu() throws IOException {
+    private void editMenu() throws IOException, ClassNotFoundException {
         List<Note> userNotes = notes.getUserNotes(user);
         Collections.sort(userNotes, new NoteComparator(NoteParameter.Header));
         formatter.showShortNotes(userNotes);
@@ -262,7 +141,7 @@ public class MenuInteraction {
         }
     }
 
-    private void editTags(Note note) throws IOException {
+    private void editTags(Note note) throws IOException, ClassNotFoundException {
         System.out.println("Tags antiguas : " + OutputFormatter.formatTags(note.getTags()));
 
         List<String> tags = userInput.getTags("Tags nuevos");
@@ -271,7 +150,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Tags actualizadas con exito");
     }
 
-    private void editBody(Note note) throws IOException {
+    private void editBody(Note note) throws IOException, ClassNotFoundException {
         System.out.println("Cuerpo antiguo : ");
         System.out.println(OutputFormatter.adjustLine(note.getBody(), formatter.lineLength));
 
@@ -281,7 +160,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Cuerpo actualizado con exito");
     }
 
-    private void editPriority(Note note) throws IOException {
+    private void editPriority(Note note) throws IOException, ClassNotFoundException {
         System.out.println("Prioridad Antigua : " + note.getPriority());
 
         Priority priority = userInput.getPriority("Prioridad Nueva");
@@ -290,21 +169,21 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Prioridad Actualizada con exito");
     }
 
-    private void editColor(Note note) throws IOException {
+    private void editColor(Note note) throws IOException, ClassNotFoundException {
         System.out.println("Color Antiguo: " + note.getColor());
         String newColor = userInput.getText("Color Nuevo: ");
         note.setColor(newColor);
         OutputFormatter.showSuccess("Color cambiado con exito");
     }
 
-    private void editTitle(Note note) throws IOException {
+    private void editTitle(Note note) throws IOException, ClassNotFoundException {
         System.out.println("Titulo Antiguo : " + note.getHeader());
         String newHeader = userInput.getText("Titulo Nuevo", 1, headerMaxLength);
         note.setHeader(newHeader);
         OutputFormatter.showSuccess("Titulo cambiado con exito");
     }
 
-    private void deleteMenu() throws IOException {
+    private void deleteMenu() throws IOException, ClassNotFoundException {
         List<Note> userNotes = notes.getUserNotes(user);
         formatter.showShortNotes(userNotes);
         int index = userInput.getInt("Indice a borrar[0= volver]", 0, userNotes.size());
@@ -315,7 +194,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Nota eliminada con exito");
     }
 
-    private void trashMenu() throws IOException {
+    private void trashMenu() throws IOException, ClassNotFoundException {
         formatter.showEncloseHeader("Papelera de Reciclaje");
 
         formatter.showShortNotes(notes.getTrashNotes(user));
@@ -342,7 +221,7 @@ public class MenuInteraction {
         }
     }
 
-    private void recoverOneNote() throws IOException {
+    private void recoverOneNote() throws IOException, ClassNotFoundException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 
         formatter.showShortNotes(trashNotes);
@@ -355,7 +234,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Nota recuperada con exito");
     }
 
-    private void recoverAllNotes() throws IOException {
+    private void recoverAllNotes() throws IOException, ClassNotFoundException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 
         if (!userInput.getConfirmation("Desea recuperar todas las notas")) return;

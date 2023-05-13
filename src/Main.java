@@ -1,18 +1,19 @@
+import context.AppContext;
 import ioUtils.OutputFormatter;
-import menus.MenuInteraction;
-
-import java.io.IOException;
+import menu.MainMenu;
 
 public class Main {
     public static void main(String[] args) {
         OutputFormatter formatter = new OutputFormatter(40, 4);
 
-        MenuInteraction menuInteraction = new MenuInteraction(formatter);
         try {
-            menuInteraction.startLoop();
+            AppContext context = new AppContext(formatter);
+            MainMenu mainMenu = new MainMenu(context);
+            mainMenu.loop();
             OutputFormatter.showSuccess("Bye");
-        } catch (IOException e) {
-            OutputFormatter.showError("IOException : " + e.getMessage());
+        } catch (Exception e) {
+            OutputFormatter.showError(e.getMessage());
         }
+
     }
 }
