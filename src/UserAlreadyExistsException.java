@@ -4,8 +4,10 @@
  * thrown to prevent duplicate users in the system.
  */
 public class UserAlreadyExistsException extends Exception {
-  /** Constructs a UserAlreadyExistsException with an empty message. */
-  UserAlreadyExistsException() {
-    super("");
-  }
+    /**
+     * Constructs a UserAlreadyExistsException with an empty message.
+     */
+    UserAlreadyExistsException() {
+        super("");
+    }
 }
