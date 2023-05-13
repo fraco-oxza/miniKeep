@@ -47,7 +47,7 @@ public class Note implements Serializable {
      * @param priority   The priority of the note
      * @param created_by The registration number of the creating user
      */
-    public Note(String header, String body, List<String> tags, String color, Priority priority, User created_by) throws IOException, ClassNotFoundException {
+    public Note(String header, String body, List<String> tags, String color, Priority priority, User created_by) throws IOException {
         this.header = header;
         this.body = body;
         this.setTags(tags); // Read the method to understand
@@ -67,7 +67,7 @@ public class Note implements Serializable {
         return header;
     }
 
-    public void setHeader(String header) throws IOException, ClassNotFoundException {
+    public void setHeader(String header) throws IOException {
         this.header = header;
         Notes.getInstance().save();
     }
@@ -80,7 +80,7 @@ public class Note implements Serializable {
         return color;
     }
 
-    public void setColor(String color) throws IOException, ClassNotFoundException {
+    public void setColor(String color) throws IOException {
         this.color = color;
 
         this.updatedAt = new Date();
@@ -91,7 +91,7 @@ public class Note implements Serializable {
         return priority;
     }
 
-    public void setPriority(Priority priority) throws IOException, ClassNotFoundException {
+    public void setPriority(Priority priority) throws IOException {
         this.priority = priority;
         Notes.getInstance().save();
     }
@@ -104,7 +104,7 @@ public class Note implements Serializable {
         return tags;
     }
 
-    public void setTags(List<String> tags) throws IOException, ClassNotFoundException {
+    public void setTags(List<String> tags) throws IOException {
         this.tags = new ArrayList<>();
 
         // It is done in this way to avoid that this value can be modified without going through this
@@ -120,7 +120,7 @@ public class Note implements Serializable {
         return body;
     }
 
-    public void setBody(String body) throws IOException, ClassNotFoundException {
+    public void setBody(String body) throws IOException {
         this.body = body;
 
         this.updatedAt = new Date();
@@ -139,14 +139,14 @@ public class Note implements Serializable {
         return deleted;
     }
 
-    public void markAsDeleted() throws IOException, ClassNotFoundException {
+    public void markAsDeleted() throws IOException {
         deleted = true;
         updatedAt = new Date();
 
         Notes.getInstance().save();
     }
 
-    public void restore() throws IOException, ClassNotFoundException {
+    public void restore() throws IOException {
         this.deleted = false;
         updatedAt = new Date();
 
@@ -158,14 +158,13 @@ public class Note implements Serializable {
 
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-        // FIXME: Improve the visualization of the code
         String output = "\n" + header + "\n\n" + "Tags       : " + OutputFormatter.formatTags(tags) + "\nColor      : " + color + "\n" + "Prioridad  : " + priority + "\n" + "Creado     : " + format.format(createdAt) + "\n" + "Visitado   : " + format.format(viewedAt) + "\n" + "Modificado : " + format.format(updatedAt) + "\n\n" + body + "\n \n";
 
         this.viewedAt = new Date();
 
         try {
             Notes.getInstance().save();
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 

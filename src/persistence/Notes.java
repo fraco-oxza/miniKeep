@@ -11,15 +11,17 @@ public class Notes implements Persistent {
     private static Notes notesInstance = null;
     private ArrayList<Note> notes;
 
-    private Notes() throws IOException, ClassNotFoundException {
+    private Notes() {
         try {
             load();
         } catch (FileNotFoundException e) {
             notes = new ArrayList<>();
+        } catch (IOException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public static synchronized Notes getInstance() throws IOException, ClassNotFoundException {
+    public static synchronized Notes getInstance() {
         if (notesInstance == null) notesInstance = new Notes();
         return notesInstance;
     }

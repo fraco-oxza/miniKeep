@@ -38,7 +38,9 @@ public class OutputFormatter {
     }
 
     public static void showError(String message, Object... args) {
-        System.out.println("!! ERROR: " + String.format(message, args));
+        System.out.println();
+        System.out.println("!! ERROR ->" + String.format(message, args));
+        System.out.println();
     }
 
     public static String formatTags(List<String> tags) {
