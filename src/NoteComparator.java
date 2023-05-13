@@ -19,7 +19,7 @@ public class NoteComparator implements Comparator<Note> {
 
         switch (toCompare) {
             case CreationDate:
-                result = o1.getCreated_at().compareTo(o2.getCreated_at());
+                result = o1.getCreatedAt().compareTo(o2.getCreatedAt());
                 break;
             case Header:
                 result = o1.getHeader().compareTo(o2.getHeader());

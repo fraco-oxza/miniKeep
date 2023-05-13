@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 public class UserInput {
     private static UserInput userInputInstance = null;
     private final Scanner scanner;
@@ -14,9 +17,8 @@ public class UserInput {
 
     }
 
-    public static UserInput getInstance() {
-        if (userInputInstance == null)
-            userInputInstance = new UserInput();
+    public synchronized static UserInput getInstance() {
+        if (userInputInstance == null) userInputInstance = new UserInput();
 
         return userInputInstance;
     }
@@ -25,12 +27,12 @@ public class UserInput {
         Integer user_value = null;
 
         do {
-            System.out.print(prompt);
-            String line = scanner.nextLine();
+            OutputFormatter.showPrompt(prompt);
+            String line = scanner.nextLine().trim();
             try {
                 user_value = Integer.parseInt(line);
             } catch (NumberFormatException e) {
-                System.out.println("Debe ingresar un numero valido");
+                OutputFormatter.showError("Debe ingresar un numero valido");
             }
         } while (user_value == null);
 
@@ -45,7 +47,7 @@ public class UserInput {
             if (min <= uncheckedUserValue && uncheckedUserValue <= max) {
                 user_value = uncheckedUserValue;
             } else {
-                System.out.printf("!! Debe ingresar un numero entre %d y %d\n", min, max);
+                OutputFormatter.showError("Debe ingresar un numero entre %d y %d\n", min, max);
             }
         } while (user_value == null);
 
@@ -56,12 +58,12 @@ public class UserInput {
         Long user_value = null;
 
         do {
-            System.out.print(prompt);
-            String line = scanner.nextLine();
+            OutputFormatter.showPrompt(prompt);
+            String line = scanner.nextLine().trim();
             try {
                 user_value = Long.parseLong(line);
             } catch (NumberFormatException e) {
-                System.out.println("!! Debe ingresar un numero valido");
+                OutputFormatter.showError("Debe ingresar un numero valido");
             }
         } while (user_value == null);
 
@@ -76,19 +78,17 @@ public class UserInput {
             if (min <= uncheckedUserValue && uncheckedUserValue <= max) {
                 user_value = uncheckedUserValue;
             } else {
-                System.out.printf("!! Debe ingresar un numero entre %d y %d\n", min, max);
+                OutputFormatter.showSuccess("Debe ingresar un numero entre %d y %d\n", min, max);
             }
         } while (user_value == null);
 
         return user_value;
     }
 
-
     public String getText(String prompt) {
-        System.out.print(prompt);
+        OutputFormatter.showPrompt(prompt);
         return scanner.nextLine().trim();
     }
-
 
     public String getText(String prompt, int min_len, int max_len) {
         String text = null;
@@ -99,7 +99,7 @@ public class UserInput {
             if (min_len <= possible_text.length() && possible_text.length() <= max_len) {
                 text = possible_text;
             } else {
-                System.out.printf("!! El texto debe medir entre %d y %d caracteres\n", min_len, max_len);
+                OutputFormatter.showError("El texto debe medir entre %d y %d caracteres\n", min_len, max_len);
             }
         } while (text == null);
 
@@ -116,12 +116,58 @@ public class UserInput {
             if (matcher.matches()) {
                 text = uncheckedText;
             } else {
-                System.out.println("!! Debe ingresar una cadena valida");
+                OutputFormatter.showError("Debe ingresar una cadena valida");
             }
 
         } while (text == null);
 
         return text;
+    }
+
+    public Priority getPriority(String prompt) {
+        OutputFormatter.showMenu("0. Baja", "1. Normal", "2. Alta", "3. Critica");
+        int index = getInt(prompt, 0,3);
+
+        return Priority.from(index);
+    }
+
+    public boolean getConfirmation(String prompt) {
+        Boolean result = null;
+
+        do {
+            String line = getText(prompt + "[s/n]",0,1).toLowerCase();
+
+            if (line.equals("s")) {
+                result = true;
+            } else if (line.equals("n")){
+                result = false;
+            } else {
+                OutputFormatter.showError("Debe ingresar una opcion valida");
+            }
+        } while (result == null);
+
+        return result;
+    }
+
+    public ArrayList<String> getTags(String prompt) {
+        String textOfTags = getText(prompt);
+        textOfTags = textOfTags.trim().toLowerCase();
+
+        return new ArrayList<>(Arrays.asList(textOfTags.split("\\s*,\\s*")));
+    }
+
+    public User addNewUser() throws UserAlreadyExistsException {
+        UserInput userInput = UserInput.getInstance();
+
+        System.out.println("Debe ingresar los siguientes datos: ");
+        long registrationNumber = userInput.getLong("Numero de matricula\n>> ", 1000, Long.MAX_VALUE);
+        String firstName = userInput.getText("Nombre", 1, Integer.MAX_VALUE);
+        String lastName = userInput.getText("Apellido", 1, Integer.MAX_VALUE);
+        String email = userInput.getText("Email", UserInput.emailPattern);
+        String phoneNumber = userInput.getText("Numero de telefono", UserInput.phonePattern);
+        String birthday = userInput.getText("Fecha de nacimiento [DD-MM-AAAA]", UserInput.datePattern);
+
+        return new User(registrationNumber, firstName, lastName, email, phoneNumber, birthday);
     }
 
 }

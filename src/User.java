@@ -1,24 +1,26 @@
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private final long registration_number;
-    private final String first_name;
-    private final String last_name;
+    private final long registrationNumber;
+    private final String firstName;
+    private final String lastName;
     private final String email;
-    private final String phone_number;
+    private final String phoneNumber;
     private final String birthdate;
 
-    public User(long registration_number, String first_name, String last_name, String email, String phone_number, String birthdate) {
-        this.registration_number = registration_number;
-        this.first_name = first_name;
-        this.last_name = last_name;
+    public User(long registrationNumber, String firstName, String lastName, String email, String phoneNumber, String birthdate) throws UserAlreadyExistsException {
+        this.registrationNumber = registrationNumber;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
-        this.phone_number = phone_number;
+        this.phoneNumber = phoneNumber;
         this.birthdate = birthdate;
+
+        Users.getInstance().addUser(this);
     }
 
-    public long getRegistration_number() {
-        return registration_number;
+    public long getRegistrationNumber() {
+        return registrationNumber;
     }
 
     public String getEmail() {
@@ -28,9 +30,9 @@ public class User implements Serializable {
     public String getPassword() {
         StringBuilder password = new StringBuilder();
 
-        password.append(String.format("%d", registration_number % 1_000_000));
-        password.append(last_name.toLowerCase().charAt(0));
-        password.append(first_name.toUpperCase().charAt(0));
+        password.append(String.format("%d", registrationNumber % 1_000_000));
+        password.append(lastName.toLowerCase().charAt(0));
+        password.append(firstName.toUpperCase().charAt(0));
         password.reverse();
 
         return password.toString();
@@ -43,11 +45,11 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "registration_number=" + registration_number +
-                ", first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
+                "registration_number=" + registrationNumber +
+                ", first_name='" + firstName + '\'' +
+                ", last_name='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", phone_number='" + phone_number + '\'' +
+                ", phone_number='" + phoneNumber + '\'' +
                 ", birthdate=" + birthdate +
                 '}';
     }

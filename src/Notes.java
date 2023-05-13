@@ -5,9 +5,10 @@ public class Notes {
     private static Notes notesInstance = null;
     ArrayList<Note> notes;
 
+    @SuppressWarnings("unchecked")
     private Notes() {
         try {
-            FileInputStream file = new FileInputStream("./notes.ser");
+            FileInputStream file = new FileInputStream("./notes.ser.bin");
             ObjectInputStream objIn = new ObjectInputStream(file);
             notes = (ArrayList<Note>) objIn.readObject();
             objIn.close();
@@ -19,7 +20,7 @@ public class Notes {
         }
     }
 
-    public static Notes getInstance() {
+    public synchronized static Notes getInstance() {
         if (notesInstance == null) notesInstance = new Notes();
         return notesInstance;
     }
@@ -33,7 +34,7 @@ public class Notes {
         ArrayList<Note> userNotes = new ArrayList<>();
 
         for (Note note : this.notes) {
-            if (note.getCreated_by() == user.getRegistration_number() && note.isDeleted()) {
+            if (note.getCreatedBy() == user.getRegistrationNumber() && note.isDeleted()) {
                 userNotes.add(note);
             }
         }
@@ -45,7 +46,7 @@ public class Notes {
         ArrayList<Note> userNotes = new ArrayList<>();
 
         for (Note note : this.notes) {
-            if (note.getCreated_by() == user.getRegistration_number() && !note.isDeleted()) {
+            if (note.getCreatedBy() == user.getRegistrationNumber() && !note.isDeleted()) {
                 userNotes.add(note);
             }
         }
@@ -55,7 +56,7 @@ public class Notes {
 
     public void save() {
         try {
-            FileOutputStream file = new FileOutputStream("./notes.ser");
+            FileOutputStream file = new FileOutputStream("./notes.ser.bin");
             ObjectOutputStream objOut = new ObjectOutputStream(file);
             objOut.writeObject(notes);
             objOut.close();

@@ -21,34 +21,32 @@ public class MenuInteraction {
     }
 
     public void signIn() {
-        String email = userInput.getText("Correo : ", UserInput.emailPattern);
-        String password = userInput.getText("Clave  : ");
+        String email = userInput.getText("Correo", UserInput.emailPattern);
+        String password = userInput.getText("Clave ");
 
-        User possibleUser = Users.get_instance().getUser(email, password);
+        User possibleUser = Users.getInstance().getUser(email, password);
 
         if (possibleUser == null) {
-            System.out.println("!! Email y/o contraseña incorrecto");
+            OutputFormatter.showError("Email y/o contraseña incorrecto");
         } else {
-            System.out.println("## Inicio de sesion exitoso");
+            OutputFormatter.showSuccess("Inicio de sesion exitoso");
             user = possibleUser;
         }
     }
 
     public void signUp() {
         try {
-            User user = Users.get_instance().addNewUserFromStdin();
-            System.out.println("## Usuario creado con exito");
-            System.out.println("## Su clave es : " + user.getPassword());
+            User user = userInput.addNewUser();
+            OutputFormatter.showSuccess("Usuario creado con exito");
+            OutputFormatter.showSuccess("Su clave es : " + user.getPassword());
         } catch (UserAlreadyExistsException e) {
-            System.out.println("!! Ya existe un usuario con su numero de matricula o correo");
+            OutputFormatter.showError("Ya existe un usuario con su numero de matricula o correo");
         }
     }
 
     public void sessionMenu() {
-        System.out.println("1. Iniciar Sesión");
-        System.out.println("2. Crear cuenta");
-        System.out.println("0. Salir");
-        int option = userInput.getInt("Opción: ", 0, 2);
+        OutputFormatter.showMenu("1. Iniciar Sesión", "2. Crear cuenta", "0. Salir");
+        int option = userInput.getInt("Opción", 0, 2);
 
         switch (option) {
             case 1:
@@ -64,15 +62,8 @@ public class MenuInteraction {
     }
 
     public void generalMenu() {
-        System.out.println("1. Ver Notas");
-        System.out.println("2. Crear Nota");
-        System.out.println("3. Editar Nota");
-        System.out.println("4. Eliminar Nota");
-        System.out.println("5. Ver papelera");
-        System.out.println("6. Cerrar sesión");
-        System.out.println("0. Salir");
-
-        int option = userInput.getInt("Opción: ", 0, 6);
+        OutputFormatter.showMenu("1. Ver Notas", "2. Crear Nota", "3. Editar Nota", "4. Eliminar Nota", "5. Ver papelera", "6. Cerrar sesión", "0. Salir");
+        int option = userInput.getInt("Opción", 0, 6);
 
         switch (option) {
             case 1:
@@ -80,6 +71,9 @@ public class MenuInteraction {
                 break;
             case 2:
                 createNoteMenu();
+                break;
+            case 3:
+                editMenu();
                 break;
             case 4:
                 deleteMenu();
@@ -97,41 +91,114 @@ public class MenuInteraction {
         }
     }
 
+    private void editMenu() {
+        ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
+        OutputFormatter.showShortNotes(userNotes);
+        int index = userInput.getInt("Indice a modificar[0= volver]", 0, userNotes.size());
+
+        if (index == 0) return;
+
+        Note note = userNotes.get(index - 1);
+        OutputFormatter.showNote(note);
+
+        OutputFormatter.showMenu("1. Titulo", "2. Color", "3. Prioridad", "4. Tags", "5. Cuerpo", "0. Volver");
+        int option = userInput.getInt("Campo a modificar", 0, 5);
+
+        switch (option) {
+            case 1:
+                editTitle(note);
+                break;
+            case 2:
+                editColor(note);
+                break;
+            case 3:
+                editPriority(note);
+                break;
+            case 4:
+                editTags(note);
+            case 5:
+                editBody(note);
+                break;
+            case 0:
+                break;
+        }
+    }
+
+    private void editTags(Note note) {
+        System.out.println("Tags antiguas : " + OutputFormatter.formatTags(note.getTags()));
+
+        ArrayList<String> tags = userInput.getTags("Tags nuevos");
+
+        note.setTags(tags);
+        OutputFormatter.showSuccess("Tags actualizadas con exito");
+    }
+
+    private void editBody(Note note) {
+        System.out.println("Cuerpo antiguo : ");
+        System.out.println(OutputFormatter.adjustLine(note.getBody(), OutputFormatter.lineLength));
+
+        String body = userInput.getText("Cuerpo nuevo", 1, 200);
+
+        note.setBody(body);
+        OutputFormatter.showSuccess("Cuerpo actualizado con exito");
+    }
+
+    private void editPriority(Note note) {
+        System.out.println("Prioridad Antigua : " + note.getPriority());
+
+        Priority priority = userInput.getPriority("Prioridad Nueva");
+
+        note.setPriority(priority);
+        OutputFormatter.showSuccess("Prioridad Actualizada con exito");
+    }
+
+    private void editColor(Note note) {
+        System.out.println("Color Antiguo: " + note.getColor());
+        String newColor = userInput.getText("Color Nuevo: ");
+        note.setColor(newColor);
+        OutputFormatter.showSuccess("Color cambiado con exito");
+    }
+
+    private void editTitle(Note note) {
+        System.out.println("Titulo Antiguo : " + note.getHeader());
+        String newHeader = userInput.getText("Titulo Nuevo", 1, 30);
+        note.setHeader(newHeader);
+        OutputFormatter.showSuccess("Titulo cambiado con exito");
+    }
+
     private void recoverOneNote() {
         ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
-        System.out.println();
-        showShortNotes(trashNotes);
-        System.out.println();
+
+        OutputFormatter.showShortNotes(trashNotes);
+
         int index = userInput.getInt("Indice a recuperar[0= volver]: ", 0, trashNotes.size());
 
         if (index == 0) return;
 
         trashNotes.get(index - 1).restore();
-        System.out.println("## Nota recuperada con exito");
+        OutputFormatter.showSuccess("Nota recuperada con exito");
     }
 
     private void recoverAllNotes() {
         ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
 
-        // TODO: pedir confirmacion
+        if (!userInput.getConfirmation("Desea recuperar todas las notas")) return;
 
         for (Note note : trashNotes) {
             note.restore();
         }
-        System.out.println("## Notas recuperadas con exito");
+
+        OutputFormatter.showSuccess("Notas recuperadas con exito");
+
     }
 
     private void trashMenu() {
-        System.out.println();
-        showShortNotes(Notes.getInstance().getTrashNotes(user));
-        System.out.println();
+        OutputFormatter.showEncloseHeader("Papelera de Reciclaje");
+
+        OutputFormatter.showShortNotes(Notes.getInstance().getTrashNotes(user));
 
         System.out.println("Que desea hacer en la papelera");
-        System.out.println("1. Eliminar una nota");
-        System.out.println("2. Eliminar todo");
-        System.out.println("3. Restaurar una nota");
-        System.out.println("4. Restaurar todo");
-        System.out.println("0. Volver atras");
+        OutputFormatter.showMenu("1. Eliminar una nota", "2. Eliminar todo", "3. Restaurar una nota", "4. Restaurar todo", "0. Volver atras");
         int option = userInput.getInt("Opción: ", 0, 4);
 
         switch (option) {
@@ -144,11 +211,10 @@ public class MenuInteraction {
                 deleteAllNotes();
                 break;
             case 3:
-                // TODO: Check this methods
-                recoverOneNote(); // <-
+                recoverOneNote();
                 break;
             case 4:
-                recoverAllNotes(); // <-
+                recoverAllNotes();
                 break;
 
         }
@@ -171,135 +237,54 @@ public class MenuInteraction {
     private void deleteAllNotes() {
         ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
 
-        // TODO: pedir una confirmacion
+        if (!userInput.getConfirmation("Desea eliminar definitivamente todas las notas")) return;
 
         for (Note targetToRemove : trashNotes) {
             if (Notes.getInstance().notes.remove(targetToRemove)) {
                 Notes.getInstance().save();
-                System.out.println("## Nota eliminada con exito");
+                OutputFormatter.showSuccess("## Nota eliminada con exito");
             } else System.err.println("Algo raro pasa, la nota no se borro");
         }
     }
 
     private void deleteMenu() {
         ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
-        System.out.println();
-        showShortNotes(userNotes);
-        System.out.println();
+        OutputFormatter.showShortNotes(userNotes);
         int index = userInput.getInt("Indice a borrar[0= volver]: ", 0, userNotes.size());
 
         if (index == 0) return;
 
         userNotes.get(index - 1).markAsDeleted();
-        System.out.println("## Nota eliminada con exito");
+        OutputFormatter.showSuccess("Nota eliminada con exito");
     }
 
     private void createNoteMenu() {
         System.out.println("Creando nota");
         System.out.println("Debe ingresar los siguientes campos");
 
-        String header = userInput.getText("Titulo: ", 1, 30);
+        String header = userInput.getText("Titulo", 1, 30);
 
-        String body = userInput.getText("Cuerpo: ", 1, 200);
+        String body = userInput.getText("Cuerpo", 1, 200);
 
-        String textOfTags = userInput.getText("Tags[separadas por ',']: ");
-        textOfTags = textOfTags.trim().toLowerCase();
-        ArrayList<String> tags = new ArrayList<>(Arrays.asList(textOfTags.split("\\s*,\\s*")));
+        ArrayList<String> tags = userInput.getTags("Tags[separadas por ',']");
 
-        String color = userInput.getText("Color: ");
+        String color = userInput.getText("Color");
 
-        System.out.println("Prioridad: ");
-        System.out.println("  0. Baja");
-        System.out.println("  1. Normal");
-        System.out.println("  2. Alta");
-        System.out.println("  3. Critica");
-        int option = userInput.getInt("Numero: ", 0, 3);
+        Priority priority = userInput.getPriority("Prioridad");
 
-        Priority priority = null;
-
-        switch (option) {
-            case 0:
-                priority = Priority.Low;
-                break;
-            case 1:
-                priority = Priority.Normal;
-                break;
-            case 2:
-                priority = Priority.High;
-                break;
-            case 3:
-                priority = Priority.Critical;
-                break;
-        }
 
         // The note is immediately saved in the file through the Notes instance
-        new Note(header, body, tags, color, priority, user.getRegistration_number());
-    }
-
-    public static void showShortNotes(ArrayList<Note> notes) {
-        int i = 1;
-        for (Note note : notes) {
-            System.out.printf("%d. %s\n", i, note.getHeader());
-            i++;
-        }
-    }
-
-    public static void showNotes(ArrayList<Note> notes) {
-        System.out.println(EncloseString.encloseIterable(notes));
-    }
-
-    public static void showNotesByPriority(ArrayList<Note> notes) {
-        HashMap<Priority, ArrayList<Note>> notesCluster = new HashMap<>();
-
-        notesCluster.put(Priority.Low, new ArrayList<Note>());
-        notesCluster.put(Priority.Normal, new ArrayList<Note>());
-        notesCluster.put(Priority.High, new ArrayList<Note>());
-        notesCluster.put(Priority.Critical, new ArrayList<Note>());
-
-        for (Note note : notes) {
-            notesCluster.get(note.getPriority()).add(note);
-        }
-
-        System.out.println(EncloseString.encloseLevel1("Prioridad Baja"));
-        showNotes(notesCluster.get(Priority.Low));
-
-        System.out.println(EncloseString.encloseLevel1("Prioridad Normal"));
-        showNotes(notesCluster.get(Priority.Normal));
-
-        System.out.println(EncloseString.encloseLevel1("Prioridad Alta"));
-        showNotes(notesCluster.get(Priority.High));
-
-        System.out.println(EncloseString.encloseLevel1("Prioridad Critica"));
-        showNotes(notesCluster.get(Priority.Critical));
-    }
-
-    public static void showNotesByColor(ArrayList<Note> notes) {
-        HashMap<String, ArrayList<Note>> notesCluster = new HashMap<>();
-
-        for (Note note : notes) {
-            if (notesCluster.containsKey(note.getColor())) {
-                notesCluster.get(note.getColor()).add(note);
-            } else {
-                notesCluster.put(note.getColor(), new ArrayList<>(Collections.singletonList(note)));
-            }
-        }
-
-        for (String color : notesCluster.keySet()) {
-
-            if (color.equals("")) System.out.println(EncloseString.encloseLevel1("Sin color"));
-            else System.out.println(EncloseString.encloseLevel1(color));
-
-            showNotes(notesCluster.get(color));
-        }
+        new Note(header, body, tags, color, priority, user.getRegistrationNumber());
+        OutputFormatter.showSuccess("Nota creada con exito");
     }
 
     public void notesMenu() {
         System.out.println("Mostrar las notas ordenadas por: ");
-        System.out.println("1. Nombre");
-        System.out.println("2. Fecha de creación");
-        System.out.println("3. Prioridad");
-        System.out.println("4. Agrupados por color");
-        System.out.println("5. Agrupados por temas");
+        OutputFormatter.showMenu("1. Nombre",
+                "2. Fecha de creación",
+                "3. Prioridad",
+                "4. Agrupados por color",
+                "5. Agrupados por temas");
         int option = userInput.getInt("Opción: ", 1, 5);
 
         ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
@@ -307,53 +292,28 @@ public class MenuInteraction {
         switch (option) {
             case 1:
                 Collections.sort(userNotes, new NoteComparator(NoteParameter.Header));
-                showNotes(userNotes);
+                OutputFormatter.showNotes(userNotes);
                 break;
             case 2:
                 Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
-                showNotes(userNotes);
+                OutputFormatter.showNotes(userNotes);
                 break;
             case 3:
                 Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
-                showNotesByPriority(userNotes);
+                OutputFormatter.showNotesByPriority(userNotes);
                 break;
             case 4:
                 Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
-                showNotesByColor(userNotes);
+                OutputFormatter.showNotesByColor(userNotes);
                 break;
             case 5:
                 Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
-                showNotesByTag(userNotes);
+                OutputFormatter.showNotesByTag(userNotes);
                 break;
             case 0:
                 userWantsToExit = true;
                 break;
 
         }
-
-    }
-
-    private void showNotesByTag(ArrayList<Note> userNotes) {
-        HashMap<String, ArrayList<Note>> tagNotesMap = new HashMap<>();
-
-        for (Note note : userNotes) {
-            for (String tag : note.getTags()) {
-                if (tagNotesMap.containsKey(tag)) {
-                    tagNotesMap.get(tag).add(note);
-                } else {
-                    tagNotesMap.put(tag, new ArrayList<>(Collections.singletonList(note)));
-                }
-            }
-        }
-
-        System.out.println("======================================");
-        for (String tag : tagNotesMap.keySet()) {
-
-            if (tag.equals("")) System.out.println("\nSin Tag\n");
-            else System.out.println("\n" + tag + "\n");
-
-            showNotes(tagNotesMap.get(tag));
-        }
-        System.out.println("======================================");
     }
 }

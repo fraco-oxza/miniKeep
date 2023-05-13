@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+@SuppressWarnings("unchecked")
 public class Users {
     private static Users users_instance = null;
     ArrayList<User> users_list;
@@ -9,7 +10,7 @@ public class Users {
     // Singleton
     private Users() {
         try {
-            FileInputStream file = new FileInputStream("./users.ser");
+            FileInputStream file = new FileInputStream("./users.ser.bin");
             ObjectInputStream objIn = new ObjectInputStream(file);
             users_list = (ArrayList<User>) objIn.readObject();
             objIn.close();
@@ -21,7 +22,7 @@ public class Users {
         }
     }
 
-    public static Users get_instance() {
+    public synchronized static Users getInstance() {
         if (users_instance == null)
             users_instance = new Users();
 
@@ -30,7 +31,7 @@ public class Users {
 
     private void save() {
         try {
-            FileOutputStream file = new FileOutputStream("./users.ser");
+            FileOutputStream file = new FileOutputStream("./users.ser.bin");
             ObjectOutputStream objOut = new ObjectOutputStream(file);
             objOut.writeObject(users_list);
             objOut.close();
@@ -40,39 +41,9 @@ public class Users {
         }
     }
 
-    public User addNewUserFromStdin() throws UserAlreadyExistsException {
-        UserBuilder user = new UserBuilder();
-        UserInput userInput = UserInput.getInstance();
-
-        System.out.println("Debe ingresar los siguientes datos: ");
-        user.registration_number(
-                userInput.getLong("Numero de matricula\n>> ", 1000, Long.MAX_VALUE)
-        );
-        user.first_name(
-                userInput.getText("Nombre\n>> ", 1, Integer.MAX_VALUE)
-        );
-        user.last_name(
-                userInput.getText("Apellido\n>> ", 1, Integer.MAX_VALUE)
-        );
-        user.email(
-                userInput.getText("Email\n>> ", UserInput.emailPattern)
-        );
-        user.phone_number(
-                userInput.getText("Numero de telefono\n>> ", UserInput.phonePattern)
-        );
-        user.birthdate(
-                userInput.getText("Fecha de nacimiento [DD-MM-AAAA]\n>> ", UserInput.datePattern)
-        );
-
-        User newUser = user.build();
-        add_user(newUser);
-
-        return newUser;
-    }
-
-    public void add_user(User new_user) throws UserAlreadyExistsException {
+    public void addUser(User new_user) throws UserAlreadyExistsException {
         for (User user : users_list) {
-            if (user.getRegistration_number() == new_user.getRegistration_number())
+            if (user.getRegistrationNumber() == new_user.getRegistrationNumber())
                 throw new UserAlreadyExistsException();
             if (Objects.equals(user.getEmail(), new_user.getEmail())) {
                 throw new UserAlreadyExistsException();

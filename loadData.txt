@@ -1,0 +1,297 @@
+2
+2022407001
+Francisco
+Carvajal 
+fcarvajal22@alumnos.utalca.cl
++569 4064 9190
+11-11-2003
+1
+fcarvajal22@alumnos.utalca.cl
+Fc100704
+2
+Comprar leche
+Debo ir a comprar leche de chocolate para mi hermano
+compras, hermano 
+Rojo 
+2
+2
+Revisar el motor del auto
+Hoy dia venia haciendo un ruido bien raro, me preocupa
+mecanico, mortal
+Verde
+3
+2
+Estudiar para el examen
+El examen está próximo, necesito dedicar tiempo a estudiar
+estudio, examen
+Verde
+3
+2
+Llamar al médico
+Hacer una cita con el médico para la consulta de seguimiento
+salud, médico
+Rojo
+2
+2
+Preparar presentación
+Trabajar en la preparación de la presentación para el cliente
+trabajo, presentación
+Naranja
+1
+2
+Enviar informe mensual
+No olvidar enviar el informe mensual antes de la fecha límite
+trabajo, informe
+Morado
+2
+2
+Organizar el armario
+Dedicar tiempo a organizar y ordenar el armario
+hogar, organización
+Gris
+1
+2
+Planificar vacaciones
+Comenzar a planificar las vacaciones de verano con la familia
+vacaciones, familia
+Turquesa
+3
+2
+Investigar significado Oriundo
+Un compañero me dijo que yo era un oriundo de la tierra y necesito saber si eso es una ofensa
+trabajo, dudas tontas
+Violeta
+0
+4
+3
+4
+0
+4
+1
+6
+2
+2021324043
+Diego
+Figeroa 
+dfigeroa21@alumnos.utalca.cl
++56932542343
+21-09-2002
+1
+dfigeroa21@alumnos.utalca.cl
+Df340423
+2
+Renovar el seguro del auto
+El seguro del automóvil vence pronto, es necesario renovarlo
+seguro, automóvil
+Azul
+2
+2
+Preparar cena especial
+Planear y preparar una cena especial para celebrar aniversario
+celebración, aniversario
+Rojo
+3
+2
+Enviar invitaciones
+Recordatorio: enviar invitaciones a los invitados del evento
+evento, invitaciones
+Verde
+1
+2
+Realizar mantenimiento
+Dedicar tiempo a cortar el césped y cuidar las plantas del jardín
+jardín, mantenimiento
+Marrón
+2
+2
+Completar informe de gastos
+Finalizar el informe de gastos del mes y enviarlo al departamento de contabilidad
+trabajo, informe, gastos
+Amarillo
+2
+2
+Actualizar el currículum
+Revisar y actualizar el currículum para buscar nuevas oportunidades laborales
+trabajo, currículum
+Morado
+1
+2
+Preparar reunión
+Organizar una reunión con los proveedores para discutir acuerdos comerciales
+trabajo, proveedores, reunión
+Verde
+2
+2
+Reservar boletos de avión
+Realizar la reserva de boletos de avión para el próximo viaje de negocios
+viaje, negocios, boletos
+Gris
+3
+2
+Pagar facturas pendientes
+Recordatorio: pagar las facturas pendientes antes de la fecha límite
+finanzas, facturas
+Rojo
+2
+2
+Investigar nuevas tendencias
+Dedicar tiempo a investigar y analizar las nuevas tendencias de mercado en el sector
+trabajo, investigación, mercado
+Azul
+3
+2
+Crear lista de compras
+Elaborar una lista de compras para el supermercado esta semana
+compras, supermercado
+Amarillo
+1
+2
+Establecer metas
+Definir y establecer metas claras para el próximo trimestre del negocio
+trabajo, metas
+Verde
+2
+2
+Revisar contrato
+Revisar detenidamente el contrato de arrendamiento antes de firmarlo
+arrendamiento, contrato
+Marrón
+2
+2
+Comprar flores para el jardín
+Recordatorio: comprar flores para embellecer el jardín en primavera
+jardín, compras, primavera
+Verde
+0
+2
+Actualizar perfiles en rrss
+Dedicar tiempo a actualizar los perfiles en redes sociales de la empresa
+trabajo, redes sociales
+Azul
+0
+2
+Leer libro recomendado
+Disfrutar de la lectura del libro recomendado por un amigo
+lectura, libro
+Rojo
+0
+2
+Hacer una caminata al aire
+Dedicar tiempo a disfrutar de una caminata en la naturaleza para relajarse
+salud, caminata
+Amarillo
+0
+2
+Ordenar documentos y archivos
+Organizar y clasificar documentos y archivos en el sistema de almacenamiento
+organización, documentos
+Naranja
+0
+6
+2
+2023562003
+Josefina
+Perez 
+jperez@gmail.com
++5694532123
+21-09-1993
+1
+jperez@gmail.com
+Jp300265
+2
+Enviar tarjeta de cumpleaños
+Felicitaciones por el cumpleaños de Juan
+cumpleaños, tarjeta
+Verde
+0
+2
+Actualizar software del os
+Actualizar el software del sistema operativo a la última versión
+software, sistema
+Azul
+1
+2
+Limpiar el garaje
+Dedicar tiempo a organizar y limpiar el garaje
+hogar, organización
+Rojo
+2
+2
+Preparar presentación reunion
+Crear una presentación efectiva para la reunión del equipo
+trabajo, presentación
+Amarillo
+3
+2
+Investigar inversion
+Realizar investigación sobre nuevas oportunidades de inversión
+finanzas, investigación
+Verde
+0
+2
+Revisar el informe financiero
+Analizar detenidamente el informe financiero del último trimestre
+finanzas, informe
+Azul
+1
+2
+Comprar boletos concierto
+No olvidar comprar boletos para el concierto de música
+compras, concierto
+Rojo
+2
+2
+Organizar una fiesta sorpresa
+Planificar y coordinar una fiesta sorpresa para un ser querido
+celebración, fiesta
+Amarillo
+3
+2
+Realizar mantenimiento auto
+Llevar el automóvil al taller para el mantenimiento programado
+automóvil, mantenimiento
+Verde
+0
+2
+Proveedor de cotizaciones
+Solicitar cotizaciones actualizadas al proveedor para comparar precios
+trabajo, proveedor
+Azul
+1
+2
+Reserva en el restaurante
+Realizar una reserva en el restaurante para la cena de aniversario
+cena, reservas
+Rojo
+2
+2
+Organizar una reunión
+Programar y organizar una reunión para discutir los próximos proyectos
+trabajo, reunión
+Amarillo
+3
+2
+Revisar y actualizar el plan
+Evaluar y ajustar el plan de marketing según los nuevos objetivos
+trabajo, marketing
+Verde
+0
+2
+Enviar invitaciones
+Recordatorio: enviar invitaciones a los asistentes para la conferencia
+conferencia, invitaciones
+Azul
+1
+2
+Actualizar web
+Revisar y actualizar el contenido del sitio web para mejorar la experiencia del usuario
+sitio web, contenido
+Rojo
+2
+2
+Completar el informe
+Finalizar el informe de investigación y enviarlo al equipo de desarrollo
+trabajo, informe, investigación
+Amarillo
+3
+0
