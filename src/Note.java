@@ -5,46 +5,64 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class represent one Note in the system.
+ * when it is created it is immediately added to the notes
+ * file through the Notes object, also when changes are
+ * made to it is automatically updates Notes therefore
+ * it is saved in the persistence
+ */
 public class Note implements Serializable {
     private String header;
     private ArrayList<String> tags;
     private String body;
     private String color;
     private Priority priority;
-
-    public long getCreatedBy() {
-        return createdBy;
-    }
-
+    // In this field we use the user's registration number.
+    // Now, why do we use the registration number instead of using a reference to the user, the answer is because of the
+    // serialization, when using a reference we are specifying so to speak a memory address, there would be no problem
+    // at first, but when loading the users from the file their memory locations may change and generate problems. then
+    // for more security we use the registration number, which we also ensure that it is unique for each user
+    // registered in the system.
     private final long createdBy;
     private final Date createdAt;
     private Date updatedAt;
     private Date viewedAt;
     private boolean deleted;
 
-    @Override
-    public String toString() {
+    /**
+     * Constructor of the class that is in charge of creating the Note and adding it to the list of notes, to allow
+     * persistence and synchronization. Every note that exists in the program is stored in the persistence.
+     *
+     * @param header The title of the Note
+     * @param body The body of the Note
+     * @param tags A list of tags for the note
+     * @param color A string for the color of the note
+     * @param priority The priority of the note
+     * @param created_by The registration number of the creating user
+     */
+    public Note(String header, String body, List<String> tags, String color, Priority priority, User created_by) {
+        this.header = header;
+        this.body = body;
+        this.setTags(tags); // Read the method to understand
+        this.color = color;
+        this.priority = priority;
+        this.createdBy = created_by.getRegistrationNumber();
+        this.deleted = false;
 
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-        String output = "\n" + header + "\n\n" +
-                "Tags       : " + OutputFormatter.formatTags(tags) +
-                "\nColor      : " + color + "\n" +
-                "Prioridad  : " + priority +
-                "\n" +
-                "Creado     : " + format.format(createdAt) + "\n" +
-                "Visitado   : " + format.format(viewedAt) + "\n" +
-                "Modificado : " + format.format(updatedAt) + "\n\n" +
-                body + "\n \n";
-
+        this.updatedAt = new Date();
+        this.createdAt = new Date();
         this.viewedAt = new Date();
-        Notes.getInstance().save();
 
-        return output;
+        Notes.getInstance().addNote(this);
     }
 
     public String getHeader() {
         return header;
+    }
+
+    public long getCreatedBy() {
+        return createdBy;
     }
 
     public String getColor() {
@@ -65,22 +83,6 @@ public class Note implements Serializable {
 
     public String getBody() {
         return body;
-    }
-
-    public Note(String header, String body, List<String> tags, String color, Priority priority, long created_by) {
-        this.header = header;
-        this.body = body;
-        this.setTags(tags); // Read the method to understand
-        this.color = color;
-        this.priority = priority;
-        this.createdBy = created_by;
-        this.deleted = false;
-
-        this.updatedAt = new Date();
-        this.createdAt = new Date();
-        this.viewedAt = new Date();
-
-        Notes.getInstance().addNote(this);
     }
 
     public void setHeader(String header) {
@@ -134,5 +136,18 @@ public class Note implements Serializable {
         updatedAt = new Date();
 
         Notes.getInstance().save();
+    }
+
+    @Override
+    public String toString() {
+
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
+        String output = "\n" + header + "\n\n" + "Tags       : " + OutputFormatter.formatTags(tags) + "\nColor      : " + color + "\n" + "Prioridad  : " + priority + "\n" + "Creado     : " + format.format(createdAt) + "\n" + "Visitado   : " + format.format(viewedAt) + "\n" + "Modificado : " + format.format(updatedAt) + "\n\n" + body + "\n \n";
+
+        this.viewedAt = new Date();
+        Notes.getInstance().save();
+
+        return output;
     }
 }

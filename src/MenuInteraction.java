@@ -151,7 +151,7 @@ public class MenuInteraction {
     Priority priority = userInput.getPriority("Prioridad");
 
     // The note is immediately saved in the file through the Notes instance
-    new Note(header, body, tags, color, priority, user.getRegistrationNumber());
+    new Note(header, body, tags, color, priority, user);
     OutputFormatter.showSuccess("Nota creada con exito");
   }
 
