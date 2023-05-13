@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -178,7 +179,7 @@ public class UserInput {
         return new ArrayList<>(Arrays.asList(textOfTags.split("\\s*,\\s*")));
     }
 
-    public User addNewUser() throws UserAlreadyExistsException {
+    public User addNewUser() throws UserAlreadyExistsException, IOException {
         UserInput userInput = UserInput.getInstance();
 
         System.out.println("Debe ingresar los siguientes datos: ");

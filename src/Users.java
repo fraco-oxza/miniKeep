@@ -10,7 +10,7 @@ import java.util.Objects;
  * instantiated, it loads the existing data from the file, if any.
  */
 @SuppressWarnings("unchecked")
-public class Users {
+public class Users implements Persistent {
     private static Users usersInstance = null;
     private ArrayList<User> usersList;
 
@@ -22,17 +22,20 @@ public class Users {
     private Users() {
         // Try to load the ArrayList<User> from the file
         try {
-
-            FileInputStream file = new FileInputStream("./users.ser.bin");
-            ObjectInputStream objIn = new ObjectInputStream(file);
-            usersList = (ArrayList<User>) objIn.readObject();
-            objIn.close();
-            file.close();
+            load();
         } catch (FileNotFoundException e) {
             usersList = new ArrayList<>();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void load() throws IOException, ClassNotFoundException {
+        FileInputStream file = new FileInputStream("./users.ser.bin");
+        ObjectInputStream objIn = new ObjectInputStream(file);
+        usersList = (ArrayList<User>) objIn.readObject();
+        objIn.close();
+        file.close();
     }
 
     /**
@@ -50,22 +53,18 @@ public class Users {
     /**
      * This method saves the current state of the ArrayList to a file. It writes the contents of the
      * ArrayList to the specified file location using serialization.
+     * It is not known what problem it could be, and it may not be related to the program, for
+     * example it may be
+     * that it ran out of disk space, that's why we simply make the program stop
      *
      * @throws RuntimeException if an error occurs during the file saving process.
      */
-    private void save() {
-        try {
-            FileOutputStream file = new FileOutputStream("./users.ser.bin");
-            ObjectOutputStream objOut = new ObjectOutputStream(file);
-            objOut.writeObject(usersList);
-            objOut.close();
-            file.close();
-        } catch (IOException e) {
-            // It is not known what problem it could be, and it may not be related to the program, for
-            // example it may be
-            // that it ran out of disk space, that's why we simply make the program stop
-            throw new RuntimeException(e);
-        }
+    public void save() throws IOException {
+        FileOutputStream file = new FileOutputStream("./users.ser.bin");
+        ObjectOutputStream objOut = new ObjectOutputStream(file);
+        objOut.writeObject(usersList);
+        objOut.close();
+        file.close();
     }
 
     /**
@@ -78,7 +77,7 @@ public class Users {
      * @throws UserAlreadyExistsException if a user with the same registration number or email already
      *                                    exists.
      */
-    public void addUser(User newUser) throws UserAlreadyExistsException {
+    public void addUser(User newUser) throws UserAlreadyExistsException, IOException {
         for (User user : usersList) {
             if (user.getRegistrationNumber() == newUser.getRegistrationNumber()) throw new UserAlreadyExistsException();
             if (Objects.equals(user.getEmail(), newUser.getEmail())) {

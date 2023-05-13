@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -28,7 +29,7 @@ public class User implements Serializable {
      * @throws UserAlreadyExistsException If a user with the same registration number or email already
      *                                    exists.
      */
-    public User(long registrationNumber, String firstName, String lastName, String email, String phoneNumber, String birthdate) throws UserAlreadyExistsException {
+    public User(long registrationNumber, String firstName, String lastName, String email, String phoneNumber, String birthdate) throws UserAlreadyExistsException, IOException {
         this.registrationNumber = registrationNumber;
         this.firstName = firstName;
         this.lastName = lastName;

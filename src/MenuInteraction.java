@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -19,7 +20,7 @@ public class MenuInteraction {
         userWantsToExit = false;
     }
 
-    public void startLoop() {
+    public void startLoop() throws IOException {
         do {
             if (user == null) {
                 sessionMenu();
@@ -67,10 +68,12 @@ public class MenuInteraction {
             OutputFormatter.showSuccess("Su clave es : " + user.getPassword());
         } catch (UserAlreadyExistsException e) {
             OutputFormatter.showError("Ya existe un usuario con su numero de matricula o correo");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private void generalMenu() {
+    private void generalMenu() throws IOException {
         OutputFormatter.showMenu("1. Ver Notas", "2. Crear Nota", "3. Editar Nota", "4. Eliminar Nota", "5. Ver papelera", "6. Mostrar datos de usuario", "7. Cerrar sesión", "0. Salir");
         int option = userInput.getInt("Opción", 0, 6);
 
@@ -192,7 +195,7 @@ public class MenuInteraction {
         }
     }
 
-    private void createNoteMenu() {
+    private void createNoteMenu() throws IOException {
         System.out.println("Creando nota");
         System.out.println("Debe ingresar los siguientes campos");
 
@@ -211,7 +214,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Nota creada con exito");
     }
 
-    private void editMenu() {
+    private void editMenu() throws IOException {
         List<Note> userNotes = notes.getUserNotes(user);
         Collections.sort(userNotes, new NoteComparator(NoteParameter.Header));
         formatter.showShortNotes(userNotes);
@@ -246,7 +249,7 @@ public class MenuInteraction {
         }
     }
 
-    private void editTags(Note note) {
+    private void editTags(Note note) throws IOException {
         System.out.println("Tags antiguas : " + OutputFormatter.formatTags(note.getTags()));
 
         List<String> tags = userInput.getTags("Tags nuevos");
@@ -255,7 +258,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Tags actualizadas con exito");
     }
 
-    private void editBody(Note note) {
+    private void editBody(Note note) throws IOException {
         System.out.println("Cuerpo antiguo : ");
         System.out.println(OutputFormatter.adjustLine(note.getBody(), formatter.lineLength));
 
@@ -265,7 +268,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Cuerpo actualizado con exito");
     }
 
-    private void editPriority(Note note) {
+    private void editPriority(Note note) throws IOException {
         System.out.println("Prioridad Antigua : " + note.getPriority());
 
         Priority priority = userInput.getPriority("Prioridad Nueva");
@@ -274,21 +277,21 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Prioridad Actualizada con exito");
     }
 
-    private void editColor(Note note) {
+    private void editColor(Note note) throws IOException {
         System.out.println("Color Antiguo: " + note.getColor());
         String newColor = userInput.getText("Color Nuevo: ");
         note.setColor(newColor);
         OutputFormatter.showSuccess("Color cambiado con exito");
     }
 
-    private void editTitle(Note note) {
+    private void editTitle(Note note) throws IOException {
         System.out.println("Titulo Antiguo : " + note.getHeader());
         String newHeader = userInput.getText("Titulo Nuevo", 1, headerMaxLength);
         note.setHeader(newHeader);
         OutputFormatter.showSuccess("Titulo cambiado con exito");
     }
 
-    private void deleteMenu() {
+    private void deleteMenu() throws IOException {
         List<Note> userNotes = notes.getUserNotes(user);
         formatter.showShortNotes(userNotes);
         int index = userInput.getInt("Indice a borrar[0= volver]", 0, userNotes.size());
@@ -299,7 +302,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Nota eliminada con exito");
     }
 
-    private void trashMenu() {
+    private void trashMenu() throws IOException {
         formatter.showEncloseHeader("Papelera de Reciclaje");
 
         formatter.showShortNotes(notes.getTrashNotes(user));
@@ -326,7 +329,7 @@ public class MenuInteraction {
         }
     }
 
-    private void recoverOneNote() {
+    private void recoverOneNote() throws IOException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 
         formatter.showShortNotes(trashNotes);
@@ -339,7 +342,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Nota recuperada con exito");
     }
 
-    private void recoverAllNotes() {
+    private void recoverAllNotes() throws IOException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 
         if (!userInput.getConfirmation("Desea recuperar todas las notas")) return;
@@ -351,7 +354,7 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Notas recuperadas con exito");
     }
 
-    private void deleteOneNoteMenu() {
+    private void deleteOneNoteMenu() throws IOException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 
         int index = userInput.getInt("Indice a borrar definitivamente[0= volver]: ", 0, trashNotes.size());
@@ -365,7 +368,7 @@ public class MenuInteraction {
         OutputFormatter.showError("Algo raro pasa, la nota no se borro");
     }
 
-    private void deleteAllNotes() {
+    private void deleteAllNotes() throws IOException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 
         if (!userInput.getConfirmation("Desea eliminar definitivamente todas las notas")) return;
