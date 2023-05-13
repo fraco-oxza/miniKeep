@@ -20,31 +20,7 @@ public class MenuInteraction {
         } while (!userWantsToExit);
     }
 
-    public void signIn() {
-        String email = userInput.getText("Correo", UserInput.emailPattern);
-        String password = userInput.getText("Clave ");
-
-        User possibleUser = Users.getInstance().getUser(email, password);
-
-        if (possibleUser == null) {
-            OutputFormatter.showError("Email y/o contraseña incorrecto");
-        } else {
-            OutputFormatter.showSuccess("Inicio de sesion exitoso");
-            user = possibleUser;
-        }
-    }
-
-    public void signUp() {
-        try {
-            User user = userInput.addNewUser();
-            OutputFormatter.showSuccess("Usuario creado con exito");
-            OutputFormatter.showSuccess("Su clave es : " + user.getPassword());
-        } catch (UserAlreadyExistsException e) {
-            OutputFormatter.showError("Ya existe un usuario con su numero de matricula o correo");
-        }
-    }
-
-    public void sessionMenu() {
+    private void sessionMenu() {
         OutputFormatter.showMenu("1. Iniciar Sesión", "2. Crear cuenta", "0. Salir");
         int option = userInput.getInt("Opción", 0, 2);
 
@@ -61,7 +37,31 @@ public class MenuInteraction {
         }
     }
 
-    public void generalMenu() {
+    private void signIn() {
+        String email = userInput.getText("Correo", UserInput.emailPattern);
+        String password = userInput.getText("Clave ");
+
+        User possibleUser = Users.getInstance().getUser(email, password);
+
+        if (possibleUser == null) {
+            OutputFormatter.showError("Email y/o contraseña incorrecto");
+        } else {
+            OutputFormatter.showSuccess("Inicio de sesion exitoso");
+            user = possibleUser;
+        }
+    }
+
+    private void signUp() {
+        try {
+            User user = userInput.addNewUser();
+            OutputFormatter.showSuccess("Usuario creado con exito");
+            OutputFormatter.showSuccess("Su clave es : " + user.getPassword());
+        } catch (UserAlreadyExistsException e) {
+            OutputFormatter.showError("Ya existe un usuario con su numero de matricula o correo");
+        }
+    }
+
+    private void generalMenu() {
         OutputFormatter.showMenu("1. Ver Notas", "2. Crear Nota", "3. Editar Nota", "4. Eliminar Nota", "5. Ver papelera", "6. Cerrar sesión", "0. Salir");
         int option = userInput.getInt("Opción", 0, 6);
 
@@ -89,6 +89,65 @@ public class MenuInteraction {
                 break;
 
         }
+    }
+
+    private void notesMenu() {
+        System.out.println("Mostrar las notas ordenadas por: ");
+        OutputFormatter.showMenu("1. Nombre",
+                "2. Fecha de creación",
+                "3. Prioridad",
+                "4. Agrupados por color",
+                "5. Agrupados por temas");
+        int option = userInput.getInt("Opción: ", 1, 5);
+
+        List<Note> userNotes = Notes.getInstance().getUserNotes(user);
+
+        switch (option) {
+            case 1:
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.Header));
+                OutputFormatter.showNotes(userNotes);
+                break;
+            case 2:
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
+                OutputFormatter.showNotes(userNotes);
+                break;
+            case 3:
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
+                OutputFormatter.showNotesByPriority(userNotes);
+                break;
+            case 4:
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
+                OutputFormatter.showNotesByColor(userNotes);
+                break;
+            case 5:
+                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
+                OutputFormatter.showNotesByTag(userNotes);
+                break;
+            case 0:
+                userWantsToExit = true;
+                break;
+
+        }
+    }
+
+    private void createNoteMenu() {
+        System.out.println("Creando nota");
+        System.out.println("Debe ingresar los siguientes campos");
+
+        String header = userInput.getText("Titulo", 1, 30);
+
+        String body = userInput.getText("Cuerpo", 1, 200);
+
+        List<String> tags = userInput.getTags("Tags[separadas por ',']");
+
+        String color = userInput.getText("Color");
+
+        Priority priority = userInput.getPriority("Prioridad");
+
+
+        // The note is immediately saved in the file through the Notes instance
+        new Note(header, body, tags, color, priority, user.getRegistrationNumber());
+        OutputFormatter.showSuccess("Nota creada con exito");
     }
 
     private void editMenu() {
@@ -167,30 +226,15 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Titulo cambiado con exito");
     }
 
-    private void recoverOneNote() {
-        List<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
-
-        OutputFormatter.showShortNotes(trashNotes);
-
-        int index = userInput.getInt("Indice a recuperar[0= volver]: ", 0, trashNotes.size());
+    private void deleteMenu() {
+        List<Note> userNotes = Notes.getInstance().getUserNotes(user);
+        OutputFormatter.showShortNotes(userNotes);
+        int index = userInput.getInt("Indice a borrar[0= volver]: ", 0, userNotes.size());
 
         if (index == 0) return;
 
-        trashNotes.get(index - 1).restore();
-        OutputFormatter.showSuccess("Nota recuperada con exito");
-    }
-
-    private void recoverAllNotes() {
-        List<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
-
-        if (!userInput.getConfirmation("Desea recuperar todas las notas")) return;
-
-        for (Note note : trashNotes) {
-            note.restore();
-        }
-
-        OutputFormatter.showSuccess("Notas recuperadas con exito");
-
+        userNotes.get(index - 1).markAsDeleted();
+        OutputFormatter.showSuccess("Nota eliminada con exito");
     }
 
     private void trashMenu() {
@@ -221,6 +265,32 @@ public class MenuInteraction {
         }
     }
 
+    private void recoverOneNote() {
+        List<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+
+        OutputFormatter.showShortNotes(trashNotes);
+
+        int index = userInput.getInt("Indice a recuperar[0= volver]: ", 0, trashNotes.size());
+
+        if (index == 0) return;
+
+        trashNotes.get(index - 1).restore();
+        OutputFormatter.showSuccess("Nota recuperada con exito");
+    }
+
+    private void recoverAllNotes() {
+        List<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+
+        if (!userInput.getConfirmation("Desea recuperar todas las notas")) return;
+
+        for (Note note : trashNotes) {
+            note.restore();
+        }
+
+        OutputFormatter.showSuccess("Notas recuperadas con exito");
+
+    }
+
     private void deleteOneNoteMenu() {
         List<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
 
@@ -229,8 +299,7 @@ public class MenuInteraction {
         if (index == 0) return;
 
         Note targetToRemove = trashNotes.get(index - 1);
-        if (Notes.getInstance().notes.remove(targetToRemove)) {
-            Notes.getInstance().save();
+        if (Notes.getInstance().removeNote(targetToRemove)) {
             System.out.println("## Nota eliminada con exito");
         } else System.err.println("Algo raro pasa, la nota no se borro");
     }
@@ -241,80 +310,9 @@ public class MenuInteraction {
         if (!userInput.getConfirmation("Desea eliminar definitivamente todas las notas")) return;
 
         for (Note targetToRemove : trashNotes) {
-            if (Notes.getInstance().notes.remove(targetToRemove)) {
-                Notes.getInstance().save();
+            if (Notes.getInstance().removeNote(targetToRemove)) {
                 OutputFormatter.showSuccess("## Nota eliminada con exito");
             } else System.err.println("Algo raro pasa, la nota no se borro");
-        }
-    }
-
-    private void deleteMenu() {
-        List<Note> userNotes = Notes.getInstance().getUserNotes(user);
-        OutputFormatter.showShortNotes(userNotes);
-        int index = userInput.getInt("Indice a borrar[0= volver]: ", 0, userNotes.size());
-
-        if (index == 0) return;
-
-        userNotes.get(index - 1).markAsDeleted();
-        OutputFormatter.showSuccess("Nota eliminada con exito");
-    }
-
-    private void createNoteMenu() {
-        System.out.println("Creando nota");
-        System.out.println("Debe ingresar los siguientes campos");
-
-        String header = userInput.getText("Titulo", 1, 30);
-
-        String body = userInput.getText("Cuerpo", 1, 200);
-
-        List<String> tags = userInput.getTags("Tags[separadas por ',']");
-
-        String color = userInput.getText("Color");
-
-        Priority priority = userInput.getPriority("Prioridad");
-
-
-        // The note is immediately saved in the file through the Notes instance
-        new Note(header, body, tags, color, priority, user.getRegistrationNumber());
-        OutputFormatter.showSuccess("Nota creada con exito");
-    }
-
-    public void notesMenu() {
-        System.out.println("Mostrar las notas ordenadas por: ");
-        OutputFormatter.showMenu("1. Nombre",
-                "2. Fecha de creación",
-                "3. Prioridad",
-                "4. Agrupados por color",
-                "5. Agrupados por temas");
-        int option = userInput.getInt("Opción: ", 1, 5);
-
-        List<Note> userNotes = Notes.getInstance().getUserNotes(user);
-
-        switch (option) {
-            case 1:
-                Collections.sort(userNotes, new NoteComparator(NoteParameter.Header));
-                OutputFormatter.showNotes(userNotes);
-                break;
-            case 2:
-                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
-                OutputFormatter.showNotes(userNotes);
-                break;
-            case 3:
-                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
-                OutputFormatter.showNotesByPriority(userNotes);
-                break;
-            case 4:
-                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
-                OutputFormatter.showNotesByColor(userNotes);
-                break;
-            case 5:
-                Collections.sort(userNotes, new NoteComparator(NoteParameter.CreationDate));
-                OutputFormatter.showNotesByTag(userNotes);
-                break;
-            case 0:
-                userWantsToExit = true;
-                break;
-
         }
     }
 }

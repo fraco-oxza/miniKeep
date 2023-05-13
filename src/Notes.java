@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Notes {
     private static Notes notesInstance = null;
-    ArrayList<Note> notes;
+    private ArrayList<Note> notes;
 
     @SuppressWarnings("unchecked")
     private Notes() {
@@ -29,6 +29,12 @@ public class Notes {
     public void addNote(Note note) {
         this.notes.add(note);
         save();
+    }
+
+    public boolean removeNote(Note note) {
+        boolean result = notes.remove(note);
+        save();
+        return result;
     }
 
     public List<Note> getTrashNotes(User user) {
