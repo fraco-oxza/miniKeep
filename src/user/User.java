@@ -1,9 +1,13 @@
+package user;
+
+import persistence.Users;
+
 import java.io.IOException;
 import java.io.Serializable;
 
 /**
  * Represents a user with various fields and properties. important: Every time it tries to create a
- * user, it tries to add it to the Users class, if it cannot be done, it is because there is already
+ * user, it tries to add it to the persistence.Users class, if it cannot be done, it is because there is already
  * a user with those credentials
  */
 public class User implements Serializable {
@@ -17,7 +21,7 @@ public class User implements Serializable {
     private final String birthdate;
 
     /**
-     * Constructs a new User object with the provided details and automatically adds it to the Users
+     * Constructs a new user.User object with the provided details and automatically adds it to the persistence.Users
      * class, ensuring immediate and automatic storage of the user in the system.
      *
      * @param registrationNumber The registration number of the user.
@@ -37,7 +41,7 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.birthdate = birthdate;
 
-        // auto-adds to Users instance
+        // auto-adds to persistence.Users instance
         Users.getInstance().addUser(this);
     }
 

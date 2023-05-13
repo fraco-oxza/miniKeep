@@ -1,3 +1,8 @@
+package persistence;
+
+import note.Note;
+import user.User;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;

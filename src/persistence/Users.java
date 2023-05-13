@@ -1,3 +1,8 @@
+package persistence;
+
+import user.User;
+import user.UserAlreadyExistsException;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -20,7 +25,7 @@ public class Users implements Persistent {
      * access modifier prevents external code from creating additional instances.
      */
     private Users() {
-        // Try to load the ArrayList<User> from the file
+        // Try to load the ArrayList<user.User> from the file
         try {
             load();
         } catch (FileNotFoundException e) {
@@ -71,7 +76,7 @@ public class Users implements Persistent {
      * This method adds a new user to both the file and the in-memory user list. It ensures that the
      * registration number of the user is unique, as duplicate registration numbers are not allowed.
      * If a user with the same registration number or email already exists, a
-     * UserAlreadyExistsException is thrown.
+     * user.UserAlreadyExistsException is thrown.
      *
      * @param newUser The user to be added.
      * @throws UserAlreadyExistsException if a user with the same registration number or email already

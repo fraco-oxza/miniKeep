@@ -1,3 +1,9 @@
+package note;
+
+import ioUtils.OutputFormatter;
+import persistence.Notes;
+import user.User;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -7,9 +13,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class represent one Note in the system. when it is created it is immediately added to the
- * notes file through the Notes object, also when changes are made to it is automatically updates
- * Notes therefore it is saved in the persistence
+ * This class represent one note.Note in the system. when it is created it is immediately added to the
+ * notes file through the persistence.Notes object, also when changes are made to it is automatically updates
+ * persistence.Notes therefore it is saved in the persistence
  */
 public class Note implements Serializable {
     // In this field we use the user's registration number.Now, why do we use the registration number
@@ -30,12 +36,12 @@ public class Note implements Serializable {
     private boolean deleted;
 
     /**
-     * Constructor of the class that is in charge of creating the Note and adding it to the list of
+     * Constructor of the class that is in charge of creating the note.Note and adding it to the list of
      * notes, to allow persistence and synchronization. Every note that exists in the program is
      * stored in the persistence.
      *
-     * @param header     The title of the Note
-     * @param body       The body of the Note
+     * @param header     The title of the note.Note
+     * @param body       The body of the note.Note
      * @param tags       A list of tags for the note
      * @param color      A string for the color of the note
      * @param priority   The priority of the note

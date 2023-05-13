@@ -1,9 +1,11 @@
+package note;
+
 import java.util.Comparator;
 
 public class NoteComparator implements Comparator<Note> {
     private final NoteParameter toCompare;
 
-    NoteComparator(NoteParameter toCompare) {
+    public NoteComparator(NoteParameter toCompare) {
         super();
         this.toCompare = toCompare;
     }
