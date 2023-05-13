@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Notes {
     private static Notes notesInstance = null;
@@ -30,7 +31,7 @@ public class Notes {
         save();
     }
 
-    public ArrayList<Note> getTrashNotes(User user) {
+    public List<Note> getTrashNotes(User user) {
         ArrayList<Note> userNotes = new ArrayList<>();
 
         for (Note note : this.notes) {
@@ -42,7 +43,7 @@ public class Notes {
         return userNotes;
     }
 
-    public ArrayList<Note> getUserNotes(User user) {
+    public List<Note> getUserNotes(User user) {
         ArrayList<Note> userNotes = new ArrayList<>();
 
         for (Note note : this.notes) {

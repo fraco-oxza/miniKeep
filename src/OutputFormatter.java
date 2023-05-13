@@ -9,7 +9,7 @@ public class OutputFormatter {
         System.out.println(encloseIterable(Collections.singletonList(note)));
     }
 
-    public static void showShortNotes(ArrayList<Note> notes) {
+    public static void showShortNotes(List<Note> notes) {
         ArrayList<String> notesHeaders = new ArrayList<>();
 
         for (int i = 0; i < notes.size(); i++) {
@@ -19,8 +19,8 @@ public class OutputFormatter {
         System.out.println(encloseIterable(notesHeaders));
     }
 
-    public static void showNotesByPriority(ArrayList<Note> notes) {
-        HashMap<Priority, ArrayList<Note>> notesCluster = new HashMap<>();
+    public static void showNotesByPriority(List<Note> notes) {
+        HashMap<Priority, List<Note>> notesCluster = new HashMap<>();
 
         notesCluster.put(Priority.Low, new ArrayList<Note>());
         notesCluster.put(Priority.Normal, new ArrayList<Note>());
@@ -44,8 +44,8 @@ public class OutputFormatter {
         OutputFormatter.showNotes(notesCluster.get(Priority.Critical));
     }
 
-    public static void showNotesByColor(ArrayList<Note> notes) {
-        HashMap<String, ArrayList<Note>> notesCluster = new HashMap<>();
+    public static void showNotesByColor(List<Note> notes) {
+        HashMap<String, List<Note>> notesCluster = new HashMap<>();
 
         for (Note note : notes) {
             if (notesCluster.containsKey(note.getColor())) {
@@ -55,17 +55,17 @@ public class OutputFormatter {
             }
         }
 
-        for (String color : notesCluster.keySet()) {
+        for (Map.Entry<String, List<Note>> pair : notesCluster.entrySet()) {
 
-            if (color.equals("")) OutputFormatter.showEncloseHeader("Sin color");
-            else OutputFormatter.showEncloseHeader(color);
+            if (pair.getKey().equals("")) OutputFormatter.showEncloseHeader("Sin color");
+            else OutputFormatter.showEncloseHeader(pair.getKey());
 
-            OutputFormatter.showNotes(notesCluster.get(color));
+            OutputFormatter.showNotes(pair.getValue());
         }
     }
 
-    public static void showNotesByTag(ArrayList<Note> userNotes) {
-        HashMap<String, ArrayList<Note>> tagNotesMap = new HashMap<>();
+    public static void showNotesByTag(List<Note> userNotes) {
+        HashMap<String, List<Note>> tagNotesMap = new HashMap<>();
 
         for (Note note : userNotes) {
             for (String tag : note.getTags()) {
@@ -77,7 +77,7 @@ public class OutputFormatter {
             }
         }
 
-        for (Map.Entry<String, ArrayList<Note>> entry : tagNotesMap.entrySet()) {
+        for (Map.Entry<String, List<Note>> entry : tagNotesMap.entrySet()) {
             if (entry.getKey().equals("")) OutputFormatter.showEncloseHeader("Sin Tag");
             else OutputFormatter.showEncloseHeader(entry.getKey());
 
@@ -111,7 +111,7 @@ public class OutputFormatter {
         System.out.println();
     }
 
-    public static String formatTags(ArrayList<String> tags) {
+    public static String formatTags(List<String> tags) {
         StringBuilder output = new StringBuilder();
         for (int i = 0; i < tags.size(); i++) {
             output.append(tags.get(i));
@@ -183,10 +183,10 @@ public class OutputFormatter {
             }
 
             for (String line : object.toString().split("\n")) {
-                for (String formatedLine : adjustLine(line, lineLength - 2 - 2 * padding).split("\n")) {
+                for (String formattedLine : adjustLine(line, lineLength - 2 - 2 * padding).split("\n")) {
                     output.append(repeat(" ", leftMargin)).append("┃").append(repeat(" ", padding));
-                    formatedLine = formatedLine + repeat(" ", lineLength - formatedLine.length() - padding - 2);
-                    output.append(formatedLine);
+                    output.append(formattedLine);
+                    output.append(repeat(" ", lineLength - formattedLine.length() - padding - 2));
                     output.append("┃\n");
                 }
             }

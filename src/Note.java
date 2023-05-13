@@ -3,6 +3,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Note implements Serializable {
     private String header;
@@ -58,7 +59,7 @@ public class Note implements Serializable {
         return createdAt;
     }
 
-    public ArrayList<String> getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
@@ -66,10 +67,10 @@ public class Note implements Serializable {
         return body;
     }
 
-    public Note(String header, String body, ArrayList<String> tags, String color, Priority priority, long created_by) {
+    public Note(String header, String body, List<String> tags, String color, Priority priority, long created_by) {
         this.header = header;
         this.body = body;
-        this.tags = tags;
+        this.setTags(tags); // Read the method to understand
         this.color = color;
         this.priority = priority;
         this.createdBy = created_by;
@@ -87,8 +88,13 @@ public class Note implements Serializable {
         Notes.getInstance().save();
     }
 
-    public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
+    public void setTags(List<String> tags) {
+        this.tags = new ArrayList<>();
+
+        // It is done in this way to avoid that this value can be modified without going through this method
+        // if not copied this way, we would just assign a reference to tags, so someone with that reference could modify
+        // it without us knowing, and put the save file and this object out of sync
+        this.tags.addAll(tags);
 
         Notes.getInstance().save();
     }

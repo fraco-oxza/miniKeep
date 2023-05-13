@@ -92,7 +92,7 @@ public class MenuInteraction {
     }
 
     private void editMenu() {
-        ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
+        List<Note> userNotes = Notes.getInstance().getUserNotes(user);
         OutputFormatter.showShortNotes(userNotes);
         int index = userInput.getInt("Indice a modificar[0= volver]", 0, userNotes.size());
 
@@ -116,6 +116,7 @@ public class MenuInteraction {
                 break;
             case 4:
                 editTags(note);
+                break;
             case 5:
                 editBody(note);
                 break;
@@ -127,7 +128,7 @@ public class MenuInteraction {
     private void editTags(Note note) {
         System.out.println("Tags antiguas : " + OutputFormatter.formatTags(note.getTags()));
 
-        ArrayList<String> tags = userInput.getTags("Tags nuevos");
+        List<String> tags = userInput.getTags("Tags nuevos");
 
         note.setTags(tags);
         OutputFormatter.showSuccess("Tags actualizadas con exito");
@@ -167,7 +168,7 @@ public class MenuInteraction {
     }
 
     private void recoverOneNote() {
-        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+        List<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
 
         OutputFormatter.showShortNotes(trashNotes);
 
@@ -180,7 +181,7 @@ public class MenuInteraction {
     }
 
     private void recoverAllNotes() {
-        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+        List<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
 
         if (!userInput.getConfirmation("Desea recuperar todas las notas")) return;
 
@@ -221,7 +222,7 @@ public class MenuInteraction {
     }
 
     private void deleteOneNoteMenu() {
-        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+        List<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
 
         int index = userInput.getInt("Indice a borrar definitivamente[0= volver]: ", 0, trashNotes.size());
 
@@ -235,7 +236,7 @@ public class MenuInteraction {
     }
 
     private void deleteAllNotes() {
-        ArrayList<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
+        List<Note> trashNotes = Notes.getInstance().getTrashNotes(user);
 
         if (!userInput.getConfirmation("Desea eliminar definitivamente todas las notas")) return;
 
@@ -248,7 +249,7 @@ public class MenuInteraction {
     }
 
     private void deleteMenu() {
-        ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
+        List<Note> userNotes = Notes.getInstance().getUserNotes(user);
         OutputFormatter.showShortNotes(userNotes);
         int index = userInput.getInt("Indice a borrar[0= volver]: ", 0, userNotes.size());
 
@@ -266,7 +267,7 @@ public class MenuInteraction {
 
         String body = userInput.getText("Cuerpo", 1, 200);
 
-        ArrayList<String> tags = userInput.getTags("Tags[separadas por ',']");
+        List<String> tags = userInput.getTags("Tags[separadas por ',']");
 
         String color = userInput.getText("Color");
 
@@ -287,7 +288,7 @@ public class MenuInteraction {
                 "5. Agrupados por temas");
         int option = userInput.getInt("Opción: ", 1, 5);
 
-        ArrayList<Note> userNotes = Notes.getInstance().getUserNotes(user);
+        List<Note> userNotes = Notes.getInstance().getUserNotes(user);
 
         switch (option) {
             case 1:

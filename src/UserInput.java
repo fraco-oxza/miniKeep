@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -149,7 +150,7 @@ public class UserInput {
         return result;
     }
 
-    public ArrayList<String> getTags(String prompt) {
+    public List<String> getTags(String prompt) {
         String textOfTags = getText(prompt);
         textOfTags = textOfTags.trim().toLowerCase();
 
