@@ -1,5 +1,3 @@
-import com.sun.istack.internal.NotNull;
-
 import java.util.*;
 
 public class OutputFormatter {
@@ -118,7 +116,7 @@ public class OutputFormatter {
         showNotes(notesCluster.get(Priority.Critical));
     }
 
-    public void showNotesWithPriority(List<Note> notes, @NotNull Priority priority) {
+    public void showNotesWithPriority(List<Note> notes, Priority priority) {
         ArrayList<Note> filteredNotes = new ArrayList<>();
 
         for (Note note : notes) {

@@ -7,17 +7,19 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class represent one Note in the system. when it is created it is immediately added to the
- * notes file through the Notes object, also when changes are made to it is automatically updates
- * Notes therefore it is saved in the persistence
+ * This class represent one Note in the system. when it is created it is
+ * immediately added to the notes file through the Notes object, also when
+ * changes are made to it is automatically updates Notes therefore it is saved
+ * in the persistence
  */
 public class Note implements Serializable {
-    // In this field we use the user's registration number.Now, why do we use the registration number
-    // instead of using a reference to the user, the answer is because of the serialization, when
-    // using a reference we are specifying so to speak a memory address, there would be no problem at
-    // first, but when loading the users from the file their memory locations may change and generate
-    // problems. then for more security we use the registration number, which we also ensure that it
-    // is unique foreach user registered in the system.
+    // In this field we use the user's registration number.Now, why do we use the
+    // registration number instead of using a reference to the user, the answer
+    // is because of the serialization, when using a reference we are specifying
+    // so to speak a memory address, there would be no problem at first, but when
+    // loading the users from the file their memory locations may change and
+    // generate problems. then for more security we use the registration number,
+    // which we also ensure that it is unique foreach user registered in the system.
     private final long createdBy;
     private final Date createdAt;
     private String header;
@@ -30,9 +32,9 @@ public class Note implements Serializable {
     private boolean deleted;
 
     /**
-     * Constructor of the class that is in charge of creating the Note and adding it to the list of
-     * notes, to allow persistence and synchronization. Every note that exists in the program is
-     * stored in the persistence.
+     * Constructor of the class that is in charge of creating the Note and adding
+     * it to the list of notes, to allow persistence and synchronization. Every
+     * note that exists in the program is stored in the persistence.
      *
      * @param header     The title of the Note
      * @param body       The body of the Note
@@ -40,8 +42,10 @@ public class Note implements Serializable {
      * @param color      A string for the color of the note
      * @param priority   The priority of the note
      * @param created_by The registration number of the creating user
+     * @throws IOException if an error occurs in the serialization process
      */
-    public Note(String header, String body, List<String> tags, String color, Priority priority, User created_by) throws IOException {
+    public Note(String header, String body, List<String> tags, String color, Priority priority, User created_by)
+            throws IOException {
         this.header = header;
         this.body = body;
         this.setTags(tags); // Read the method to understand
@@ -57,23 +61,52 @@ public class Note implements Serializable {
         Notes.getInstance().addNote(this);
     }
 
+    /**
+     * Getter to get the header of the note
+     * 
+     * @return The header of the note
+     */
     public String getHeader() {
         return header;
     }
 
+    /**
+     * Setter to set the header of the note and then update the notes files
+     *
+     * @param header The new header of the note
+     * @throws IOException if an error occurs in the serialization process
+     */
     public void setHeader(String header) throws IOException {
         this.header = header;
+
+        this.updatedAt = new Date();
         Notes.getInstance().save();
     }
 
+    /**
+     * Getter to get the registration number of the note creator
+     *
+     * @return The registration number of the note creator
+     */
     public long getCreatedBy() {
         return createdBy;
     }
 
+    /**
+     * Getter to get the color of the note
+     * 
+     * @return The color of the note
+     */
     public String getColor() {
         return color;
     }
 
+    /**
+     * Setter to set the color of the note and then update the file of notes
+     * 
+     * @param color The new color for the note
+     * @throws IOException if an error occurs in the serialization process
+     */
     public void setColor(String color) throws IOException {
         this.color = color;
 
@@ -81,39 +114,79 @@ public class Note implements Serializable {
         Notes.getInstance().save();
     }
 
+    /**
+     * Getter to get the priority of the note
+     *
+     * @return The priority of the note
+     */
     public Priority getPriority() {
         return priority;
     }
 
+    /**
+     * Setter to set the priority of the note and update the file of notes
+     *
+     * @param priority The new priority of the note
+     * @throws IOException if an error occurs in the serialization process
+     */
     public void setPriority(Priority priority) throws IOException {
         this.priority = priority;
+
+        this.updatedAt = new Date();
         Notes.getInstance().save();
     }
 
+    /**
+     * Getter to get the date on which the note was created
+     *
+     * @return The date on which the note was created
+     */
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    /**
+     * Getter to get a list of the tags in the note
+     *
+     * @return The list of tags in the note
+     */
     public List<String> getTags() {
         return tags;
     }
 
+    /**
+     * Setter to set a new list of tags in the note
+     *
+     * @param tags The new list of tags for the note
+     * @throws IOException if an error occurs in the serialization process
+     */
     public void setTags(List<String> tags) throws IOException {
         this.tags = new ArrayList<>();
 
-        // It is done in this way to avoid that this value can be modified without going through this
-        // method if not copied this way, we would just assign a reference to tags, so someone with that
-        // reference could modify it without us knowing, and put the save file and this object out of
-        // sync
+        // It is done in this way to avoid that this value can be modified without
+        // going through this method if not copied this way, we would just assign
+        // a reference to tags, so someone with that reference could modify it
+        // without us knowing, and put the save file and this object out of sync
         this.tags.addAll(tags);
 
+        this.updatedAt = new Date();
         Notes.getInstance().save();
     }
 
+    /**
+     * Getter to get the body of the note
+     *
+     * @return The body of the note
+     */
     public String getBody() {
         return body;
     }
 
+    /**
+     * Setter to set a new body for the note
+     *
+     * @param body The new body for the note
+     */
     public void setBody(String body) throws IOException {
         this.body = body;
 
@@ -121,6 +194,11 @@ public class Note implements Serializable {
         Notes.getInstance().save();
     }
 
+    /**
+     * Getter to get the date on which the note was last changed
+     *
+     * @return Date of the last update
+     */
     public Date getUpdatedAt() {
         return updatedAt;
     }
@@ -152,7 +230,10 @@ public class Note implements Serializable {
 
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-        String output = "\n" + header + "\n\n" + "Tags       : " + OutputFormatter.formatTags(tags) + "\nColor      : " + color + "\n" + "Prioridad  : " + priority + "\n" + "Creado     : " + format.format(createdAt) + "\n" + "Visitado   : " + format.format(viewedAt) + "\n" + "Modificado : " + format.format(updatedAt) + "\n\n" + body + "\n \n";
+        String output = "\n" + header + "\n\n" + "Tags       : " + OutputFormatter.formatTags(tags) + "\nColor      : "
+                + color + "\n" + "Prioridad  : " + priority + "\n" + "Creado     : " + format.format(createdAt) + "\n"
+                + "Visitado   : " + format.format(viewedAt) + "\n" + "Modificado : " + format.format(updatedAt) + "\n\n"
+                + body + "\n \n";
 
         this.viewedAt = new Date();
 
