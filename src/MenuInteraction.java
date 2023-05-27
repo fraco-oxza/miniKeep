@@ -14,12 +14,25 @@ public class MenuInteraction {
     private User user;
     private boolean userWantsToExit;
 
+    /**
+     * Constructs a new MenuInteraction object with the specified output formatter.
+     * The output formatter is used for displaying messages to the user.
+     *
+     * @param formatter The output formatter to be used for displaying messages.
+     */
     public MenuInteraction(OutputFormatter formatter) {
         this.formatter = formatter;
         user = null;
         userWantsToExit = false;
     }
 
+    /**
+     * Starts the main interaction loop of the menu.
+     * This method continuously displays the appropriate menu based on the user's status (logged in or not).
+     * The loop continues until the user chooses to exit.
+     *
+     * @throws IOException if an I/O error occurs while interacting with the user.
+     */
     public void startLoop() throws IOException {
         do {
             if (user == null) {
@@ -30,6 +43,11 @@ public class MenuInteraction {
         } while (!userWantsToExit);
     }
 
+    /**
+     * Displays the session menu options and handles the user's choice.
+     * The options include signing in, creating an account, and exiting.
+     * The method prompts the user for input and performs the corresponding action based on the selected option.
+     */
     private void sessionMenu() {
         OutputFormatter.showMenu("1. Iniciar Sesión", "2. Crear cuenta", "0. Salir");
         int option = userInput.getInt("Opción", 0, 2);
@@ -47,6 +65,11 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Performs the sign-in process.
+     * The method prompts the user for their email and password, verifies the credentials,
+     * and sets the user variable if the sign-in is successful.
+     */
     private void signIn() {
         String email = userInput.getText("Correo", UserInput.emailPattern);
         String password = userInput.getText("Clave ");
@@ -61,6 +84,12 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Performs the sign-up process.
+     * The method prompts the user to enter their details to create a new account.
+     * If the account creation is successful, the user's information is displayed, including the generated password.
+     * If an error occurs during the account creation, an appropriate error message is displayed.
+     */
     private void signUp() {
         try {
             User user = userInput.addNewUser();
@@ -73,6 +102,15 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Displays the general menu options for the authenticated user.
+     * The method prompts the user to select an option and performs the corresponding action based on the input.
+     * The available options include viewing notes, creating a new note, editing a note, deleting a note,
+     * viewing the trash, displaying user information, logging out, and exiting the application.
+     * If an invalid option is selected, an appropriate error message is displayed.
+     *
+     * @throws IOException if an I/O error occurs during user input
+     */
     private void generalMenu() throws IOException {
         OutputFormatter.showMenu("1. Ver Notas", "2. Crear Nota", "3. Editar Nota", "4. Eliminar Nota", "5. Ver papelera", "6. Mostrar datos de usuario", "7. Cerrar sesión", "0. Salir");
         int option = userInput.getInt("Opción", 0, 6);
@@ -105,11 +143,28 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Displays the user information in a formatted manner.
+     * The method uses the OutputFormatter to enclose the user information in a header
+     * and then displays the formatted user information using the formatter's showUser() method.
+     */
     private void userMenu() {
         formatter.showEncloseHeader("Datos de Usuario");
         formatter.showUser(user);
     }
 
+    /**
+     * Displays the notes menu where the user can choose the order in which to display the notes.
+     * The method prompts the user to select an option for ordering the notes and then performs the corresponding action.
+     * The available options are:
+     * 1. Order by name
+     * 2. Order by date
+     * 3. Order by priority
+     * 4. Grouped by color
+     * 5. Grouped by tags
+     * The method uses the OutputFormatter to display the menu options and to show the formatted notes.
+     * It also uses the NoteComparator to sort the notes based on the selected order.
+     */
     private void notesMenu() {
         System.out.println("En que orden desea mostrar las notas: ");
         OutputFormatter.showMenu("1. Nombre", "2. Fecha", "3. Prioridad", "4. Agrupados por color", "5. Agrupados por temas");
@@ -145,6 +200,16 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Displays the menu for showing notes based on tags.
+     * The method prompts the user to select an option:
+     * 1. Show all notes
+     * 2. Show notes with a specific tag
+     * Depending on the selected option, the method either calls the formatter's showNotesByTag method to show all notes grouped by tags,
+     * or prompts the user to select a specific tag and then calls the formatter's showNotesWithTag method to show notes with that tag.
+     *
+     * @param userNotes the list of user notes
+     */
     private void notesByTagMenu(List<Note> userNotes) {
         OutputFormatter.showMenu("1. Todas las notas", "2. Tag especifica");
         int option = userInput.getInt("Que desea mostrar", 1, 2);
@@ -165,6 +230,16 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Displays the menu for showing notes based on colors.
+     * The method prompts the user to select an option:
+     * 1. Show all notes
+     * 2. Show notes with a specific color
+     * Depending on the selected option, the method either calls the formatter's showNotesByColor method to show all notes grouped by colors,
+     * or prompts the user to select a specific color and then calls the formatter's showNotesWithColor method to show notes with that color.
+     *
+     * @param userNotes the list of user notes
+     */
     private void notesByColorMenu(List<Note> userNotes) {
         OutputFormatter.showMenu("1. Todas las notas", "2. Color especifico");
         int option = userInput.getInt("Que desea mostrar", 1, 2);
@@ -185,6 +260,14 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Displays the menu for showing notes based on priority.
+     * The method prompts the user to enter a priority to show notes with that priority.
+     * If the user enters an invalid priority or chooses not to specify a priority, it calls the formatters showNotesByPriority method to show all notes grouped by priority.
+     * Otherwise, it calls the formatters showNotesWithPriority method to show notes with the specified priority.
+     *
+     * @param userNotes the list of user notes
+     */
     private void notesByPriorityMenu(List<Note> userNotes) {
         Priority priority = userInput.getOptionalPriority("Prioridad a mostrar");
 
@@ -195,6 +278,14 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Displays the menu for creating a new note.
+     * The method prompts the user to enter the necessary fields for creating a note, including the header, body, tags, color, and priority.
+     * Once the user enters all the required information, it creates a new Note object and saves it using the Notes instance.
+     * Finally, it displays a success message to indicate that the note has been created successfully.
+     *
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void createNoteMenu() throws IOException {
         System.out.println("Creando nota");
         System.out.println("Debe ingresar los siguientes campos");
@@ -214,6 +305,16 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Nota creada con exito");
     }
 
+    /**
+     * Displays the menu for editing a note.
+     * The method retrieves the user's notes, sorts them by header, and displays a list of short notes.
+     * The user is prompted to enter the index of the note they want to modify.
+     * If the index is 0, the method returns and goes back to the previous menu.
+     * Otherwise, it retrieves the selected note, displays the full note details, and presents a menu of fields that can be modified.
+     * Based on the user's selection, the corresponding edit method is called to modify the note.
+     *
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void editMenu() throws IOException {
         List<Note> userNotes = notes.getUserNotes(user);
         Collections.sort(userNotes, new NoteComparator(NoteParameter.Header));
@@ -249,6 +350,14 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Allows the user to edit the tags of a note.
+     * The method displays the current tags of the note and prompts the user to enter the new tags.
+     * The new tags are set for the note, and a success message is displayed.
+     *
+     * @param note the note to edit
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void editTags(Note note) throws IOException {
         System.out.println("Tags antiguas : " + OutputFormatter.formatTags(note.getTags()));
 
@@ -258,6 +367,14 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Tags actualizadas con exito");
     }
 
+    /**
+     * Allows the user to edit the body of a note.
+     * The method displays the current body of the note and prompts the user to enter the new body.
+     * The new body is set for the note, and a success message is displayed.
+     *
+     * @param note the note to edit
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void editBody(Note note) throws IOException {
         System.out.println("Cuerpo antiguo : ");
         System.out.println(OutputFormatter.adjustLine(note.getBody(), formatter.lineLength));
@@ -268,6 +385,14 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Cuerpo actualizado con exito");
     }
 
+    /**
+     * Allows the user to edit the priority of a note.
+     * The method displays the current priority of the note and prompts the user to enter the new priority.
+     * The new priority is set for the note, and a success message is displayed.
+     *
+     * @param note the note to edit
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void editPriority(Note note) throws IOException {
         System.out.println("Prioridad Antigua : " + note.getPriority());
 
@@ -277,6 +402,14 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Prioridad Actualizada con exito");
     }
 
+    /**
+     * Allows the user to edit the color of a note.
+     * The method displays the current color of the note and prompts the user to enter the new color.
+     * The new color is set for the note, and a success message is displayed.
+     *
+     * @param note the note to edit
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void editColor(Note note) throws IOException {
         System.out.println("Color Antiguo: " + note.getColor());
         String newColor = userInput.getText("Color Nuevo: ");
@@ -284,6 +417,14 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Color cambiado con exito");
     }
 
+    /**
+     * Allows the user to edit the title of a note.
+     * The method displays the current title of the note and prompts the user to enter the new title.
+     * The new title is set for the note, and a success message is displayed.
+     *
+     * @param note the note to edit
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void editTitle(Note note) throws IOException {
         System.out.println("Titulo Antiguo : " + note.getHeader());
         String newHeader = userInput.getText("Titulo Nuevo", 1, headerMaxLength);
@@ -291,6 +432,13 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Titulo cambiado con exito");
     }
 
+    /**
+     * Displays the delete menu, allowing the user to select a note to delete.
+     * The method shows a list of user notes, prompts the user to enter the index of the note to delete,
+     * marks the selected note as deleted, and displays a success message.
+     *
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void deleteMenu() throws IOException {
         List<Note> userNotes = notes.getUserNotes(user);
         formatter.showShortNotes(userNotes);
@@ -302,6 +450,13 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Nota eliminada con exito");
     }
 
+    /**
+     * Displays the trash menu, allowing the user to perform operations on the notes in the trash.
+     * The method shows the trash header, displays the short notes of the notes in the trash,
+     * prompts the user to choose an operation, and performs the selected operation accordingly.
+     *
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void trashMenu() throws IOException {
         formatter.showEncloseHeader("Papelera de Reciclaje");
 
@@ -329,6 +484,13 @@ public class MenuInteraction {
         }
     }
 
+    /**
+     * Prompts the user to choose a note from the trash to recover and restores the selected note.
+     * The method displays the short notes of the notes in the trash, prompts the user to enter the index
+     * of the note to recover, and restores the selected note from the trash.
+     *
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void recoverOneNote() throws IOException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 

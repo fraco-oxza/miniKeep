@@ -48,7 +48,7 @@ public class Note implements Serializable {
             throws IOException {
         this.header = header;
         this.body = body;
-        this.setTags(tags); // Read the method to understand
+        this.setTags(tags); // Read the method for a detailed explanation
         this.color = color;
         this.priority = priority;
         this.createdBy = created_by.getRegistrationNumber();
@@ -203,14 +203,29 @@ public class Note implements Serializable {
         return updatedAt;
     }
 
+    /**
+     * Getter to get the date on with the note was last viewed through the toString method
+     *
+     * @return Date of the last view
+     */
     public Date getViewedAt() {
         return viewedAt;
     }
 
+    /**
+     * Getter to get the state of the note, return true if the note has been marked as deleted.
+     *
+     * @return The state of the note
+     */
     public boolean isDeleted() {
         return deleted;
     }
 
+    /**
+     * Method to set the deleted field to true, and then update the Notes files
+     *
+     * @throws IOException If an error occurs when trying to write to the file
+     */
     public void markAsDeleted() throws IOException {
         deleted = true;
         updatedAt = new Date();
@@ -218,6 +233,11 @@ public class Note implements Serializable {
         Notes.getInstance().save();
     }
 
+    /**
+     * Method to set the deleted field to false, and then update the Notes files
+     *
+     * @throws IOException If an error occurs when trying to write to the file
+     */
     public void restore() throws IOException {
         this.deleted = false;
         updatedAt = new Date();
@@ -225,6 +245,12 @@ public class Note implements Serializable {
         Notes.getInstance().save();
     }
 
+    /**
+     * Method that generates a string with all the important fields of the instance, to be printed later.
+     * In addition, this method sets the last view date of the note as the current one.
+     *
+     * @return A string with the fields of the instance
+     */
     @Override
     public String toString() {
 
