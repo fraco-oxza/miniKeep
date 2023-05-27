@@ -5,6 +5,13 @@ import java.io.IOException;
  * It initializes the required objects and starts the menu interaction loop.
  */
 public class Main {
+    /**
+     * The main method is the entry point of the program.
+     * It creates an instance of OutputFormatter and MenuInteraction,
+     * and starts the menu interaction loop.
+     *
+     * @param args The command line arguments (not used in this program)
+     */
     public static void main(String[] args) {
         // Create an instance of OutputFormatter with specified line width and indentation level
         OutputFormatter formatter = new OutputFormatter(40, 4);

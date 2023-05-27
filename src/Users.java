@@ -30,6 +30,12 @@ public class Users implements Persistent {
         }
     }
 
+    /**
+     * Loads the list of users from a serialized file.
+     *
+     * @throws IOException            If an I/O error occurs while reading the file.
+     * @throws ClassNotFoundException If the class of the serialized object cannot be found.
+     */
     public void load() throws IOException, ClassNotFoundException {
         FileInputStream file = new FileInputStream("./users.ser.bin");
         ObjectInputStream objIn = new ObjectInputStream(file);
