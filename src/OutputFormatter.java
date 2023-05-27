@@ -326,10 +326,6 @@ public class OutputFormatter {
 
     /**
      * Creates an enclosed representation of the provided iterable objects.
-     *
-     * @param objects the iterable objects to be enclosed.
-     * @param <T>     the type of objects in the iterable.
-     * @return a string representing the enclosed iterable.
      * <p>
      * The method constructs a formatted output using ASCII characters
      * to create an enclosed representation of the iterable objects.
@@ -351,6 +347,10 @@ public class OutputFormatter {
      * The resulting enclosed representation is returned as a string.
      * It can be used for displaying the iterable objects in a visually
      * organized and structured manner.
+     *
+     * @param objects the iterable objects to be enclosed.
+     * @param <T>     the type of objects in the iterable.
+     * @return a string representing the enclosed iterable.
      */
     public <T> String encloseIterable(Iterable<T> objects) {
         StringBuilder output = new StringBuilder();

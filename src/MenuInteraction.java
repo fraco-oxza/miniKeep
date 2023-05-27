@@ -4,6 +4,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * The MenuInteraction class represents the menu interaction functionality
+ * of the application. It allows the user to navigate through different menus
+ * and perform various actions such as signing in, signing up, creating, editing,
+ * and deleting notes, and managing the trash.
+ */
 public class MenuInteraction {
     private static final int headerMaxLength = 30;
     private static final int bodyMaxLength = 200;
@@ -11,14 +17,13 @@ public class MenuInteraction {
     private final Notes notes = Notes.getInstance();
     private final UserInput userInput = UserInput.getInstance();
     private final OutputFormatter formatter;
-    private User user;
+    private User user; // The current user
     private boolean userWantsToExit;
 
     /**
-     * Constructs a new MenuInteraction object with the specified output formatter.
-     * The output formatter is used for displaying messages to the user.
+     * Constructs a MenuInteraction object with the specified OutputFormatter instance.
      *
-     * @param formatter The output formatter to be used for displaying messages.
+     * @param formatter the OutputFormatter to use for displaying output
      */
     public MenuInteraction(OutputFormatter formatter) {
         this.formatter = formatter;
@@ -27,11 +32,10 @@ public class MenuInteraction {
     }
 
     /**
-     * Starts the main interaction loop of the menu.
-     * This method continuously displays the appropriate menu based on the user's status (logged in or not).
-     * The loop continues until the user chooses to exit.
+     * Starts the main menu loop. Displays different menus based on the user's
+     * authentication status and handles user input accordingly.
      *
-     * @throws IOException if an I/O error occurs while interacting with the user.
+     * @throws IOException if an I/O error occurs while reading user input
      */
     public void startLoop() throws IOException {
         do {
@@ -504,6 +508,14 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Nota recuperada con exito");
     }
 
+    /**
+     * Prompts the user for confirmation and recovers all notes from the trash.
+     * The method retrieves all notes in the trash belonging to the user,
+     * prompts the user for confirmation to recover all notes,
+     * and restores each note from the trash.
+     *
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void recoverAllNotes() throws IOException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 
@@ -516,6 +528,15 @@ public class MenuInteraction {
         OutputFormatter.showSuccess("Notas recuperadas con exito");
     }
 
+
+    /**
+     * Prompts the user to select a note from the trash to delete permanently.
+     * The method retrieves all notes in the trash belonging to the user,
+     * prompts the user to select a note to delete permanently,
+     * and removes the selected note from the notes collection.
+     *
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void deleteOneNoteMenu() throws IOException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 
@@ -530,6 +551,12 @@ public class MenuInteraction {
         OutputFormatter.showError("Algo raro pasa, la nota no se borro");
     }
 
+    /**
+     * Prompts the user to confirm the deletion of all notes in the trash.
+     * If confirmed, deletes all notes in the trash permanently.
+     *
+     * @throws IOException if an I/O error occurs while reading user input
+     */
     private void deleteAllNotes() throws IOException {
         List<Note> trashNotes = notes.getTrashNotes(user);
 
