@@ -13,8 +13,9 @@ public class Main {
      * @param args The command line arguments (not used in this program)
      */
     public static void main(String[] args) {
-        // Create an instance of OutputFormatter with specified line width and indentation level
-        OutputFormatter formatter = new OutputFormatter(40, 4);
+        // Create an instance of OutputFormatter with specified line width and
+        // indentation level
+        OutputFormatter formatter = new OutputFormatter(80, 4);
 
         // Create an instance of MenuInteraction with the initialized OutputFormatter
         MenuInteraction menuInteraction = new MenuInteraction(formatter);

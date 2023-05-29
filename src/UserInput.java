@@ -293,7 +293,7 @@ public class UserInput {
         UserInput userInput = UserInput.getInstance();
 
         System.out.println("Debe ingresar los siguientes datos: ");
-        long registrationNumber = userInput.getLong("Numero de matricula\n>> ", 1000, Long.MAX_VALUE);
+        long registrationNumber = userInput.getLong("Numero de matricula\n>> ", 1, Long.MAX_VALUE);
         String firstName = userInput.getText("Nombre", 1, Integer.MAX_VALUE);
         String lastName = userInput.getText("Apellido", 1, Integer.MAX_VALUE);
         String email = userInput.getText("Email", UserInput.emailPattern);

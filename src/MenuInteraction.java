@@ -117,7 +117,7 @@ public class MenuInteraction {
      */
     private void generalMenu() throws IOException {
         OutputFormatter.showMenu("1. Ver Notas", "2. Crear Nota", "3. Editar Nota", "4. Eliminar Nota", "5. Ver papelera", "6. Mostrar datos de usuario", "7. Cerrar sesión", "0. Salir");
-        int option = userInput.getInt("Opción", 0, 6);
+        int option = userInput.getInt("Opción", 0, 7);
 
         switch (option) {
             case 1:

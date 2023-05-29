@@ -71,7 +71,7 @@ public class User implements Serializable {
     public String getPassword() {
         StringBuilder password = new StringBuilder();
 
-        password.append(String.format("%d", registrationNumber % 1_000_000));
+        password.append(String.format("%06d", registrationNumber % 1_000_000));
         password.append(lastName.toLowerCase().charAt(0));
         password.append(firstName.toUpperCase().charAt(0));
         password.reverse();
