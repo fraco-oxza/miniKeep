@@ -1,3 +1,5 @@
+package dev.fraco.minikeep.logic;
+
 /**
  * Exception thrown when attempting to add a user that already exists in the system. This exception
  * is used to indicate that a user with the same registration number or email already exists. It is

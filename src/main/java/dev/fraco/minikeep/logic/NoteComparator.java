@@ -1,3 +1,5 @@
+package dev.fraco.minikeep.logic;
+
 import java.util.Comparator;
 
 /**

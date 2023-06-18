@@ -1,3 +1,5 @@
+package dev.fraco.minikeep.logic;
+
 /**
  * Enumeration representing the priority levels of a note in the system. The priority levels are:
  * Low, Normal, High, and Critical. The Priority enum provides methods to convert from an integer

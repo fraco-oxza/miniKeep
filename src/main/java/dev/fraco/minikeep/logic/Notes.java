@@ -1,3 +1,4 @@
+package dev.fraco.minikeep.logic;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +99,7 @@ public class Notes implements Persistent {
             if (note.getCreatedBy() == user.getRegistrationNumber() && !note.isDeleted()) {
                 userNotes.add(note);
             }
+
         }
 
         return userNotes;

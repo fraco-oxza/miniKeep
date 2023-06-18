@@ -1,7 +1,7 @@
+package dev.fraco.minikeep.logic;
+
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,6 +21,7 @@ public class Note implements Serializable {
     // generate problems. then for more security we use the registration number,
     // which we also ensure that it is unique foreach user registered in the system.
     private final long createdBy;
+    private ArrayList<Long> collaborators;
     private final Date createdAt;
     private String header;
     private ArrayList<String> tags;
@@ -29,6 +30,7 @@ public class Note implements Serializable {
     private Priority priority;
     private Date updatedAt;
     private Date viewedAt;
+    private Date reminder;
     private boolean deleted;
 
     /**
@@ -44,15 +46,16 @@ public class Note implements Serializable {
      * @param created_by The registration number of the creating user
      * @throws IOException if an error occurs in the serialization process
      */
-    public Note(String header, String body, List<String> tags, String color, Priority priority, User created_by)
-            throws IOException {
+    public Note(String header, String body, List<String> tags, String color, Priority priority, User created_by) throws IOException {
         this.header = header;
         this.body = body;
         this.setTags(tags); // Read the method for a detailed explanation
         this.color = color;
         this.priority = priority;
         this.createdBy = created_by.getRegistrationNumber();
+        this.collaborators = new ArrayList<>();
         this.deleted = false;
+        this.reminder = null;
 
         this.updatedAt = new Date();
         this.createdAt = new Date();
@@ -61,13 +64,53 @@ public class Note implements Serializable {
         Notes.getInstance().addNote(this);
     }
 
+    public Date getReminder() {
+        return reminder;
+    }
+
+    public void setReminder(Date reminder) {
+        this.reminder = reminder;
+    }
+
+    /**
+     * Adder to add one user to the collaborators list
+     *
+     * @param user the user to add
+     */
+    public void addCollaborator(User user) {
+        collaborators.add(user.getRegistrationNumber());
+    }
+
+    /**
+     * Method to remove one user from the collaborators list
+     * @param user the user to remove
+     */
+    public void removeCollaborator(User user) {
+        collaborators.remove(user.getRegistrationNumber());
+    }
+
     /**
      * Getter to get the header of the note
-     * 
+     *
      * @return The header of the note
      */
     public String getHeader() {
         return header;
+    }
+
+    /**
+     * Method to check if a user is a collaborator of a note
+     *
+     * @return True if the user a collaborator
+     */
+    public boolean isCollaborator(User user) {
+        long userId = user.getRegistrationNumber();
+
+        for (long collaborator : this.collaborators) {
+            if (userId == collaborator) return true;
+        }
+
+        return false;
     }
 
     /**
@@ -94,7 +137,7 @@ public class Note implements Serializable {
 
     /**
      * Getter to get the color of the note
-     * 
+     *
      * @return The color of the note
      */
     public String getColor() {
@@ -103,7 +146,7 @@ public class Note implements Serializable {
 
     /**
      * Setter to set the color of the note and then update the file of notes
-     * 
+     *
      * @param color The new color for the note
      * @throws IOException if an error occurs in the serialization process
      */
@@ -245,30 +288,4 @@ public class Note implements Serializable {
         Notes.getInstance().save();
     }
 
-    /**
-     * Method that generates a string with all the important fields of the instance, to be printed later.
-     * In addition, this method sets the last view date of the note as the current one.
-     *
-     * @return A string with the fields of the instance
-     */
-    @Override
-    public String toString() {
-
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
-        String output = "\n" + header + "\n\n" + "Tags       : " + OutputFormatter.formatTags(tags) + "\nColor      : "
-                + color + "\n" + "Prioridad  : " + priority + "\n" + "Creado     : " + format.format(createdAt) + "\n"
-                + "Visitado   : " + format.format(viewedAt) + "\n" + "Modificado : " + format.format(updatedAt) + "\n\n"
-                + body + "\n \n";
-
-        this.viewedAt = new Date();
-
-        try {
-            Notes.getInstance().save();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return output;
-    }
 }

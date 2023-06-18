@@ -1,3 +1,5 @@
+package dev.fraco.minikeep.logic;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;

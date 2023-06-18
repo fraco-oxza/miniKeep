@@ -1,3 +1,5 @@
+package dev.fraco.minikeep.logic;
+
 /**
  * The NoteParameter enum represents different parameters for comparing Note objects.
  * It provides a mapping from integers to NoteParameter values and custom string representations.
