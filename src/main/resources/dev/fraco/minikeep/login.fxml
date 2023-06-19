@@ -9,27 +9,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Login">
-   <children>
-      <VBox layoutX="241.0" layoutY="200.0" prefHeight="200.0" prefWidth="317.0">
-         <children>
-            <Label text="Email" />
-            <TextField promptText="sample@domain.cl">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin></TextField>
-            <Label text="Contraseña" />
-            <PasswordField promptText="**********" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Crear Cuenta" />
-                  <Button mnemonicParsing="false" text="Iniciar Sesion" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Login">
+   <VBox layoutX="241.0" layoutY="200.0" prefHeight="200.0" prefWidth="317.0">
+      <Label text="Email"/>
+      <TextField fx:id="emailField" promptText="sample@domain.cl">
+         <opaqueInsets>
+            <Insets/>
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets bottom="10.0"/>
+         </VBox.margin>
+      </TextField>
+      <Label text="Contraseña"/>
+      <PasswordField fx:id="passwordField" promptText="**********"/>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <Button onAction="#moveToSignIn" mnemonicParsing="false" text="Crear Cuenta"/>
+         <Button onAction="#tryToLogin" mnemonicParsing="false" text="Iniciar Sesion"/>
+      </HBox>
+   </VBox>
 </AnchorPane>

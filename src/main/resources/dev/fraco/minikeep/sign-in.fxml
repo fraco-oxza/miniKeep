@@ -10,47 +10,42 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.SignIn">
-   <children>
-      <VBox layoutX="250.0" layoutY="142.0" prefHeight="200.0" prefWidth="300.0">
-         <children>
-            <Label text="Nombre" />
-            <TextField>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </TextField>
-            <Label text="Apellido" />
-            <TextField>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </TextField>
-            <Label text="Numero de matricula" />
-            <TextField>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </TextField>
-            <Label text="Correo" />
-            <TextField>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </TextField>
-            <Label text="Fecha de Nacimiento" />
-            <DatePicker>
-               <VBox.margin>
-                  <Insets bottom="20.0" />
-               </VBox.margin>
-            </DatePicker>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Volver Atras" />
-                  <Button mnemonicParsing="false" text="Crear Cuenta" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </children>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.SignIn">
+   <VBox layoutX="250.0" layoutY="142.0" prefHeight="200.0" prefWidth="300.0">
+      <Label text="Nombre"/>
+      <TextField fx:id="firstNameInput">
+         <VBox.margin>
+            <Insets bottom="10.0"/>
+         </VBox.margin>
+      </TextField>
+      <Label text="Apellido"/>
+      <TextField fx:id="lastNameInput">
+         <VBox.margin>
+            <Insets bottom="10.0"/>
+         </VBox.margin>
+      </TextField >
+      <Label text="Numero de matricula"/>
+      <TextField fx:id="registrationNumberInput">
+         <VBox.margin>
+            <Insets bottom="10.0"/>
+         </VBox.margin>
+      </TextField>
+      <Label text="Correo"/>
+      <TextField fx:id="emailInput" >
+         <VBox.margin>
+            <Insets bottom="10.0"/>
+         </VBox.margin>
+      </TextField>
+      <Label text="Fecha de Nacimiento"/>
+      <DatePicker fx:id="dateInput">
+         <VBox.margin>
+            <Insets bottom="20.0"/>
+         </VBox.margin>
+      </DatePicker>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <Button onAction="#backHandler" mnemonicParsing="false" text="Volver Atras"/>
+         <Button onAction="#submitHandler" mnemonicParsing="false" text="Crear Cuenta"/>
+      </HBox>
+   </VBox>
 </AnchorPane>
