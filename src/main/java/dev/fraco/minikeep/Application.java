@@ -30,7 +30,11 @@ public class Application extends javafx.application.Application {
         return fxmlLoader.load();
     }
 
-    public static void main(String[] args) throws UserAlreadyExistsException, IOException {
+    public static void handleException(Exception exception) {
+        System.out.println(exception.toString());
+    }
+
+    public static void main(String[] args)  {
         launch();
     }
 }

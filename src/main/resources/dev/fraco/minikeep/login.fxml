@@ -8,24 +8,42 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Login">
-   <VBox layoutX="241.0" layoutY="200.0" prefHeight="200.0" prefWidth="317.0">
-      <Label text="Email"/>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Login">
+   <VBox layoutX="239.0" layoutY="278.0" prefHeight="200.0" prefWidth="317.0">
+      <Label text="Email" textFill="WHITE" />
       <TextField fx:id="emailField" promptText="sample@domain.cl">
          <opaqueInsets>
-            <Insets/>
+            <Insets />
          </opaqueInsets>
          <VBox.margin>
-            <Insets bottom="10.0"/>
+            <Insets bottom="10.0" />
          </VBox.margin>
       </TextField>
-      <Label text="Contraseña"/>
-      <PasswordField fx:id="passwordField" promptText="**********"/>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-         <Button onAction="#moveToSignIn" mnemonicParsing="false" text="Crear Cuenta"/>
-         <Button onAction="#tryToLogin" mnemonicParsing="false" text="Iniciar Sesion"/>
+      <Label text="Contraseña" textFill="WHITE" />
+      <PasswordField fx:id="passwordField" promptText="**********" />
+      <HBox fx:id="errorLabel" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #cc241d; -fx-border-radius: 8;" visible="false">
+         <VBox.margin>
+            <Insets bottom="10.0" top="10.0" />
+         </VBox.margin>
+         <Label text="Error en email y/o contraseña" textFill="#fff9e9">
+            <font>
+               <Font name="System Bold" size="13.0" />
+            </font>
+         </Label>
       </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <Button mnemonicParsing="false" onAction="#moveToSignIn" text="Crear Cuenta" />
+         <Button mnemonicParsing="false" onAction="#tryToLogin" text="Iniciar Sesión" />
+      </HBox>
+   </VBox>
+   <VBox alignment="CENTER" layoutX="241.0" layoutY="93.0" prefHeight="154.0" prefWidth="317.0">
+      <Label text="MiniKeep" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="43.0"/>
+         </font>
+      </Label>
+      <Label text="Una app para tomar notas" textFill="WHITE"/>
    </VBox>
 </AnchorPane>
