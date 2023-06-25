@@ -14,7 +14,10 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class CreateNote implements Initializable {
@@ -28,6 +31,7 @@ public class CreateNote implements Initializable {
     public Label errorLabel;
     public Label headerCounter;
     public Label bodyCounter;
+    public DatePicker reminderPicker;
 
 
     public void backHandler(ActionEvent actionEvent) {
@@ -60,7 +64,10 @@ public class CreateNote implements Initializable {
 
         if (error == null) {
             try {
-                new Note(titleInput.getText(), bodyInput.getText(), tagsInput.getText(), colorInput.getValue().toString(), priorityCombo.getValue(), collaborators, Context.getInstance().getActualUser());
+                Note note = (new Note(titleInput.getText(), bodyInput.getText(), tagsInput.getText(), colorInput.getValue().toString(), priorityCombo.getValue(), collaborators, Context.getInstance().getActualUser()));
+                if (reminderPicker.getValue() != null) {
+                    note.setReminder(Date.from(reminderPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                }
                 Application.setRoot("workspace");
             } catch (IOException e) {
                 Application.handleException(e);

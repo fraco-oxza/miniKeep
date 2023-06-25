@@ -61,7 +61,7 @@
          </VBox>
          <VBox prefHeight="200.0" prefWidth="250.0">
             <Label text="Fecha de Recordatorio" textFill="WHITE" />
-            <DatePicker>
+            <DatePicker fx:id="reminderPicker">
                <VBox.margin>
                   <Insets bottom="30.0" />
                </VBox.margin>

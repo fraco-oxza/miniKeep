@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.DatePicker?>
@@ -12,61 +13,63 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
-
 <?import javafx.scene.text.Font?>
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.OpenedNote">
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.OpenedNote">
     <VBox layoutX="153.0" layoutY="66.0" prefHeight="468.0" prefWidth="493.0">
-        <Label text="Titulo"/>
-        <TextField fx:id="titleInput" promptText="Un titulo creativo">
+        <Label text="Titulo" />
+        <TextField fx:id="titleInput" onKeyTyped="#titleHandler" promptText="Un titulo creativo">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets />
             </VBox.margin>
         </TextField>
-        <Label text="Tags"/>
+        <Label fx:id="headerCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/30" textAlignment="RIGHT" textFill="#b6b6b6" />
+        <Label text="Tags" />
         <TextField fx:id="tagsInput" promptText="tag">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
         </TextField>
-        <Label text="Cuerpo"/>
-        <TextArea fx:id="bodyInput" prefHeight="139.0" prefWidth="493.0" wrapText="true">
+        <Label text="Cuerpo" />
+        <TextArea fx:id="bodyInput" onKeyTyped="#bodyHandler" prefHeight="80.0" prefWidth="494.0" wrapText="true">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets />
             </VBox.margin>
         </TextArea>
-        <HBox prefHeight="54.0" prefWidth="493.0">
+        <Label fx:id="bodyCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/200" textAlignment="RIGHT" textFill="#b6b6b6" />
+        <HBox prefHeight="46.0" prefWidth="494.0">
             <VBox prefHeight="67.0" prefWidth="246.0">
-                <Label text="Color"/>
+                <Label text="Color" />
                 <ColorPicker fx:id="colorInput">
                     <VBox.margin>
-                        <Insets bottom="10.0"/>
+                        <Insets bottom="10.0" />
                     </VBox.margin>
                     <value>
-                        <Color red="0.7538405656814575" green="0.007187230046838522" blue="0.7795872092247009"/>
+                        <Color red="0.7538405656814575" green="0.007187230046838522" blue="0.7795872092247009" />
                     </value>
                 </ColorPicker>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="250.0">
-                <Label text="Prioridad"/>
-                <ChoiceBox fx:id="priorityCombo" prefWidth="150.0"/>
+                <Label text="Prioridad" />
+                <ChoiceBox fx:id="priorityCombo" prefWidth="150.0" />
             </VBox>
             <VBox prefHeight="200.0" prefWidth="250.0">
-                <Label text="Fecha de Recordatorio"/>
-                <DatePicker>
+                <Label text="Fecha de Recordatorio" />
+                <DatePicker fx:id="reminderInput">
                     <VBox.margin>
-                        <Insets bottom="30.0"/>
+                        <Insets bottom="30.0" />
                     </VBox.margin>
                 </DatePicker>
             </VBox>
         </HBox>
-        <Label text="Colaboradores (email separados por coma)"/>
+        <Label fx:id="colab" text="Colaboradores (email separados por coma)" />
         <TextField fx:id="collaboratorsInput" promptText="amigo1@g.com, amigo2@a.cl, amigo3@vv.cl ...">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
         </TextField>
-        <HBox fx:id="errorBox" alignment="CENTER" prefHeight="58.0" prefWidth="300.0" style="-fx-background-color: #cc241d; -fx-border-radius: 8;" visible="false">
+      <CheckBox fx:id="isCompleted" mnemonicParsing="false" text="Terminada" />
+        <HBox fx:id="errorBox" alignment="CENTER" prefHeight="49.0" prefWidth="494.0" style="-fx-background-color: #cc241d; -fx-border-radius: 8;" visible="false">
             <VBox.margin>
                 <Insets bottom="10.0" top="10.0" />
             </VBox.margin>
@@ -77,9 +80,9 @@
             </Label>
         </HBox>
         <HBox alignment="CENTER" prefHeight="43.0" prefWidth="493.0" spacing="30.0">
-            <Button mnemonicParsing="false" onAction="#backHandler" text="Volver Atras"/>
-            <Button mnemonicParsing="false" onAction="#trashHandler" text="Eliminar Nota"/>
-            <Button mnemonicParsing="false" onAction="#addHandler" text="Actualizar Nota"/>
+            <Button mnemonicParsing="false" onAction="#backHandler" text="Volver Atras" />
+            <Button mnemonicParsing="false" onAction="#trashHandler" text="Eliminar Nota" />
+            <Button mnemonicParsing="false" onAction="#addHandler" text="Actualizar Nota" />
         </HBox>
     </VBox>
 </AnchorPane>
