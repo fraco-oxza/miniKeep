@@ -25,9 +25,7 @@ public class Login {
 
         if (user != null) {
             Context.getInstance().setActualUser(user);
-           new Note("Nota de cds" + user.getRegistrationNumber() + " 1", "Esta es una nota de prueba", new ArrayList<>(), "rojo", Priority.High, user);
-            new Note("Nota de vads"+ user.getRegistrationNumber() + " 2", "Esta es una nota de prueba", new ArrayList<>(), "rojo", Priority.High, user);
-            new Note("Nota de benja"+ user.getRegistrationNumber() + " 3", "Esta es una nota de prueba", new ArrayList<>(), "rojo", Priority.High, user);
+
             Application.setRoot("workspace");
         } else {
             errorLabel.setVisible(true);

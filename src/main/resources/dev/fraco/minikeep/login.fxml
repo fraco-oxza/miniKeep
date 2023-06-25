@@ -22,7 +22,7 @@
          </VBox.margin>
       </TextField>
       <Label text="Contraseña" textFill="WHITE" />
-      <PasswordField fx:id="passwordField" promptText="**********" />
+      <PasswordField fx:id="passwordField" onAction="#tryToLogin" promptText="**********" />
       <HBox fx:id="errorLabel" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #cc241d; -fx-border-radius: 8;" visible="false">
          <VBox.margin>
             <Insets bottom="10.0" top="10.0" />

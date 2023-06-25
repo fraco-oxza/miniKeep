@@ -14,7 +14,7 @@ public class NoteComparator implements Comparator<Note> {
      *
      * @param toCompare the NoteParameter to compare the Note objects
      */
-    NoteComparator(NoteParameter toCompare) {
+    public NoteComparator(NoteParameter toCompare) {
         super();
         this.toCompare = toCompare;
     }

@@ -23,10 +23,7 @@ public class Trash {
     }
 
     public void backHandler(ActionEvent actionEvent) {
-        try {
             Application.setRoot("workspace");
-        } catch (IOException e) {
-            Application.handleException(e);
-        }
+
     }
 }

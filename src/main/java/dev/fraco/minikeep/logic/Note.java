@@ -1,5 +1,7 @@
 package dev.fraco.minikeep.logic;
 
+import javafx.scene.paint.Color;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,16 +23,35 @@ public class Note implements Serializable {
     // generate problems. then for more security we use the registration number,
     // which we also ensure that it is unique foreach user registered in the system.
     private final long createdBy;
-    private ArrayList<Long> collaborators;
+
+    public List<Long> getCollaborators() {
+        return collaborators;
+    }
+
+    public void setCollaborators(List<Long> collaborators) {
+        this.collaborators = collaborators;
+    }
+
+    private List<Long> collaborators;
     private final Date createdAt;
     private String header;
-    private ArrayList<String> tags;
+    private String tag;
     private String body;
     private String color;
     private Priority priority;
     private Date updatedAt;
     private Date viewedAt;
     private Date reminder;
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
+
+    private boolean isDone;
     private boolean deleted;
 
     /**
@@ -40,20 +61,20 @@ public class Note implements Serializable {
      *
      * @param header     The title of the Note
      * @param body       The body of the Note
-     * @param tags       A list of tags for the note
-     * @param color      A string for the color of the note
+     * @param tag        A tag for the note
+     * @param color      A javafx color for the color of the note
      * @param priority   The priority of the note
      * @param created_by The registration number of the creating user
      * @throws IOException if an error occurs in the serialization process
      */
-    public Note(String header, String body, List<String> tags, String color, Priority priority, User created_by) throws IOException {
+    public Note(String header, String body, String tag, String color, Priority priority, List<Long> collaborators, User created_by) throws IOException {
         this.header = header;
         this.body = body;
-        this.setTags(tags); // Read the method for a detailed explanation
+        this.tag = tag;
         this.color = color;
         this.priority = priority;
         this.createdBy = created_by.getRegistrationNumber();
-        this.collaborators = new ArrayList<>();
+        this.collaborators = collaborators;
         this.deleted = false;
         this.reminder = null;
 
@@ -83,6 +104,7 @@ public class Note implements Serializable {
 
     /**
      * Method to remove one user from the collaborators list
+     *
      * @param user the user to remove
      */
     public void removeCollaborator(User user) {
@@ -189,30 +211,22 @@ public class Note implements Serializable {
     }
 
     /**
-     * Getter to get a list of the tags in the note
+     * Getter to get the tag in the note
      *
      * @return The list of tags in the note
      */
-    public List<String> getTags() {
-        return tags;
+    public String getTag() {
+        return tag;
     }
 
     /**
-     * Setter to set a new list of tags in the note
+     * Setter to set a new tag for the note
      *
-     * @param tags The new list of tags for the note
+     * @param tag The new tag
      * @throws IOException if an error occurs in the serialization process
      */
-    public void setTags(List<String> tags) throws IOException {
-        this.tags = new ArrayList<>();
-
-        // It is done in this way to avoid that this value can be modified without
-        // going through this method if not copied this way, we would just assign
-        // a reference to tags, so someone with that reference could modify it
-        // without us knowing, and put the save file and this object out of sync
-        this.tags.addAll(tags);
-
-        this.updatedAt = new Date();
+    public void setTag(String tag) throws IOException {
+        this.tag = tag;
         Notes.getInstance().save();
     }
 

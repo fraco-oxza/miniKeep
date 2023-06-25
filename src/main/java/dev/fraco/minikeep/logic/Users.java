@@ -119,4 +119,31 @@ public class Users implements Persistent {
 
         return null;
     }
+
+    public Long getRegistrationNumber(String email) {
+        for (User user : usersList) {
+            if (user.getEmail().equals(email)) {
+                return user.getRegistrationNumber();
+            }
+        }
+        return null;
+    }
+
+    public String getEmail(Long registrationNumber) {
+        for (User user : usersList) {
+            if (user.getRegistrationNumber() == registrationNumber) {
+                return user.getEmail();
+            }
+        }
+        return null;
+    }
+
+    public boolean existsEmail(String email) {
+        for (User user : usersList) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

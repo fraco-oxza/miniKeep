@@ -1,4 +1,5 @@
 package dev.fraco.minikeep.logic;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,13 +97,27 @@ public class Notes implements Persistent {
         ArrayList<Note> userNotes = new ArrayList<>();
 
         for (Note note : this.notes) {
-            if (note.getCreatedBy() == user.getRegistrationNumber() && !note.isDeleted()) {
+            if ((note.getCreatedBy() == user.getRegistrationNumber() || note.getCollaborators().contains(user.getRegistrationNumber())) && !note.isDeleted()) {
                 userNotes.add(note);
             }
 
         }
 
         return userNotes;
+    }
+
+    public List<Note> searchNote(User user, String exp) {
+        List<Note> userNotes = getUserNotes(user);
+        ArrayList<Note> filteredNotes = new ArrayList<>();
+        exp = exp.toLowerCase();
+
+        for (Note note : userNotes) {
+            if (note.getHeader().toLowerCase().contains(exp) || note.getTag().toLowerCase().contains(exp) || note.getBody().toLowerCase().contains(exp)) {
+                filteredNotes.add(note);
+            }
+        }
+
+        return filteredNotes;
     }
 
     /**

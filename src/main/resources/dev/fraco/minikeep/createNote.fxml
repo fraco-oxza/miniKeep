@@ -14,29 +14,38 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.CreateNote">
-   <VBox layoutX="153.0" layoutY="66.0" prefHeight="468.0" prefWidth="493.0">
-      <Label text="Titulo" />
-      <TextField fx:id="titleInput" promptText="Un titulo creativo">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.CreateNote">
+   <VBox alignment="CENTER" layoutX="241.0" layoutY="-22.0" prefHeight="154.0" prefWidth="317.0">
+      <Label text="Crear Nota" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="33.0" />
+         </font>
+      </Label>
+   </VBox>
+   <VBox layoutX="153.0" layoutY="81.0" prefHeight="468.0" prefWidth="493.0">
+      <Label text="Titulo" textFill="WHITE" />
+      <TextField fx:id="titleInput" onKeyTyped="#titleHandler" promptText="Un titulo creativo">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </TextField>
+      <Label fx:id="headerCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/30" textAlignment="RIGHT" textFill="#b6b6b6" />
+      <Label text="Tags" textFill="WHITE" />
+      <TextField fx:id="tagsInput" promptText="tag">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
       </TextField>
-      <Label text="Tags" />
-      <TextField fx:id="tagsInput" promptText="tag1, tag2, tag2">
+      <Label text="Cuerpo" textFill="WHITE" />
+      <TextArea fx:id="bodyInput" onKeyTyped="#bodyHandler" prefHeight="139.0" prefWidth="493.0" wrapText="true">
          <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </TextField>
-      <Label text="Cuerpo" />
-      <TextArea fx:id="bodyInput" prefHeight="139.0" prefWidth="493.0" wrapText="true">
-         <VBox.margin>
-            <Insets bottom="10.0" />
+            <Insets />
          </VBox.margin>
       </TextArea>
+      <Label fx:id="bodyCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/200" textAlignment="RIGHT" textFill="#b6b6b6" />
       <HBox prefHeight="54.0" prefWidth="493.0">
          <VBox prefHeight="67.0" prefWidth="246.0">
-            <Label text="Color" />
+            <Label text="Color" textFill="WHITE" />
             <ColorPicker fx:id="colorInput">
                <VBox.margin>
                   <Insets bottom="10.0" />
@@ -47,11 +56,11 @@
             </ColorPicker>
          </VBox>
          <VBox prefHeight="200.0" prefWidth="250.0">
-            <Label text="Prioridad" />
+            <Label text="Prioridad" textFill="WHITE" />
             <ChoiceBox fx:id="priorityCombo" prefWidth="150.0" />
          </VBox>
          <VBox prefHeight="200.0" prefWidth="250.0">
-            <Label text="Fecha de Recordatorio" />
+            <Label text="Fecha de Recordatorio" textFill="WHITE" />
             <DatePicker>
                <VBox.margin>
                   <Insets bottom="30.0" />
@@ -59,17 +68,17 @@
             </DatePicker>
          </VBox>
       </HBox>
-      <Label text="Colaboradores (email separados por coma)" />
+      <Label text="Colaboradores (email separados por coma)" textFill="WHITE" />
       <TextField fx:id="collaboratorsInput" promptText="amigo1@g.com, amigo2@a.cl, amigo3@vv.cl ...">
          <VBox.margin>
             <Insets bottom="10.0" />
          </VBox.margin>
       </TextField>
-      <HBox fx:id="errorLabel" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #cc241d; -fx-border-radius: 8;" visible="false">
+      <HBox fx:id="errorBox" alignment="CENTER" prefHeight="58.0" prefWidth="300.0" style="-fx-background-color: #cc241d; -fx-border-radius: 8;" visible="false">
          <VBox.margin>
             <Insets bottom="10.0" top="10.0" />
          </VBox.margin>
-         <Label text="Error en email y/o contraseña" textFill="#fff9e9">
+         <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="501.0" text="Error en email y/o contraseña" textAlignment="CENTER" textFill="#fff9e9" wrapText="true">
             <font>
                <Font name="System Bold" size="13.0" />
             </font>

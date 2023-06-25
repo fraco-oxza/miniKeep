@@ -13,61 +13,73 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.OpenedNote">
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.OpenedNote">
     <VBox layoutX="153.0" layoutY="66.0" prefHeight="468.0" prefWidth="493.0">
-        <Label text="Titulo" />
+        <Label text="Titulo"/>
         <TextField fx:id="titleInput" promptText="Un titulo creativo">
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
         </TextField>
-        <Label text="Tags" />
-        <TextField fx:id="tagsInput" promptText="tag1, tag2, tag2">
+        <Label text="Tags"/>
+        <TextField fx:id="tagsInput" promptText="tag">
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
         </TextField>
-        <Label text="Cuerpo" />
+        <Label text="Cuerpo"/>
         <TextArea fx:id="bodyInput" prefHeight="139.0" prefWidth="493.0" wrapText="true">
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
         </TextArea>
         <HBox prefHeight="54.0" prefWidth="493.0">
             <VBox prefHeight="67.0" prefWidth="246.0">
-                <Label text="Color" />
+                <Label text="Color"/>
                 <ColorPicker fx:id="colorInput">
                     <VBox.margin>
-                        <Insets bottom="10.0" />
+                        <Insets bottom="10.0"/>
                     </VBox.margin>
                     <value>
-                        <Color red="0.7538405656814575" green="0.007187230046838522" blue="0.7795872092247009" />
+                        <Color red="0.7538405656814575" green="0.007187230046838522" blue="0.7795872092247009"/>
                     </value>
                 </ColorPicker>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="250.0">
-                <Label text="Prioridad" />
-                <ChoiceBox fx:id="priorityCombo" prefWidth="150.0" />
+                <Label text="Prioridad"/>
+                <ChoiceBox fx:id="priorityCombo" prefWidth="150.0"/>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="250.0">
-                <Label text="Fecha de Recordatorio" />
+                <Label text="Fecha de Recordatorio"/>
                 <DatePicker>
                     <VBox.margin>
-                        <Insets bottom="30.0" />
+                        <Insets bottom="30.0"/>
                     </VBox.margin>
                 </DatePicker>
             </VBox>
         </HBox>
-        <Label text="Colaboradores (email separados por coma)" />
+        <Label text="Colaboradores (email separados por coma)"/>
         <TextField fx:id="collaboratorsInput" promptText="amigo1@g.com, amigo2@a.cl, amigo3@vv.cl ...">
             <VBox.margin>
-                <Insets bottom="10.0" />
+                <Insets bottom="10.0"/>
             </VBox.margin>
         </TextField>
+        <HBox fx:id="errorBox" alignment="CENTER" prefHeight="58.0" prefWidth="300.0" style="-fx-background-color: #cc241d; -fx-border-radius: 8;" visible="false">
+            <VBox.margin>
+                <Insets bottom="10.0" top="10.0" />
+            </VBox.margin>
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="57.0" prefWidth="300.0" text="Error en email y/o contraseña" textAlignment="CENTER" textFill="#fff9e9" wrapText="true">
+                <font>
+                    <Font name="System Bold" size="13.0" />
+                </font>
+            </Label>
+        </HBox>
         <HBox alignment="CENTER" prefHeight="43.0" prefWidth="493.0" spacing="30.0">
-            <Button mnemonicParsing="false" onAction="#backHandler" text="Volver Atras" />
-         <Button mnemonicParsing="false" text="Eliminar Nota" />
-            <Button mnemonicParsing="false" onAction="#addHandler" text="Actualizar Nota" />
+            <Button mnemonicParsing="false" onAction="#backHandler" text="Volver Atras"/>
+            <Button mnemonicParsing="false" onAction="#trashHandler" text="Eliminar Nota"/>
+            <Button mnemonicParsing="false" onAction="#addHandler" text="Actualizar Nota"/>
         </HBox>
     </VBox>
 </AnchorPane>

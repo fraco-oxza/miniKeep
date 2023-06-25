@@ -21,8 +21,12 @@ public class Application extends javafx.application.Application {
         stage.show();
     }
 
-    public static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
+    public static void setRoot(String fxml) {
+        try {
+            scene.setRoot(loadFXML(fxml));
+        } catch (IOException ioe) {
+            handleException(ioe);
+        }
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
@@ -34,7 +38,7 @@ public class Application extends javafx.application.Application {
         System.out.println(exception.toString());
     }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         launch();
     }
 }

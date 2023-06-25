@@ -70,11 +70,9 @@ public class SignIn {
 
         if (error == null) {
             // TODO: Mostrar contraseña
-            try {
+
                 Application.setRoot("login");
-            } catch (IOException e) {
-                Application.handleException(e);
-            }
+
         } else {
             errorLabel.setText(error);
             errorBox.setVisible(true);
@@ -82,10 +80,8 @@ public class SignIn {
     }
 
     public void backHandler(ActionEvent actionEvent) {
-        try {
+
             Application.setRoot("login");
-        } catch (IOException e) {
-            Application.handleException(e);
-        }
+
     }
 }
