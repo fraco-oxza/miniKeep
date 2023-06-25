@@ -28,6 +28,11 @@ public class Workspace implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         colHeader.setCellValueFactory(new PropertyValueFactory<>("header"));
+        colPriority.setCellValueFactory(new PropertyValueFactory<>("priority"));
+        colTags.setCellValueFactory(new PropertyValueFactory<>("tags"));
+        colColor.setCellValueFactory(new PropertyValueFactory<>("color"));
+        colCreated.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+        colEdited.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
 
         notesTable.setEditable(true);
         notesTable.setItems(FXCollections.observableList(Notes.getInstance().getUserNotes(Context.getInstance().getActualUser())));

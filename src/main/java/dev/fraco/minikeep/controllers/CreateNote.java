@@ -21,7 +21,11 @@ public class CreateNote implements Initializable {
     public ChoiceBox<Priority> priorityCombo;
 
     public void backHandler(ActionEvent actionEvent) {
-
+        try {
+            Application.setRoot("workspace");
+        } catch (IOException e) {
+            Application.handleException(e);
+        }
     }
 
     public void addHandler(ActionEvent actionEvent) {
