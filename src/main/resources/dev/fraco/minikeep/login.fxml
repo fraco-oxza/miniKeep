@@ -5,45 +5,113 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Login">
-   <VBox layoutX="239.0" layoutY="278.0" prefHeight="200.0" prefWidth="317.0">
-      <Label text="Email" textFill="WHITE" />
-      <TextField fx:id="emailField" promptText="sample@domain.cl">
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin>
-      </TextField>
-      <Label text="Contraseña" textFill="WHITE" />
-      <PasswordField fx:id="passwordField" onAction="#tryToLogin" promptText="**********" />
-      <HBox fx:id="errorLabel" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #cc241d; -fx-border-radius: 8;" visible="false">
-         <VBox.margin>
-            <Insets bottom="10.0" top="10.0" />
-         </VBox.margin>
-         <Label text="Error en email y/o contraseña" textFill="#fff9e9">
-            <font>
-               <Font name="System Bold" size="13.0" />
-            </font>
-         </Label>
-      </HBox>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-         <Button mnemonicParsing="false" onAction="#moveToSignIn" text="Crear Cuenta" />
-         <Button mnemonicParsing="false" onAction="#tryToLogin" text="Iniciar Sesión" />
-      </HBox>
-   </VBox>
-   <VBox alignment="CENTER" layoutX="241.0" layoutY="93.0" prefHeight="154.0" prefWidth="317.0">
-      <Label text="MiniKeep" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="43.0"/>
-         </font>
-      </Label>
-      <Label text="Una app para tomar notas" textFill="WHITE"/>
-   </VBox>
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(to top,#000, #434343);" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Login">
+    <VBox layoutX="283.0" layoutY="136.0" prefHeight="428.0" prefWidth="434.0" style="-fx-background-color: #282828; -fx-border-radius: 20px 20px 20px 20px;">
+        <padding>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+        </padding>
+        <VBox alignment="CENTER" prefHeight="101.0" prefWidth="212.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                <ImageView fitHeight="47.0" fitWidth="42.0">
+                    <Image url="@logo.png" />
+                </ImageView>
+                <Label text="MiniKeep">
+                    <font>
+                        <Font name="Roboto Bold" size="48.0" />
+                    </font>
+                    <textFill>
+                        <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0">
+                            <stops>
+                                <Stop>
+                                    <color>
+                                        <Color red="1.0" green="0.7333333492279053" />
+                                    </color>
+                                </Stop>
+                                <Stop offset="1.0">
+                                    <color>
+                                        <Color red="1.0" green="0.7333333492279053" />
+                                    </color>
+                                </Stop>
+                            </stops>
+                        </LinearGradient>
+                    </textFill>
+                </Label>
+            </HBox>
+            <Label text="Una app para tomar notas" textFill="#ddc7a1" translateY="-14.0">
+                <font>
+                    <Font name="Roboto Regular" size="14.0" />
+                </font>
+            </Label>
+        </VBox>
+        <VBox prefHeight="272.0" prefWidth="373.0" translateY="15.0">
+            <Label style="-fx-font-weight: bold;" text="Email" textFill="#ddc7a1">
+                <font>
+                    <Font name="Roboto Regular" size="14.0" />
+                </font>
+            </Label>
+            <TextField fx:id="emailField" promptText="sample@domain.cl" styleClass="common-text-input" stylesheets="@css/styles.css">
+                <opaqueInsets>
+                    <Insets />
+                </opaqueInsets>
+                <VBox.margin>
+                    <Insets bottom="10.0" />
+                </VBox.margin>
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+                <font>
+                    <Font name="Roboto Regular" size="14.0" />
+                </font>
+            </TextField>
+            <Label style="-fx-font-weight: bold;" text="Contraseña" textFill="#ddc7a1">
+                <font>
+                    <Font name="Roboto Regular" size="14.0" />
+                </font>
+            </Label>
+            <PasswordField fx:id="passwordField" onAction="#tryToLogin" promptText="**********" style="-fx-background-color: #1d2021; -fx-text-fill: #d4be98;" styleClass="common-text-input" stylesheets="@css/styles.css">
+                <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                </padding>
+                <font>
+                    <Font name="Roboto Regular" size="14.0" />
+                </font>
+            </PasswordField>
+            <HBox fx:id="errorLabel" alignment="CENTER" prefHeight="60.0" prefWidth="317.0" style="-fx-background-color: #ea6962;" visible="false">
+                <VBox.margin>
+                    <Insets bottom="10.0" top="10.0" />
+                </VBox.margin>
+                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="365.0" text="Email y/o contraseña incorrecto" textAlignment="CENTER" textFill="#282828">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <padding>
+                    <Insets bottom="10.0" top="10.0" />
+                </padding>
+            </HBox>
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#tryToLogin" prefHeight="31.0" prefWidth="398.0" style="-fx-background-color: #fff; -fx-border-color: none;" text="Iniciar Sesión" textFill="#111111">
+                <font>
+                    <Font name="Roboto Bold" size="14.0" />
+                </font>
+            </Button>
+            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                <Label prefHeight="31.0" prefWidth="190.0" text="¿Aún no tienes una cuenta?" textFill="WHITE" translateX="36.0" />
+                <Button fx:id="signInButton" mnemonicParsing="false" onAction="#moveToSignIn" prefHeight="31.0" prefWidth="103.0" style="-fx-background-color: none; -fx-underline: true;" text="Crear Cuenta" textFill="#7daea3" translateX="6.0">
+                    <font>
+                        <Font name="Roboto Bold" size="14.0" />
+                    </font>
+                </Button>
+            </HBox>
+        </VBox>
+    </VBox>
 </AnchorPane>

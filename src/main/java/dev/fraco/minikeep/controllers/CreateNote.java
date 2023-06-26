@@ -84,7 +84,7 @@ public class CreateNote implements Initializable {
         priorityCombo.setValue(Priority.Normal);
     }
 
-    public void titleHandler(KeyEvent _actionEvent) {
+    public void titleHandler(KeyEvent actionEvent) {
         while (titleInput.getText().length() > 30) {
             titleInput.deletePreviousChar();
         }

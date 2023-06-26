@@ -3,12 +3,15 @@ package dev.fraco.minikeep.controllers;
 import dev.fraco.minikeep.Application;
 import dev.fraco.minikeep.logic.*;
 import javafx.collections.FXCollections;
+import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
@@ -53,7 +56,7 @@ public class Workspace implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        notesTable.setRowFactory(tv -> new TableRow<Note>() {
+        notesTable.setRowFactory(tv -> new TableRow<>() {
             private boolean isSameDay(Date date1, Date date2) {
                 Calendar cal1 = Calendar.getInstance();
                 Calendar cal2 = Calendar.getInstance();
@@ -66,46 +69,35 @@ public class Workspace implements Initializable {
             protected void updateItem(Note item, boolean empty) {
                 super.updateItem(item, empty);
 
-
                 if (item != null) {
-                    Date reminder = item.getReminder();
-                    Date today = new Date();
-
-                    if (reminder != null) {
-                        if (!item.isDone()) {
-                            
+                    if (item.getReminder() != null) {
+                        if (item.isDone()) {
+                            pseudoClassStateChanged(PseudoClass.getPseudoClass("is-today"), false);
+                            pseudoClassStateChanged(PseudoClass.getPseudoClass("is-late"), false);
+                        } else if (isSameDay(item.getReminder(), new Date())) {
+                            pseudoClassStateChanged(PseudoClass.getPseudoClass("is-today"), true);
+                            pseudoClassStateChanged(PseudoClass.getPseudoClass("is-late"), false);
+                        } else if (item.getReminder().getTime() < new Date().getTime()) {
+                            pseudoClassStateChanged(PseudoClass.getPseudoClass("is-today"), false);
+                            pseudoClassStateChanged(PseudoClass.getPseudoClass("is-late"), true);
                         } else {
-                            System.out.println("YBNDE");
+                            pseudoClassStateChanged(PseudoClass.getPseudoClass("is-today"), false);
+                            pseudoClassStateChanged(PseudoClass.getPseudoClass("is-late"), false);
                         }
                     } else {
-                        setStyle("");
-                    }
+                        pseudoClassStateChanged(PseudoClass.getPseudoClass("is-today"), false);
+                        pseudoClassStateChanged(PseudoClass.getPseudoClass("is-late"), false);
 
-                    if (item.getCreatedBy() != Context.getInstance().getActualUser().getRegistrationNumber()) {
-                        setStyle(getStyle() + "-fx-font-style: italic;");
                     }
                 } else {
-                    setStyle("");
+                    pseudoClassStateChanged(PseudoClass.getPseudoClass("is-today"), false);
+                    pseudoClassStateChanged(PseudoClass.getPseudoClass("is-late"), false);
                 }
 
             }
         });
+
         colHeader.setCellValueFactory(new PropertyValueFactory<>("header"));
-        colHeader.setCellFactory(column -> new TableCell<Note, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (item != null && !empty) {
-                    Note note = getTableRow().getItem();
-                    Text txt = new Text(item);
-                    txt.setStrikethrough(note.isDone());
-                    setGraphic(txt);
-                } else {
-                    setText(null);
-                }
-            }
-        });
         colPriority.setCellValueFactory(new PropertyValueFactory<>("priority"));
         colTags.setCellValueFactory(new PropertyValueFactory<>("tag"));
 
@@ -123,6 +115,7 @@ public class Workspace implements Initializable {
                     String cssColor = String.format("#%02x%02x%02x", red, green, blue);
                     setStyle("-fx-background-color: " + cssColor + ";");
                 } else {
+                    setStyle("-fx-background-color: transparent;");
                     setGraphic(null);
                 }
             }
@@ -133,7 +126,6 @@ public class Workspace implements Initializable {
         colEdited.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
         setFormattedDateCellFactory(colEdited);
 
-        notesTable.setEditable(true);
         notesTable.setItems(FXCollections.observableList(Notes.getInstance().getUserNotes(Context.getInstance().getActualUser())));
         notesTable.getItems().sort(new NoteComparator(NoteParameter.CreationDate));
     }

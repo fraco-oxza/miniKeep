@@ -1,0 +1,160 @@
+
+.table-view {
+    -fx-background-color: none;
+    -fx-text-fill: #fff;
+    -fx-font-family: "SF Pro Display";
+    -fx-font-size: 16px;
+    -fx-border-radius: 5px 5px 5px 5px;
+}
+
+.table-cell {
+    -fx-font-size: 16px;
+    -fx-text-fill: #ddc7a1;
+}
+
+.table-view .column-header {
+    -fx-background-color: #464646;
+}
+
+.table-column .column-header-background {
+    -fx-text-fill: #fff;
+
+    -fx-background-color: #1d2021; /* Cambia el color de fondo de las cabeceras de las columnas */
+}
+
+.table-view .table-row-cell {
+    -fx-text-fill: #fff;
+    -fx-background-color: #1d2021; /* Cambia el color de fondo de las filas impares de la tabla */
+}
+
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #000; /* Cambia el color de fondo de las filas impares de la tabla */
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #282828; /* Cambia el color de fondo de las filas impares de la tabla */
+}
+
+.table-view .table-row-cell:odd:selected {
+    -fx-background-color: #000; /* Cambia el color de fondo de las filas impares de la tabla */
+}
+
+.table-view .table-row-cell:is-today {
+    -fx-background-color: #32361a;
+}
+
+.table-view .table-row-cell:is-today:selected {
+    -fx-background-color: #000;
+}
+
+.table-view .table-row-cell:odd:is-today {
+    -fx-background-color: #32361a; /* Cambia el color de fondo de las filas impares de la tabla */
+}
+
+.table-view .table-row-cell:odd:is-today:selected {
+    -fx-background-color: #000; /* Cambia el color de fondo de las filas impares de la tabla */
+}
+
+.table-view .table-row-cell:is-late {
+    -fx-background-color: #442e2d;
+}
+
+.table-view .table-row-cell:is-late:selected {
+    -fx-background-color: #000;
+}
+
+.table-view .table-row-cell:odd:is-late {
+    -fx-background-color: #442e2d; /* Cambia el color de fondo de las filas impares de la tabla */
+}
+
+.table-view .table-row-cell:odd:is-late:selected {
+    -fx-background-color: #000; /* Cambia el color de fondo de las filas impares de la tabla */
+}
+
+
+.table-column .label {
+    -fx-text-fill: #ddc7a1;
+    -fx-alignment: center-left;
+}
+
+.table-view .table-cell {
+    -fx-border-color: transparent; /* Cambia el color de las líneas de las celdas de la tabla */
+}
+
+.menu-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #ddc7a1;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-border-radius: 0;
+}
+
+.menu-btn:hover {
+    -fx-cursor: hand;
+    -fx-text-fill: #ccc;
+    -fx-underline: true;
+}
+
+.common-text-input {
+    -fx-background-color: #1d2021;
+    -fx-text-fill: #dad5cb;
+    -fx-font-family: "SF Pro";
+    -fx-font-size: 16px;
+}
+
+.text-area {
+    -fx-text-fill: #dad5cb;
+    -fx-font-family: "SF Pro";
+    -fx-font-size: 16px;
+    -fx-background-color: transparent;
+}
+
+.text-area .content {
+    -fx-background-color: #1d2021;
+    -fx-border-color: #1d2021;
+    -fx-text-fill: #dad5cb;
+    -fx-font-family: "SF Pro";
+    -fx-font-size: 16px;
+}
+
+.common-btn {
+    -fx-background-color: #fff;
+    -fx-border-color: none;
+    -fx-font-weight: bold;
+}
+
+.common-btn:hover {
+    -fx-background-color: #7daea3;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+.date-picker .text-field {
+    -fx-text-fill: #fff; /* Cambia el color del texto */
+    -fx-background-color: #1d2021; /* Cambia el color de fondo */
+    -fx-border-color: #1d2021;
+}
+
+.date-picker {
+    -fx-background-color: #1d2021; /* Cambia el color de fondo */
+    -fx-border-color: #1d2021;
+}
+
+
+.choice-box .label {
+    -fx-text-fill: #fff;
+}
+
+.choice-box .context-menu {
+    -fx-background-color: #1d2021;
+}
+
+.color-picker .context-menu {
+    -fx-background-color: #1d2021;
+}
+
+.color-picker .label {
+    -fx-text-fill: #fff;
+}

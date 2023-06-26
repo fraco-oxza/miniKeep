@@ -29,7 +29,7 @@ public class NoteComparator implements Comparator<Note> {
     @Override
     public int compare(Note o1, Note o2) {
         return switch (toCompare) {
-            case CreationDate -> o1.getCreatedAt().compareTo(o2.getCreatedAt());
+            case CreationDate -> o2.getCreatedAt().compareTo(o1.getCreatedAt());
             case ViewDate -> o1.getViewedAt().compareTo(o2.getViewedAt());
             case UpdateDate -> o1.getUpdatedAt().compareTo(o2.getUpdatedAt());
             case Header -> o1.getHeader().compareTo(o2.getHeader());
