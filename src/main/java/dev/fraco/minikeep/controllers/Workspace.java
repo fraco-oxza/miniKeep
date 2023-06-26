@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -25,6 +26,8 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class Workspace implements Initializable {
+    private Notes notes = Notes.getInstance();
+    private Context ctx = Context.getInstance();
     private Note actual = null;
     public TableView<Note> notesTable;
     public TableColumn<Note, String> colHeader;
@@ -206,6 +209,9 @@ public class Workspace implements Initializable {
         colorInput.setValue(Color.valueOf(note.getColor()));
         priorityCombo.setValue(note.getPriority());
 
+        errorLabel.setText("");
+        errorBox.setVisible(false);
+
         reminderPicker.setValue(null);
         ended.setSelected(false);
         if (note.getReminder() != null) {
@@ -290,6 +296,8 @@ public class Workspace implements Initializable {
     }
 
     public void backHandler(ActionEvent actionEvent) {
+        selectHandler(null);
+        notesTable.getSelectionModel().select(null);
     }
 
     public void titleHandler(KeyEvent actionEvent) {
@@ -306,4 +314,26 @@ public class Workspace implements Initializable {
         bodyCounter.setText(bodyInput.getText().length() + "/200");
     }
 
+    public void moveHandler(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.DOWN) {
+            notesTable.getSelectionModel().selectBelowCell();
+        } else if (keyEvent.getCode() == KeyCode.UP) {
+            notesTable.getSelectionModel().selectAboveCell();
+        }
+    }
+
+    public void deleteBtn(ActionEvent actionEvent) {
+        try {
+            if (actual.getCreatedBy() == ctx.getActualUser().getRegistrationNumber()) {
+                actual.markAsDeleted();
+                notesTable.getItems().remove(actual);
+                notesTable.refresh();
+            } else {
+                errorLabel.setText("Solo el creador de una nota puede eliminarla");
+                errorBox.setVisible(true);
+            }
+        } catch (IOException e) {
+            Application.handleException(e);
+        }
+    }
 }

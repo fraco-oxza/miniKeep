@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -15,8 +16,8 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: linear-gradient(to top, #000, #434343)" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.CreateNote">
-    <VBox layoutX="227.0" layoutY="69.0" prefHeight="551.0" prefWidth="547.0" style="-fx-background-color: #282828;">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #1d2021;" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.CreateNote">
+    <VBox layoutX="366.0" layoutY="68.0" prefHeight="551.0" prefWidth="547.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
         <Label text="Titulo" textFill="WHITE">
             <font>
                 <Font name="SF Pro Display Bold" size="14.0" />
@@ -116,12 +117,16 @@
             </Label>
         </HBox>
         <HBox alignment="CENTER" prefHeight="43.0" prefWidth="493.0" spacing="30.0">
-            <Button mnemonicParsing="false" onAction="#backHandler" prefWidth="120.0" styleClass="common-btn" text="Cancelar" />
+            <Button mnemonicParsing="false" onAction="#backHandler" prefWidth="120.0" text="Cancelar">
+            <styleClass>
+               <String fx:value="common-btn" />
+               <String fx:value="error-btn" />
+            </styleClass></Button>
             <Button mnemonicParsing="false" onAction="#addHandler" prefWidth="120.0" styleClass="common-btn" text="Añadir Nota" />
         </HBox>
         <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
         </padding>
     </VBox>
-   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffbb00" height="19.0" layoutX="227.0" layoutY="68.0" stroke="BLACK" strokeType="INSIDE" width="548.0" />
+   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffbb00" height="19.0" layoutX="365.0" layoutY="68.0" stroke="BLACK" strokeType="INSIDE" width="548.0" />
 </AnchorPane>

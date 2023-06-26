@@ -23,7 +23,7 @@
             <padding>
                 <Insets left="20.0" right="120.0" />
             </padding>
-            <TextField fx:id="searchBar" onKeyTyped="#searchHandler" prefHeight="28.0" prefWidth="476.0" promptText="Buscar entre las notas" style="-fx-background-color: #1D2021; -fx-text-fill: #D4BE98;" styleClass="common-text-input" stylesheets="@css/styles.css">
+            <TextField fx:id="searchBar" onKeyPressed="#moveHandler" onKeyTyped="#searchHandler" prefHeight="28.0" prefWidth="476.0" promptText="Buscar entre las notas" style="-fx-background-color: #1D2021; -fx-text-fill: #D4BE98;" styleClass="common-text-input" stylesheets="@css/styles.css">
             <font>
                <Font size="14.0" />
             </font>
@@ -55,7 +55,7 @@
         </columnResizePolicy>
     </TableView>
     <VBox layoutX="735.0" layoutY="81.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
-        <VBox fx:id="modifyBox" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="525.0">
+        <VBox fx:id="modifyBox" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="525.0" visible="false">
             <Label text="Titulo" textFill="WHITE">
                 <font>
                     <Font name="SF Pro Display Bold" size="14.0" />
@@ -139,7 +139,7 @@
                 </VBox.margin>
             </TextField>
          <CheckBox fx:id="ended" mnemonicParsing="false" text="Terminada" />
-            <HBox fx:id="errorBox" alignment="CENTER" prefHeight="58.0" prefWidth="300.0" style="-fx-background-color: #FF0D4B; -fx-border-radius: 8;" visible="false">
+            <HBox fx:id="errorBox" alignment="CENTER" prefHeight="45.0" prefWidth="478.0" style="-fx-background-color: #FF0D4B; -fx-border-radius: 8;" visible="false">
                 <VBox.margin>
                     <Insets bottom="20.0" top="10.0" />
                 </VBox.margin>
@@ -156,7 +156,8 @@
                 </Label>
             </HBox>
             <HBox alignment="CENTER" prefHeight="43.0" prefWidth="493.0" spacing="30.0">
-                <Button mnemonicParsing="false" onAction="#backHandler" prefWidth="120.0" styleClass="common-btn" text="Cancelar" />
+                <Button mnemonicParsing="false" onAction="#backHandler" prefWidth="120.0" styleClass="common-btn,error-btn" text="Cancelar" />
+            <Button mnemonicParsing="false" onAction="#deleteBtn" prefWidth="120.0" styleClass="common-btn,error-btn" text="Eliminar" />
                 <Button mnemonicParsing="false" onAction="#addHandler" prefWidth="120.0" styleClass="common-btn" text="Guardar" />
             </HBox>
             <padding>

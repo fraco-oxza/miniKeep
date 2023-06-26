@@ -72,7 +72,7 @@
 .table-view .table-row-cell:is-late:selected,
 .table-view .table-row-cell:odd:is-late:selected
 {
-    -fx-effect: innershadow(three-pass-box,#ffffff55, 30, 0, 0, 0);
+    -fx-effect: innershadow(three-pass-box,#ffffff22, 30, 0, 0, 0);
 }
 
 .table-view .table-row-cell:odd {
@@ -188,4 +188,8 @@
 
 .check-box .text {
     -fx-fill: #ccc;
+}
+
+.error-btn:hover {
+    -fx-background-color: rgb(255, 142, 142);
 }
