@@ -1,4 +1,4 @@
-package dev.fraco.minikeep.logic;
+package dev.fraco.minikeep.logica;
 
 /**
  * The NoteParameter enum represents different parameters for comparing Note objects.
