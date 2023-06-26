@@ -2,22 +2,28 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.Label?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(to top,#000, #434343);" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Workspace">
-    <HBox alignment="CENTER_RIGHT" layoutX="20.0" layoutY="14.0" prefHeight="55.0" prefWidth="960.0" style="-fx-background-color: #282828;">
-        <VBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="549.0">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #1d2021;" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Workspace">
+    <HBox alignment="CENTER_RIGHT" layoutX="20.0" layoutY="14.0" prefHeight="56.0" prefWidth="1240.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
+        <VBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="758.0">
             <padding>
                 <Insets left="20.0" right="120.0" />
             </padding>
-            <TextField fx:id="searchBar" onKeyTyped="#searchHandler" prefHeight="28.0" prefWidth="476.0" promptText="Buscar entre las notas" style="-fx-background-color: #1D2021; -fx-text-fill: #D4BE98;">
+            <TextField fx:id="searchBar" onKeyTyped="#searchHandler" prefHeight="28.0" prefWidth="476.0" promptText="Buscar entre las notas" style="-fx-background-color: #1D2021; -fx-text-fill: #D4BE98;" styleClass="common-text-input" stylesheets="@css/styles.css">
             <font>
                <Font size="14.0" />
             </font>
@@ -32,20 +38,130 @@
         <Button mnemonicParsing="false" onAction="#moveToTheTrash" prefHeight="55.0" prefWidth="147.0" styleClass="menu-btn" text="Abrir Papelera" />
         <Button mnemonicParsing="false" onAction="#moveToLogin" prefHeight="55.0" prefWidth="141.0" styleClass="menu-btn" text="Cerrar Sesion" />
     </HBox>
-    <TableView fx:id="notesTable" editable="true" layoutX="20.0" layoutY="81.0" prefHeight="600.0" prefWidth="960.0">
+    <TableView fx:id="notesTable" editable="true" layoutX="20.0" layoutY="81.0" prefHeight="620.0" prefWidth="700.0" styleClass="pretty-box">
         <placeholder>
             <Label text="No hay notas en la tabla" />
         </placeholder>
         <columns>
-            <TableColumn fx:id="colColor" onEditStart="#startEdit" prefWidth="20.0" reorderable="false" resizable="false" />
-            <TableColumn fx:id="colHeader" onEditStart="#startEdit" prefWidth="420.0" reorderable="false" resizable="false" text="Titulo" />
-            <TableColumn fx:id="colTags" onEditStart="#startEdit" prefWidth="100.0" reorderable="false" resizable="false" text="Tag" />
-            <TableColumn fx:id="colPriority" onEditStart="#startEdit" prefWidth="100.0" reorderable="false" resizable="false" text="Prioridad" />
-            <TableColumn fx:id="colCreated" onEditStart="#startEdit" prefWidth="150.0" reorderable="false" resizable="false" text="Creada" />
-            <TableColumn fx:id="colEdited" onEditStart="#startEdit" prefWidth="150.0" reorderable="false" resizable="false" text="Editada" />
+            <TableColumn fx:id="colColor" prefWidth="20.0" reorderable="false" resizable="false" />
+            <TableColumn fx:id="colHeader" prefWidth="260.0" reorderable="false" resizable="false" text="Titulo" />
+            <TableColumn fx:id="colTags" prefWidth="90.0" reorderable="false" resizable="false" text="Tag" />
+            <TableColumn fx:id="colPriority" prefWidth="90.0" reorderable="false" resizable="false" text="Prioridad" />
+            <TableColumn fx:id="colCreated" prefWidth="110.0" reorderable="false" resizable="false" text="Creada" />
+            <TableColumn fx:id="colEdited" prefWidth="110.0" reorderable="false" resizable="false" text="Editada" />
         </columns>
         <columnResizePolicy>
             <TableView fx:constant="UNCONSTRAINED_RESIZE_POLICY" />
         </columnResizePolicy>
     </TableView>
+    <VBox layoutX="735.0" layoutY="81.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
+        <VBox fx:id="modifyBox" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="525.0">
+            <Label text="Titulo" textFill="WHITE">
+                <font>
+                    <Font name="SF Pro Display Bold" size="14.0" />
+                </font>
+            </Label>
+            <TextField fx:id="titleInput" onKeyTyped="#titleHandler" prefHeight="33.0" prefWidth="483.0" styleClass="common-text-input">
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+            </TextField>
+            <Label fx:id="headerCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/30" textAlignment="RIGHT" textFill="#b6b6b6" />
+            <Label text="Tags" textFill="WHITE">
+                <font>
+                    <Font name="SF Pro Display Bold" size="14.0" />
+                </font>
+            </Label>
+            <TextField fx:id="tagsInput" prefHeight="33.0" prefWidth="601.0" styleClass="common-text-input">
+                <VBox.margin>
+                    <Insets bottom="10.0" />
+                </VBox.margin>
+            </TextField>
+            <Label text="Cuerpo" textFill="WHITE">
+                <font>
+                    <Font name="SF Pro Display Bold" size="14.0" />
+                </font>
+            </Label>
+            <TextArea fx:id="bodyInput" onKeyTyped="#bodyHandler" prefHeight="127.0" prefWidth="528.0" wrapText="true">
+                <VBox.margin>
+                    <Insets />
+                </VBox.margin>
+            </TextArea>
+            <Label fx:id="bodyCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/200" textAlignment="RIGHT" textFill="#b6b6b6" />
+            <HBox alignment="CENTER" prefHeight="54.0" prefWidth="493.0" spacing="20.0">
+                <VBox prefHeight="67.0" prefWidth="246.0">
+                    <Label text="Color" textFill="WHITE">
+                        <font>
+                            <Font name="SF Pro Display Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <ColorPicker fx:id="colorInput" styleClass="common-text-input">
+                        <VBox.margin>
+                            <Insets bottom="10.0" />
+                        </VBox.margin>
+                        <value>
+                            <Color red="0.7538405656814575" green="0.007187230046838522" blue="0.7795872092247009" />
+                        </value>
+                    </ColorPicker>
+                </VBox>
+                <VBox prefHeight="200.0" prefWidth="250.0">
+                    <Label text="Prioridad" textFill="WHITE">
+                        <font>
+                            <Font name="SF Pro Display Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <ChoiceBox fx:id="priorityCombo" prefWidth="150.0" styleClass="common-text-input" />
+                </VBox>
+                <VBox prefHeight="200.0" prefWidth="250.0">
+                    <Label text="Fecha de Recordatorio" textFill="WHITE">
+                        <font>
+                            <Font name="SF Pro Display Bold" size="14.0" />
+                        </font>
+                    </Label>
+                    <DatePicker fx:id="reminderPicker">
+                        <VBox.margin>
+                            <Insets bottom="30.0" />
+                        </VBox.margin>
+                    </DatePicker>
+                </VBox>
+                <VBox.margin>
+                    <Insets top="5.0" />
+                </VBox.margin>
+            </HBox>
+            <Label fx:id="colab" text="Colaboradores (email separados por coma)" textFill="WHITE">
+                <font>
+                    <Font name="SF Pro Display Bold" size="14.0" />
+                </font>
+            </Label>
+            <TextField fx:id="collaboratorsInput" prefHeight="33.0" prefWidth="524.0" styleClass="common-text-input">
+                <VBox.margin>
+                    <Insets bottom="10.0" />
+                </VBox.margin>
+            </TextField>
+         <CheckBox fx:id="ended" mnemonicParsing="false" text="Terminada" />
+            <HBox fx:id="errorBox" alignment="CENTER" prefHeight="58.0" prefWidth="300.0" style="-fx-background-color: #FF0D4B; -fx-border-radius: 8;" visible="false">
+                <VBox.margin>
+                    <Insets bottom="20.0" top="10.0" />
+                </VBox.margin>
+                <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="501.0" text="Error en email y/o contraseña" textAlignment="CENTER" textFill="#fff9e9" wrapText="true">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                    <HBox.margin>
+                        <Insets />
+                    </HBox.margin>
+                </Label>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="43.0" prefWidth="493.0" spacing="30.0">
+                <Button mnemonicParsing="false" onAction="#backHandler" prefWidth="120.0" styleClass="common-btn" text="Cancelar" />
+                <Button mnemonicParsing="false" onAction="#addHandler" prefWidth="120.0" styleClass="common-btn" text="Guardar" />
+            </HBox>
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            </padding>
+        </VBox>
+    </VBox>
 </AnchorPane>

@@ -8,11 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -26,6 +25,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class Workspace implements Initializable {
+    private Note actual = null;
     public TableView<Note> notesTable;
     public TableColumn<Note, String> colHeader;
     public TableColumn<Note, Priority> colPriority;
@@ -34,8 +34,32 @@ public class Workspace implements Initializable {
     public TableColumn<Note, Date> colCreated;
     public TableColumn<Note, Date> colEdited;
     public TextField searchBar;
-    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter dateFormatterV1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter dateFormatterV2 = DateTimeFormatter.ofPattern("hh:mm a");
+    public Text noteHeader;
+    public TextField titleInput;
+    public Label headerCounter;
+    public TextField tagsInput;
+    public TextArea bodyInput;
+    public Label bodyCounter;
+    public ColorPicker colorInput;
+    public ChoiceBox<Priority> priorityCombo;
+    public DatePicker reminderPicker;
+    public TextField collaboratorsInput;
+    public HBox errorBox;
+    public Label errorLabel;
+    public VBox modifyBox;
+    public CheckBox ended;
+    public Label colab;
 
+
+    public static boolean isSameDay(Date date1, Date date2) {
+        Calendar cal1 = Calendar.getInstance();
+        Calendar cal2 = Calendar.getInstance();
+        cal1.setTime(date1);
+        cal2.setTime(date2);
+        return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
+    }
 
     private void setFormattedDateCellFactory(TableColumn<Note, Date> column) {
         column.setCellFactory(cell -> new TableCell<Note, Date>() {
@@ -45,7 +69,12 @@ public class Workspace implements Initializable {
 
                 if (item != null && !empty) {
                     LocalDateTime localDateTime = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    String formattedDate = localDateTime.format(dateFormatter);
+                    String formattedDate;
+                    if (isSameDay(item, new Date())) {
+                        formattedDate = localDateTime.format(dateFormatterV2);
+                    } else {
+                        formattedDate = localDateTime.format(dateFormatterV1);
+                    }
                     setText(formattedDate);
                 } else {
                     setText(null);
@@ -57,13 +86,7 @@ public class Workspace implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         notesTable.setRowFactory(tv -> new TableRow<>() {
-            private boolean isSameDay(Date date1, Date date2) {
-                Calendar cal1 = Calendar.getInstance();
-                Calendar cal2 = Calendar.getInstance();
-                cal1.setTime(date1);
-                cal2.setTime(date2);
-                return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
-            }
+
 
             @Override
             protected void updateItem(Note item, boolean empty) {
@@ -125,10 +148,13 @@ public class Workspace implements Initializable {
         setFormattedDateCellFactory(colCreated);
         colEdited.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
         setFormattedDateCellFactory(colEdited);
+        priorityCombo.setItems(FXCollections.observableArrayList(Priority.values()));
 
         ScrollPane scrollPane = new ScrollPane(notesTable);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+
+        notesTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, note, t1) -> selectHandler(t1)));
 
         notesTable.setItems(FXCollections.observableList(Notes.getInstance().getUserNotes(Context.getInstance().getActualUser())));
         notesTable.getItems().sort(new NoteComparator(NoteParameter.CreationDate));
@@ -142,13 +168,6 @@ public class Workspace implements Initializable {
 
     public void cancelEdit(TableColumn.CellEditEvent<Note, String> noteStringCellEditEvent) {
         System.out.println("Cancela");
-    }
-
-    public void startEdit(TableColumn.CellEditEvent<Note, Object> noteStringCellEditEvent) {
-        Context.getInstance().setToEdit(notesTable.getSelectionModel().getSelectedItem());
-
-        Application.setRoot("openedNote");
-
     }
 
     public void moveToCreateNote(ActionEvent mouseEvent) throws IOException {
@@ -166,5 +185,125 @@ public class Workspace implements Initializable {
 
     public void searchHandler(KeyEvent keyEvent) {
         notesTable.setItems(FXCollections.observableList(Notes.getInstance().searchNote(Context.getInstance().getActualUser(), searchBar.getText())));
+        if (!notesTable.getItems().isEmpty()) {
+            notesTable.getSelectionModel().select(notesTable.getItems().get(0));
+        } else {
+            notesTable.getSelectionModel().select(null);
+        }
     }
+
+    public void selectHandler(Note note) {
+        actual = note;
+        if (note == null) {
+            modifyBox.setVisible(false);
+            return;
+        }
+        titleInput.setText(note.getHeader());
+        titleHandler(null);
+        bodyInput.setText(note.getBody());
+        bodyHandler(null);
+        tagsInput.setText(note.getTag());
+        colorInput.setValue(Color.valueOf(note.getColor()));
+        priorityCombo.setValue(note.getPriority());
+
+        reminderPicker.setValue(null);
+        ended.setSelected(false);
+        if (note.getReminder() != null) {
+            reminderPicker.setValue(note.getReminder().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            ended.setSelected(note.isDone());
+            ended.setVisible(true);
+        } else {
+            ended.setVisible(false);
+        }
+        StringBuilder collaborators = new StringBuilder();
+
+        if (note.getCreatedBy() != Context.getInstance().getActualUser().getRegistrationNumber()) {
+            colab.setText("Creada por " + Users.getInstance().getEmail(note.getCreatedBy()));
+            colab.setStyle(colab.getStyle() + "-fx-font-weight: bold;");
+            collaboratorsInput.setVisible(false);
+        } else {
+            collaboratorsInput.setVisible(true);
+
+            colab.setText("Colaboradores (email separados por coma)");
+            boolean isFirst = true;
+            for (long rn : note.getCollaborators()) {
+                if (!isFirst) {
+                    collaborators.append(", ");
+                }
+                isFirst = false;
+                collaborators.append(Users.getInstance().getEmail(rn));
+            }
+            collaboratorsInput.setText(collaborators.toString());
+        }
+
+
+        modifyBox.setVisible(true);
+    }
+
+    public void addHandler(ActionEvent actionEvent) {
+        String error = null;
+        ArrayList<Long> collaborators = new ArrayList<>();
+
+        if (titleInput.getText().length() == 0) {
+            error = "Debe ingresar un titulo";
+        }
+        if (error == null && !collaboratorsInput.getText().isEmpty()) {
+            String[] collaboratorsUnchecked = collaboratorsInput.getText().split(",");
+
+            for (String s : collaboratorsUnchecked) {
+                String collaborator = s.trim().toLowerCase();
+                if (!SignIn.emailPattern.matcher(collaborator).matches()) {
+                    error = "\"" + collaborator + "\" No es un correo valido";
+                    break;
+                }
+                if (!Users.getInstance().existsEmail(collaborator)) {
+                    error = "\"" + collaborator + "\" No tiene una cuenta creada";
+                    break;
+                }
+                collaborators.add(Users.getInstance().getRegistrationNumber(collaborator));
+            }
+        }
+
+        if (error == null) {
+            try {
+                actual.setHeader(titleInput.getText());
+                actual.setTag(tagsInput.getText());
+                actual.setBody(bodyInput.getText());
+                actual.setColor(colorInput.getValue().toString());
+                actual.setPriority(priorityCombo.getValue());
+                if (actual.getCreatedBy() == Context.getInstance().getActualUser().getRegistrationNumber()) {
+                    actual.setCollaborators(collaborators);
+                }
+                if (reminderPicker.getValue() != null) {
+                    actual.setReminder(Date.from(reminderPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    actual.setDone(ended.isSelected());
+                }
+                selectHandler(actual);
+                notesTable.refresh();
+            } catch (IOException e) {
+                Application.handleException(e);
+            }
+        } else {
+            errorLabel.setText(error);
+            errorBox.setVisible(true);
+        }
+    }
+
+    public void backHandler(ActionEvent actionEvent) {
+    }
+
+    public void titleHandler(KeyEvent actionEvent) {
+        while (titleInput.getText().length() > 30) {
+            titleInput.deletePreviousChar();
+        }
+        headerCounter.setText(titleInput.getText().length() + "/30");
+    }
+
+    public void bodyHandler(KeyEvent keyEvent) {
+        while (bodyInput.getText().length() > 200) {
+            bodyInput.deletePreviousChar();
+        }
+        bodyCounter.setText(bodyInput.getText().length() + "/200");
+    }
+
 }

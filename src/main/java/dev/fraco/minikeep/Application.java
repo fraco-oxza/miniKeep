@@ -21,7 +21,7 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         Image icon = new Image(Objects.requireNonNull(Application.class.getResourceAsStream("images/logo.png")));
 
-        scene = new Scene(loadFXML("login"), 1000, 700);
+        scene = new Scene(loadFXML("login"), 1280, 720);
         scene.getStylesheets().add(Objects.requireNonNull(Application.class.getResource("css/styles.css")).toExternalForm());
         stage.getIcons().add(icon);
         stage.setTitle("MiniKeep");

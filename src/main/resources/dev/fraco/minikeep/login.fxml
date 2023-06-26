@@ -13,10 +13,9 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane id="login-ap" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: linear-gradient(to top,#000, #434343);" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Login">
-    <VBox layoutX="283.0" layoutY="136.0" prefHeight="428.0" prefWidth="434.0" style="-fx-background-color: #282828; -fx-border-radius: 20px 20px 20px 20px;">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: linear-gradient(to top,#000, #434343);" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Login">
+    <VBox layoutX="423.0" layoutY="146.0" prefHeight="428.0" prefWidth="434.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
         <padding>
             <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
         </padding>
@@ -25,7 +24,7 @@
                 <ImageView fitHeight="47.0" fitWidth="42.0">
                     <Image url="@images/logo.png" />
                 </ImageView>
-                <Label id="main-header" text="MiniKeep" style="-fx-font-family: 'SF Pro';-fx-font-size: 48px;">
+                <Label id="main-header" style="-fx-font-size: 48px;" text="MiniKeep">
                     <textFill>
                         <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0">
                             <stops>
@@ -44,19 +43,13 @@
                     </textFill>
                 </Label>
             </HBox>
-            <Label text="Una app para tomar notas" textFill="#ddc7a1" translateY="-14.0">
-                <font>
-                    <Font name="OpenSans" size="14.0" />
-                </font>
+            <Label style="-fx-font-size: 14px;" text="Una app para tomar notas" textFill="#ddc7a1" translateY="-14.0">
             </Label>
         </VBox>
         <VBox prefHeight="272.0" prefWidth="373.0" translateY="15.0">
-            <Label style="-fx-font-weight: bold;" text="Email" textFill="#ddc7a1">
-                <font>
-                    <Font name="OpenSans" size="14.0" />
-                </font>
+            <Label style="-fx-font-weight: bold;-fx-font-size: 14px;" text="Email" textFill="#ddc7a1">
             </Label>
-            <TextField fx:id="emailField" promptText="sample@domain.cl" styleClass="common-text-input" stylesheets="@css/styles.css">
+            <TextField fx:id="emailField" onAction="#tryToLogin" promptText="sample@domain.cl" styleClass="common-text-input">
                 <opaqueInsets>
                     <Insets />
                 </opaqueInsets>
@@ -69,7 +62,7 @@
             </TextField>
             <Label style="-fx-font-weight: bold;" text="Contraseña" textFill="#ddc7a1">
             </Label>
-            <PasswordField fx:id="passwordField" onAction="#tryToLogin" promptText="**********" style="-fx-background-color: #1d2021; -fx-text-fill: #d4be98;" styleClass="common-text-input" stylesheets="@css/styles.css">
+            <PasswordField fx:id="passwordField" onAction="#tryToLogin" promptText="**********" styleClass="common-text-input">
                 <padding>
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                 </padding>
@@ -78,7 +71,7 @@
                 <VBox.margin>
                     <Insets bottom="10.0" top="10.0" />
                 </VBox.margin>
-                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="365.0" text="Email y/o contraseña incorrecto" textAlignment="CENTER" textFill="#282828">
+                <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="365.0" style="-fx-font-size: 16px;-fx-font-weight: bold" text="Email y/o contraseña incorrecto" textAlignment="CENTER" textFill="#282828">
 
                 </Label>
                 <padding>
