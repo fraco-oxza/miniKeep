@@ -3,10 +3,12 @@ package dev.fraco.minikeep;
 import dev.fraco.minikeep.logic.Context;
 import dev.fraco.minikeep.logic.User;
 import dev.fraco.minikeep.logic.UserAlreadyExistsException;
+import javafx.css.FontFace;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,7 +19,8 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Image icon = new Image(Objects.requireNonNull(Application.class.getResourceAsStream("logo.png")));
+        Image icon = new Image(Objects.requireNonNull(Application.class.getResourceAsStream("images/logo.png")));
+
         scene = new Scene(loadFXML("login"), 1000, 700);
         scene.getStylesheets().add(Objects.requireNonNull(Application.class.getResource("css/styles.css")).toExternalForm());
         stage.getIcons().add(icon);
@@ -27,7 +30,6 @@ public class Application extends javafx.application.Application {
         stage.show();
         System.gc();
     }
-
 
 
     public static void setRoot(String fxml) {

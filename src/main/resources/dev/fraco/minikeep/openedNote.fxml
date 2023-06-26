@@ -15,7 +15,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.OpenedNote">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.OpenedNote">
     <VBox layoutX="153.0" layoutY="66.0" prefHeight="468.0" prefWidth="493.0">
         <Label text="Titulo" />
         <TextField fx:id="titleInput" onKeyTyped="#titleHandler" promptText="Un titulo creativo">

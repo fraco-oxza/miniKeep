@@ -10,15 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.SignIn">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #282828;" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.SignIn">
    <VBox alignment="CENTER" layoutX="341.0" prefHeight="154.0" prefWidth="317.0">
-      <children>
-         <Label text="Crear Cuenta" textFill="WHITE">
-            <font>
-               <Font name="System Bold" size="43.0" />
-            </font>
-         </Label>
-      </children>
+      <Label text="Crear Cuenta" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="43.0"/>
+         </font>
+      </Label>
    </VBox>
    <VBox layoutX="350.0" layoutY="154.0" prefHeight="448.0" prefWidth="300.0">
       <Label text="Nombre" textFill="#ddc7a1">
