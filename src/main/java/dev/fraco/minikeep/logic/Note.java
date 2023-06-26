@@ -28,8 +28,10 @@ public class Note implements Serializable {
         return collaborators;
     }
 
-    public void setCollaborators(List<Long> collaborators) {
+    public void setCollaborators(List<Long> collaborators) throws IOException {
         this.collaborators = collaborators;
+        Notes.getInstance().save();
+
     }
 
     private List<Long> collaborators;
@@ -47,8 +49,10 @@ public class Note implements Serializable {
         return isDone;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(boolean done) throws IOException {
         isDone = done;
+        Notes.getInstance().save();
+
     }
 
     private boolean isDone;
@@ -89,8 +93,10 @@ public class Note implements Serializable {
         return reminder;
     }
 
-    public void setReminder(Date reminder) {
+    public void setReminder(Date reminder) throws IOException {
         this.reminder = reminder;
+        Notes.getInstance().save();
+
     }
 
     /**
@@ -98,8 +104,10 @@ public class Note implements Serializable {
      *
      * @param user the user to add
      */
-    public void addCollaborator(User user) {
+    public void addCollaborator(User user) throws IOException {
         collaborators.add(user.getRegistrationNumber());
+        Notes.getInstance().save();
+
     }
 
     /**
@@ -107,8 +115,10 @@ public class Note implements Serializable {
      *
      * @param user the user to remove
      */
-    public void removeCollaborator(User user) {
+    public void removeCollaborator(User user) throws IOException {
         collaborators.remove(user.getRegistrationNumber());
+        Notes.getInstance().save();
+
     }
 
     /**

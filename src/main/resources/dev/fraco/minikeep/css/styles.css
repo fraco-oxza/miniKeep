@@ -1,7 +1,16 @@
+.table-view .scroll-bar {
+    -fx-background-color: #282828;
+}
+.table-view .thumb {
+    -fx-background-color: #1d2021;
+}
+
+.table-view .filler {
+    -fx-background-color: #464646;
+}
 
 .table-view {
     -fx-background-color: none;
-    -fx-text-fill: #fff;
     -fx-font-family: "SF Pro Display";
     -fx-font-size: 16px;
     -fx-border-radius: 5px 5px 5px 5px;
@@ -29,7 +38,7 @@
 
 
 .table-view .table-row-cell:selected {
-    -fx-background-color: #000; /* Cambia el color de fondo de las filas impares de la tabla */
+    -fx-font-weight: bold;
 }
 
 .table-view .table-row-cell:odd {
@@ -37,7 +46,8 @@
 }
 
 .table-view .table-row-cell:odd:selected {
-    -fx-background-color: #000; /* Cambia el color de fondo de las filas impares de la tabla */
+    -fx-font-weight: bold;
+
 }
 
 .table-view .table-row-cell:is-today {
@@ -45,7 +55,8 @@
 }
 
 .table-view .table-row-cell:is-today:selected {
-    -fx-background-color: #000;
+    -fx-font-weight: bold;
+
 }
 
 .table-view .table-row-cell:odd:is-today {
@@ -53,7 +64,8 @@
 }
 
 .table-view .table-row-cell:odd:is-today:selected {
-    -fx-background-color: #000; /* Cambia el color de fondo de las filas impares de la tabla */
+    -fx-font-weight: bold;
+
 }
 
 .table-view .table-row-cell:is-late {
@@ -61,7 +73,8 @@
 }
 
 .table-view .table-row-cell:is-late:selected {
-    -fx-background-color: #000;
+    -fx-font-weight: bold;
+
 }
 
 .table-view .table-row-cell:odd:is-late {
@@ -69,7 +82,8 @@
 }
 
 .table-view .table-row-cell:odd:is-late:selected {
-    -fx-background-color: #000; /* Cambia el color de fondo de las filas impares de la tabla */
+    -fx-font-weight: bold;
+
 }
 
 
@@ -79,7 +93,7 @@
 }
 
 .table-view .table-cell {
-    -fx-border-color: transparent; /* Cambia el color de las líneas de las celdas de la tabla */
+    -fx-border-color: #48484833; /* Cambia el color de las líneas de las celdas de la tabla */
 }
 
 .menu-btn {

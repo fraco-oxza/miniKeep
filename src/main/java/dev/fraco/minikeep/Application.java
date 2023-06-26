@@ -25,11 +25,15 @@ public class Application extends javafx.application.Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+        System.gc();
     }
+
+
 
     public static void setRoot(String fxml) {
         try {
-            scene.setRoot(loadFXML(fxml));
+            Parent root = loadFXML(fxml);
+            scene.setRoot(root);
         } catch (IOException ioe) {
             handleException(ioe);
         }

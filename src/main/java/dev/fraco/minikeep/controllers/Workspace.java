@@ -126,6 +126,10 @@ public class Workspace implements Initializable {
         colEdited.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
         setFormattedDateCellFactory(colEdited);
 
+        ScrollPane scrollPane = new ScrollPane(notesTable);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+
         notesTable.setItems(FXCollections.observableList(Notes.getInstance().getUserNotes(Context.getInstance().getActualUser())));
         notesTable.getItems().sort(new NoteComparator(NoteParameter.CreationDate));
     }
