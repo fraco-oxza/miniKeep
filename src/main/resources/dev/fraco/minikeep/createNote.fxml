@@ -14,14 +14,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #1d2021;" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.CreateNote">
     <VBox layoutX="366.0" layoutY="68.0" prefHeight="551.0" prefWidth="547.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
-        <Label text="Titulo" textFill="WHITE">
-            <font>
-                <Font name="SF Pro Display Bold" size="14.0" />
-            </font>
+        <Label styleClass="input-label" text="Titulo" textFill="WHITE">
         </Label>
         <TextField fx:id="titleInput" onKeyTyped="#titleHandler" styleClass="common-text-input">
             <VBox.margin>
@@ -29,20 +25,14 @@
             </VBox.margin>
         </TextField>
         <Label fx:id="headerCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/30" textAlignment="RIGHT" textFill="#b6b6b6" />
-        <Label text="Tags" textFill="WHITE">
-            <font>
-                <Font name="SF Pro Display Bold" size="14.0" />
-            </font>
+        <Label styleClass="input-label" text="Tags" textFill="WHITE">
         </Label>
         <TextField fx:id="tagsInput" styleClass="common-text-input">
             <VBox.margin>
                 <Insets bottom="10.0" />
             </VBox.margin>
         </TextField>
-        <Label text="Cuerpo" textFill="WHITE">
-            <font>
-                <Font name="SF Pro Display Bold" size="14.0" />
-            </font>
+        <Label styleClass="input-label" text="Cuerpo" textFill="WHITE">
         </Label>
         <TextArea fx:id="bodyInput" onKeyTyped="#bodyHandler" prefHeight="139.0" prefWidth="493.0" wrapText="true">
             <VBox.margin>
@@ -52,10 +42,7 @@
         <Label fx:id="bodyCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/200" textAlignment="RIGHT" textFill="#b6b6b6" />
         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="493.0" spacing="20.0">
             <VBox prefHeight="67.0" prefWidth="246.0">
-                <Label text="Color" textFill="WHITE">
-                    <font>
-                        <Font name="SF Pro Display Bold" size="14.0" />
-                    </font>
+                <Label styleClass="input-label" text="Color" textFill="WHITE">
                 </Label>
                 <ColorPicker fx:id="colorInput" styleClass="common-text-input">
                     <VBox.margin>
@@ -67,18 +54,12 @@
                 </ColorPicker>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="250.0">
-                <Label text="Prioridad" textFill="WHITE">
-                    <font>
-                        <Font name="SF Pro Display Bold" size="14.0" />
-                    </font>
+                <Label styleClass="input-label" text="Prioridad" textFill="WHITE">
                 </Label>
                 <ChoiceBox fx:id="priorityCombo" prefWidth="150.0" styleClass="common-text-input" />
             </VBox>
             <VBox prefHeight="200.0" prefWidth="250.0">
-                <Label text="Fecha de Recordatorio" textFill="WHITE">
-                    <font>
-                        <Font name="SF Pro Display Bold" size="14.0" />
-                    </font>
+                <Label styleClass="input-label" text="Fecha de Recordatorio" textFill="WHITE">
                 </Label>
                 <DatePicker fx:id="reminderPicker">
                     <VBox.margin>
@@ -90,10 +71,8 @@
             <Insets top="5.0" />
          </VBox.margin>
         </HBox>
-        <Label text="Colaboradores (email separados por coma)" textFill="WHITE">
-            <font>
-                <Font name="SF Pro Display Bold" size="14.0" />
-            </font>
+        <Label styleClass="input-label" text="Colaboradores (email separados por coma)" textFill="WHITE">
+
         </Label>
         <TextField fx:id="collaboratorsInput" styleClass="common-text-input">
             <VBox.margin>
@@ -105,9 +84,6 @@
                 <Insets bottom="20.0" top="10.0" />
             </VBox.margin>
             <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="501.0" text="Error en email y/o contraseña" textAlignment="CENTER" textFill="#fff9e9" wrapText="true">
-                <font>
-                    <Font name="System Bold" size="13.0" />
-                </font>
             <padding>
                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>

@@ -15,7 +15,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #1d2021;" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.Workspace">
     <HBox alignment="CENTER_RIGHT" layoutX="20.0" layoutY="14.0" prefHeight="56.0" prefWidth="1240.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
@@ -24,9 +23,6 @@
                 <Insets left="20.0" right="120.0" />
             </padding>
             <TextField fx:id="searchBar" onKeyPressed="#moveHandler" onKeyTyped="#searchHandler" prefHeight="28.0" prefWidth="476.0" promptText="Buscar entre las notas" style="-fx-background-color: #1D2021; -fx-text-fill: #D4BE98;" styleClass="common-text-input" stylesheets="@css/styles.css">
-            <font>
-               <Font size="14.0" />
-            </font>
             <VBox.margin>
                <Insets />
             </VBox.margin>
@@ -55,11 +51,8 @@
         </columnResizePolicy>
     </TableView>
     <VBox layoutX="735.0" layoutY="81.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
-        <VBox fx:id="modifyBox" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="525.0" visible="false">
-            <Label text="Titulo" textFill="WHITE">
-                <font>
-                    <Font name="SF Pro Display Bold" size="14.0" />
-                </font>
+        <VBox fx:id="modifyBox" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="525.0">
+            <Label styleClass="input-label" text="Titulo" textFill="WHITE">
             </Label>
             <TextField fx:id="titleInput" onKeyTyped="#titleHandler" prefHeight="33.0" prefWidth="483.0" styleClass="common-text-input">
                 <VBox.margin>
@@ -67,20 +60,14 @@
                 </VBox.margin>
             </TextField>
             <Label fx:id="headerCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/30" textAlignment="RIGHT" textFill="#b6b6b6" />
-            <Label text="Tags" textFill="WHITE">
-                <font>
-                    <Font name="SF Pro Display Bold" size="14.0" />
-                </font>
+            <Label styleClass="input-label" text="Tags" textFill="WHITE">
             </Label>
             <TextField fx:id="tagsInput" prefHeight="33.0" prefWidth="601.0" styleClass="common-text-input">
                 <VBox.margin>
                     <Insets bottom="10.0" />
                 </VBox.margin>
             </TextField>
-            <Label text="Cuerpo" textFill="WHITE">
-                <font>
-                    <Font name="SF Pro Display Bold" size="14.0" />
-                </font>
+            <Label styleClass="input-label" text="Cuerpo" textFill="WHITE">
             </Label>
             <TextArea fx:id="bodyInput" onKeyTyped="#bodyHandler" prefHeight="127.0" prefWidth="528.0" wrapText="true">
                 <VBox.margin>
@@ -90,10 +77,8 @@
             <Label fx:id="bodyCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/200" textAlignment="RIGHT" textFill="#b6b6b6" />
             <HBox alignment="CENTER" prefHeight="54.0" prefWidth="493.0" spacing="20.0">
                 <VBox prefHeight="67.0" prefWidth="246.0">
-                    <Label text="Color" textFill="WHITE">
-                        <font>
-                            <Font name="SF Pro Display Bold" size="14.0" />
-                        </font>
+                    <Label styleClass="input-label" text="Color" textFill="WHITE">
+
                     </Label>
                     <ColorPicker fx:id="colorInput" styleClass="common-text-input">
                         <VBox.margin>
@@ -105,18 +90,14 @@
                     </ColorPicker>
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="250.0">
-                    <Label text="Prioridad" textFill="WHITE">
-                        <font>
-                            <Font name="SF Pro Display Bold" size="14.0" />
-                        </font>
+                    <Label styleClass="input-label" text="Prioridad" textFill="WHITE">
+
                     </Label>
                     <ChoiceBox fx:id="priorityCombo" prefWidth="150.0" styleClass="common-text-input" />
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="250.0">
-                    <Label text="Fecha de Recordatorio" textFill="WHITE">
-                        <font>
-                            <Font name="SF Pro Display Bold" size="14.0" />
-                        </font>
+                    <Label styleClass="input-label" text="Fecha de Recordatorio" textFill="WHITE">
+
                     </Label>
                     <DatePicker fx:id="reminderPicker">
                         <VBox.margin>
@@ -128,25 +109,20 @@
                     <Insets top="5.0" />
                 </VBox.margin>
             </HBox>
-            <Label fx:id="colab" text="Colaboradores (email separados por coma)" textFill="WHITE">
-                <font>
-                    <Font name="SF Pro Display Bold" size="14.0" />
-                </font>
+            <Label fx:id="colab" styleClass="input-label" text="Colaboradores (email separados por coma)" textFill="WHITE">
+
             </Label>
             <TextField fx:id="collaboratorsInput" prefHeight="33.0" prefWidth="524.0" styleClass="common-text-input">
                 <VBox.margin>
                     <Insets bottom="10.0" />
                 </VBox.margin>
             </TextField>
-         <CheckBox fx:id="ended" mnemonicParsing="false" text="Terminada" />
+         <CheckBox fx:id="ended" mnemonicParsing="false" styleClass="input-label" text="Terminada" textFill="#d7c29c" />
             <HBox fx:id="errorBox" alignment="CENTER" prefHeight="45.0" prefWidth="478.0" style="-fx-background-color: #FF0D4B; -fx-border-radius: 8;" visible="false">
                 <VBox.margin>
                     <Insets bottom="20.0" top="10.0" />
                 </VBox.margin>
                 <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="26.0" prefWidth="501.0" text="Error en email y/o contraseña" textAlignment="CENTER" textFill="#fff9e9" wrapText="true">
-                    <font>
-                        <Font name="System Bold" size="13.0" />
-                    </font>
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding>

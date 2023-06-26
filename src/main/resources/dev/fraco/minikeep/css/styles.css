@@ -70,9 +70,8 @@
 .table-view .table-row-cell:odd:selected,
 .table-view .table-row-cell:is-today:selected,
 .table-view .table-row-cell:is-late:selected,
-.table-view .table-row-cell:odd:is-late:selected
-{
-    -fx-effect: innershadow(three-pass-box,#ffffff22, 30, 0, 0, 0);
+.table-view .table-row-cell:odd:is-late:selected {
+    -fx-effect: innershadow(three-pass-box, #ffffff22, 30, 0, 0, 0);
 }
 
 .table-view .table-row-cell:odd {
@@ -111,7 +110,7 @@
     -fx-border-color: transparent;
     -fx-text-fill: #ddc7a1;
     -fx-font-weight: bold;
-    -fx-font-size: 14;
+    -fx-font-size: 16;
     -fx-border-radius: 0;
 }
 
@@ -192,4 +191,10 @@
 
 .error-btn:hover {
     -fx-background-color: rgb(255, 142, 142);
+}
+
+.input-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #ddc7a1;
 }
