@@ -1,10 +1,7 @@
 package dev.fraco.minikeep.logic;
 
-import javafx.scene.paint.Color;
-
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +39,6 @@ public class Note implements Serializable {
     private String color;
     private Priority priority;
     private Date updatedAt;
-    private Date viewedAt;
     private Date reminder;
 
     public boolean isDone() {
@@ -84,7 +80,6 @@ public class Note implements Serializable {
 
         this.updatedAt = new Date();
         this.createdAt = new Date();
-        this.viewedAt = new Date();
 
         Notes.getInstance().addNote(this);
     }
@@ -100,49 +95,12 @@ public class Note implements Serializable {
     }
 
     /**
-     * Adder to add one user to the collaborators list
-     *
-     * @param user the user to add
-     */
-    public void addCollaborator(User user) throws IOException {
-        collaborators.add(user.getRegistrationNumber());
-        Notes.getInstance().save();
-
-    }
-
-    /**
-     * Method to remove one user from the collaborators list
-     *
-     * @param user the user to remove
-     */
-    public void removeCollaborator(User user) throws IOException {
-        collaborators.remove(user.getRegistrationNumber());
-        Notes.getInstance().save();
-
-    }
-
-    /**
      * Getter to get the header of the note
      *
      * @return The header of the note
      */
     public String getHeader() {
         return header;
-    }
-
-    /**
-     * Method to check if a user is a collaborator of a note
-     *
-     * @return True if the user a collaborator
-     */
-    public boolean isCollaborator(User user) {
-        long userId = user.getRegistrationNumber();
-
-        for (long collaborator : this.collaborators) {
-            if (userId == collaborator) return true;
-        }
-
-        return false;
     }
 
     /**
@@ -270,14 +228,6 @@ public class Note implements Serializable {
         return updatedAt;
     }
 
-    /**
-     * Getter to get the date on with the note was last viewed through the toString method
-     *
-     * @return Date of the last view
-     */
-    public Date getViewedAt() {
-        return viewedAt;
-    }
 
     /**
      * Getter to get the state of the note, return true if the note has been marked as deleted.

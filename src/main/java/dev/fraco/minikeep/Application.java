@@ -1,14 +1,9 @@
 package dev.fraco.minikeep;
 
-import dev.fraco.minikeep.logic.Context;
-import dev.fraco.minikeep.logic.User;
-import dev.fraco.minikeep.logic.UserAlreadyExistsException;
-import javafx.css.FontFace;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;

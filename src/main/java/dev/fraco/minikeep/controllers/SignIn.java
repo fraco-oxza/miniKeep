@@ -1,6 +1,7 @@
 package dev.fraco.minikeep.controllers;
 
 import dev.fraco.minikeep.Application;
+import dev.fraco.minikeep.logic.Context;
 import dev.fraco.minikeep.logic.User;
 import dev.fraco.minikeep.logic.UserAlreadyExistsException;
 import javafx.event.ActionEvent;
@@ -24,7 +25,7 @@ public class SignIn {
     public Label errorLabel;
     public HBox errorBox;
 
-    public void submitHandler(ActionEvent actionEvent) {
+    public void submitHandler(ActionEvent ignoredActionEvent) {
         String registrationNumberString = registrationNumberInput.getText().trim();
         Long registrationNumber = null;
         String firstName = firstNameInput.getText().trim();
@@ -57,7 +58,7 @@ public class SignIn {
             error = "No ha introducido su fecha de nacimiento";
         }
 
-        User user;
+        User user = null;
         if (error == null) {
             try {
                 user = new User(registrationNumber, firstName, lastName, email, phoneNumber, dateInput.getValue().toString());
@@ -70,8 +71,9 @@ public class SignIn {
 
         if (error == null) {
             // TODO: Mostrar contraseña
-
-                Application.setRoot("login");
+            assert user != null;
+            System.out.println(user.getPassword());
+            Application.setRoot("login");
 
         } else {
             errorLabel.setText(error);
@@ -79,9 +81,9 @@ public class SignIn {
         }
     }
 
-    public void backHandler(ActionEvent actionEvent) {
+    public void backHandler(ActionEvent ignoredActionEvent) {
 
-            Application.setRoot("login");
+        Application.setRoot("login");
 
     }
 }

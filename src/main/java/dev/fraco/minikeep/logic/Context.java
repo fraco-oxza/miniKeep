@@ -2,12 +2,11 @@ package dev.fraco.minikeep.logic;
 
 public class Context {
     private User actualUser;
-    private Note toEdit;
-    private Exception exception;
     private static Context instance = null;
+    public final Users users = Users.getInstance();
+    public final Notes notes = Notes.getInstance();
 
     private Context() {
-        toEdit = null;
         actualUser = null;
     }
 
@@ -18,14 +17,6 @@ public class Context {
         return instance;
     }
 
-    public Note getToEdit() {
-        return toEdit;
-    }
-
-    public void setToEdit(Note toEdit) {
-        this.toEdit = toEdit;
-    }
-
     public User getActualUser() {
         return actualUser;
     }
@@ -34,11 +25,5 @@ public class Context {
         this.actualUser = actualUser;
     }
 
-    public Exception getException() {
-        return exception;
-    }
 
-    public void setException(Exception exception) {
-        this.exception = exception;
-    }
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
  * instantiated, it loads the existing data from the file, if any.
  */
 @SuppressWarnings("unchecked")
-public class Users implements Persistent {
+public class Users {
     private static Users usersInstance = null;
     private ArrayList<User> usersList;
 
@@ -38,7 +38,7 @@ public class Users implements Persistent {
      * @throws IOException            If an I/O error occurs while reading the file.
      * @throws ClassNotFoundException If the class of the serialized object cannot be found.
      */
-    public void load() throws IOException, ClassNotFoundException {
+    private void load() throws IOException, ClassNotFoundException {
         FileInputStream file = new FileInputStream("./users.ser.bin");
         ObjectInputStream objIn = new ObjectInputStream(file);
         usersList = (ArrayList<User>) objIn.readObject();
@@ -67,7 +67,7 @@ public class Users implements Persistent {
      *
      * @throws RuntimeException if an error occurs during the file saving process.
      */
-    public void save() throws IOException {
+    private void save() throws IOException {
         FileOutputStream file = new FileOutputStream("./users.ser.bin");
         ObjectOutputStream objOut = new ObjectOutputStream(file);
         objOut.writeObject(usersList);
@@ -138,6 +138,7 @@ public class Users implements Persistent {
         return null;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean existsEmail(String email) {
         for (User user : usersList) {
             if (user.getEmail().equals(email)) {

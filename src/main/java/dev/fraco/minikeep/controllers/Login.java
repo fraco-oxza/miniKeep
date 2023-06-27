@@ -11,28 +11,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 
-import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class Login implements Initializable {
+    private final Context ctx = Context.getInstance();
     public TextField emailField;
     public PasswordField passwordField;
     public HBox errorLabel;
     public Button loginButton;
     public Button signInButton;
 
-    public void moveToSignIn(ActionEvent actionEvent) throws IOException {
+    public void moveToSignIn(ActionEvent ignoredActionEvent) {
         Application.setRoot("sign-in");
     }
 
-    public void tryToLogin(ActionEvent actionEvent) throws IOException {
-        User user = Users.getInstance().getUser(emailField.getText(), passwordField.getText());
+    public void tryToLogin(ActionEvent ignoredActionEvent) {
+        User user = ctx.users.getUser(emailField.getText(), passwordField.getText());
 
         if (user != null) {
-            Context.getInstance().setActualUser(user);
+            ctx.setActualUser(user);
 
             Application.setRoot("workspace");
         } else {

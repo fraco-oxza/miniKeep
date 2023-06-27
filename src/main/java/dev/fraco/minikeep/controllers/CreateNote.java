@@ -14,13 +14,13 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
 public class CreateNote implements Initializable {
+    private final Context ctx = Context.getInstance();
     public TextField titleInput;
     public TextField tagsInput;
     public TextArea bodyInput;
@@ -34,11 +34,11 @@ public class CreateNote implements Initializable {
     public DatePicker reminderPicker;
 
 
-    public void backHandler(ActionEvent actionEvent) {
+    public void backHandler(ActionEvent ignoredActionEvent) {
         Application.setRoot("workspace");
     }
 
-    public void addHandler(ActionEvent actionEvent) {
+    public void addHandler(ActionEvent ignoredActionEvent) {
         String error = null;
         ArrayList<Long> collaborators = new ArrayList<>();
 
@@ -54,11 +54,11 @@ public class CreateNote implements Initializable {
                     error = "\"" + collaborator + "\" No es un correo valido";
                     break;
                 }
-                if (!Users.getInstance().existsEmail(collaborator)) {
+                if (!ctx.users.existsEmail(collaborator)) {
                     error = "\"" + collaborator + "\" No tiene una cuenta creada";
                     break;
                 }
-                collaborators.add(Users.getInstance().getRegistrationNumber(collaborator));
+                collaborators.add(ctx.users.getRegistrationNumber(collaborator));
             }
         }
 
@@ -84,14 +84,14 @@ public class CreateNote implements Initializable {
         priorityCombo.setValue(Priority.Normal);
     }
 
-    public void titleHandler(KeyEvent actionEvent) {
+    public void titleHandler(KeyEvent ignoredActionEvent) {
         while (titleInput.getText().length() > 30) {
             titleInput.deletePreviousChar();
         }
         headerCounter.setText(titleInput.getText().length() + "/30");
     }
 
-    public void bodyHandler(KeyEvent keyEvent) {
+    public void bodyHandler(KeyEvent ignoredKeyEvent) {
         while (bodyInput.getText().length() > 200) {
             bodyInput.deletePreviousChar();
         }

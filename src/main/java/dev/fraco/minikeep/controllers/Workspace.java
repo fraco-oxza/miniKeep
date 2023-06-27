@@ -13,7 +13,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,8 +25,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class Workspace implements Initializable {
-    private Notes notes = Notes.getInstance();
-    private Context ctx = Context.getInstance();
+    private final Context ctx = Context.getInstance();
     private Note actual = null;
     public TableView<Note> notesTable;
     public TableColumn<Note, String> colHeader;
@@ -39,7 +37,6 @@ public class Workspace implements Initializable {
     public TextField searchBar;
     private static final DateTimeFormatter dateFormatterV1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter dateFormatterV2 = DateTimeFormatter.ofPattern("hh:mm a");
-    public Text noteHeader;
     public TextField titleInput;
     public Label headerCounter;
     public TextField tagsInput;
@@ -64,8 +61,8 @@ public class Workspace implements Initializable {
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
     }
 
-    private void setFormattedDateCellFactory(TableColumn<Note, Date> column) {
-        column.setCellFactory(cell -> new TableCell<Note, Date>() {
+    public static void setFormattedDateCellFactory(TableColumn<Note, Date> column) {
+        column.setCellFactory(cell -> new TableCell<>() {
             @Override
             protected void updateItem(Date item, boolean empty) {
                 super.updateItem(item, empty);
@@ -96,6 +93,8 @@ public class Workspace implements Initializable {
                 super.updateItem(item, empty);
 
                 if (item != null) {
+                    pseudoClassStateChanged(PseudoClass.getPseudoClass("extern-note"), item.getCreatedBy() != ctx.getActualUser().getRegistrationNumber());
+
                     if (item.getReminder() != null) {
                         if (item.isDone()) {
                             pseudoClassStateChanged(PseudoClass.getPseudoClass("is-today"), false);
@@ -118,6 +117,7 @@ public class Workspace implements Initializable {
                 } else {
                     pseudoClassStateChanged(PseudoClass.getPseudoClass("is-today"), false);
                     pseudoClassStateChanged(PseudoClass.getPseudoClass("is-late"), false);
+                    pseudoClassStateChanged(PseudoClass.getPseudoClass("extern-note"), false);
                 }
 
             }
@@ -127,7 +127,7 @@ public class Workspace implements Initializable {
         colPriority.setCellValueFactory(new PropertyValueFactory<>("priority"));
         colTags.setCellValueFactory(new PropertyValueFactory<>("tag"));
 
-        colColor.setCellFactory(column -> new TableCell<Note, String>() {
+        colColor.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -159,35 +159,26 @@ public class Workspace implements Initializable {
 
         notesTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, note, t1) -> selectHandler(t1)));
 
-        notesTable.setItems(FXCollections.observableList(Notes.getInstance().getUserNotes(Context.getInstance().getActualUser())));
+        notesTable.setItems(FXCollections.observableList(ctx.notes.getUserNotes(ctx.getActualUser())));
         notesTable.getItems().sort(new NoteComparator(NoteParameter.CreationDate));
     }
 
 
-    public void commitEdit(TableColumn.CellEditEvent<Note, String> noteStringCellEditEvent) throws IOException {
-        Note selected = notesTable.getSelectionModel().getSelectedItem();
-        selected.setHeader(noteStringCellEditEvent.getNewValue());
-    }
-
-    public void cancelEdit(TableColumn.CellEditEvent<Note, String> noteStringCellEditEvent) {
-        System.out.println("Cancela");
-    }
-
-    public void moveToCreateNote(ActionEvent mouseEvent) throws IOException {
+    public void moveToCreateNote(ActionEvent ignoredMouseEvent) {
         Application.setRoot("createNote");
     }
 
-    public void moveToTheTrash(ActionEvent mouseEvent) throws IOException {
+    public void moveToTheTrash(ActionEvent ignoredMouseEvent) {
         Application.setRoot("trash");
     }
 
-    public void moveToLogin(ActionEvent mouseEvent) throws IOException {
-        Context.getInstance().setActualUser(null);
+    public void moveToLogin(ActionEvent ignoredMouseEvent) {
+        ctx.setActualUser(null);
         Application.setRoot("login");
     }
 
-    public void searchHandler(KeyEvent keyEvent) {
-        notesTable.setItems(FXCollections.observableList(Notes.getInstance().searchNote(Context.getInstance().getActualUser(), searchBar.getText())));
+    public void searchHandler(KeyEvent ignoredKeyEvent) {
+        notesTable.setItems(FXCollections.observableList(ctx.notes.searchNote(ctx.getActualUser(), searchBar.getText())));
         if (!notesTable.getItems().isEmpty()) {
             notesTable.getSelectionModel().select(notesTable.getItems().get(0));
         } else {
@@ -223,8 +214,8 @@ public class Workspace implements Initializable {
         }
         StringBuilder collaborators = new StringBuilder();
 
-        if (note.getCreatedBy() != Context.getInstance().getActualUser().getRegistrationNumber()) {
-            colab.setText("Creada por " + Users.getInstance().getEmail(note.getCreatedBy()));
+        if (note.getCreatedBy() != ctx.getActualUser().getRegistrationNumber()) {
+            colab.setText("Creada por " + ctx.users.getEmail(note.getCreatedBy()));
             colab.setStyle(colab.getStyle() + "-fx-font-weight: bold;");
             collaboratorsInput.setVisible(false);
         } else {
@@ -237,7 +228,7 @@ public class Workspace implements Initializable {
                     collaborators.append(", ");
                 }
                 isFirst = false;
-                collaborators.append(Users.getInstance().getEmail(rn));
+                collaborators.append(ctx.users.getEmail(rn));
             }
             collaboratorsInput.setText(collaborators.toString());
         }
@@ -246,7 +237,7 @@ public class Workspace implements Initializable {
         modifyBox.setVisible(true);
     }
 
-    public void addHandler(ActionEvent actionEvent) {
+    public void addHandler(ActionEvent ignoredActionEvent) {
         String error = null;
         ArrayList<Long> collaborators = new ArrayList<>();
 
@@ -262,11 +253,11 @@ public class Workspace implements Initializable {
                     error = "\"" + collaborator + "\" No es un correo valido";
                     break;
                 }
-                if (!Users.getInstance().existsEmail(collaborator)) {
+                if (!ctx.users.existsEmail(collaborator)) {
                     error = "\"" + collaborator + "\" No tiene una cuenta creada";
                     break;
                 }
-                collaborators.add(Users.getInstance().getRegistrationNumber(collaborator));
+                collaborators.add(ctx.users.getRegistrationNumber(collaborator));
             }
         }
 
@@ -277,7 +268,7 @@ public class Workspace implements Initializable {
                 actual.setBody(bodyInput.getText());
                 actual.setColor(colorInput.getValue().toString());
                 actual.setPriority(priorityCombo.getValue());
-                if (actual.getCreatedBy() == Context.getInstance().getActualUser().getRegistrationNumber()) {
+                if (actual.getCreatedBy() == ctx.getActualUser().getRegistrationNumber()) {
                     actual.setCollaborators(collaborators);
                 }
                 if (reminderPicker.getValue() != null) {
@@ -295,19 +286,19 @@ public class Workspace implements Initializable {
         }
     }
 
-    public void backHandler(ActionEvent actionEvent) {
+    public void backHandler(ActionEvent ignoredActionEvent) {
         selectHandler(null);
         notesTable.getSelectionModel().select(null);
     }
 
-    public void titleHandler(KeyEvent actionEvent) {
+    public void titleHandler(KeyEvent ignoredActionEvent) {
         while (titleInput.getText().length() > 30) {
             titleInput.deletePreviousChar();
         }
         headerCounter.setText(titleInput.getText().length() + "/30");
     }
 
-    public void bodyHandler(KeyEvent keyEvent) {
+    public void bodyHandler(KeyEvent ignoredKeyEvent) {
         while (bodyInput.getText().length() > 200) {
             bodyInput.deletePreviousChar();
         }
@@ -322,7 +313,7 @@ public class Workspace implements Initializable {
         }
     }
 
-    public void deleteBtn(ActionEvent actionEvent) {
+    public void deleteBtn(ActionEvent ignoredActionEvent) {
         try {
             if (actual.getCreatedBy() == ctx.getActualUser().getRegistrationNumber()) {
                 actual.markAsDeleted();

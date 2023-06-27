@@ -11,7 +11,7 @@ import java.util.List;
  * to a file, providing persistence across program executions. Additionally, when the class is
  * instantiated, it loads the existing data from the file, if any.
  */
-public class Notes implements Persistent {
+public class Notes {
     private static Notes notesInstance = null;
     private ArrayList<Note> notes;
 
@@ -60,13 +60,11 @@ public class Notes implements Persistent {
      * Removes a note from the collection.
      *
      * @param note The note to be removed.
-     * @return {@code true} if the note was successfully removed, {@code false} otherwise.
      * @throws IOException If an error occurs while saving the notes to the file.
      */
-    public boolean removeNote(Note note) throws IOException {
-        boolean result = notes.remove(note);
+    public void removeNote(Note note) throws IOException {
+        notes.remove(note);
         save();
-        return result;
     }
 
     /**
@@ -126,9 +124,8 @@ public class Notes implements Persistent {
      * @throws IOException            If an I/O error occurs while reading the file.
      * @throws ClassNotFoundException If the class of the serialized object cannot be found.
      */
-    @Override
     @SuppressWarnings("unchecked")
-    public void load() throws IOException, ClassNotFoundException {
+    private void load() throws IOException, ClassNotFoundException {
         FileInputStream file = new FileInputStream("./notes.ser.bin");
         ObjectInputStream objIn = new ObjectInputStream(file);
         notes = (ArrayList<Note>) objIn.readObject();

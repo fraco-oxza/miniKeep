@@ -18,10 +18,12 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.4), 10, 0, 0, 0);
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-view .scroll-bar {
     -fx-background-color: #282828;
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-view .thumb {
     -fx-background-color: #1d2021;
 }
@@ -30,41 +32,49 @@
     -fx-font-weight: bold;
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-view .filler {
     -fx-background-color: #282828;
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-view {
     -fx-background-color: none;
     -fx-font-size: 16px;
     -fx-border-radius: 5px 5px 5px 5px;
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-cell {
     -fx-font-size: 16px;
     -fx-text-fill: #ddc7a1;
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-view .column-header {
     -fx-background-color: #282828;
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-view .column-header:hover {
     -fx-cursor: hand;
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-column .column-header-background {
     -fx-text-fill: #fff;
 
     -fx-background-color: #1d2021; /* Cambia el color de fondo de las cabeceras de las columnas */
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-view .table-row-cell {
     -fx-text-fill: #fff;
     -fx-background-color: #1d2021; /* Cambia el color de fondo de las filas impares de la tabla */
 }
 
 
+/*noinspection CssInvalidPseudoSelector,CssUnusedSymbol*/
 .table-view .table-row-cell:odd:is-today:selected,
 .table-view .table-row-cell:selected,
 .table-view .table-row-cell:odd:selected,
@@ -74,33 +84,46 @@
     -fx-effect: innershadow(three-pass-box, #ffffff22, 30, 0, 0, 0);
 }
 
+/*noinspection ALL,CssUnusedSymbol*/
+.table-view .table-row-cell:extern-note {
+    -fx-font-style: italic;
+    -fx-font-size: 30px;
+}
+
+/*noinspection CssUnusedSymbol*/
 .table-view .table-row-cell:odd {
     -fx-background-color: #282828; /* Cambia el color de fondo de las filas impares de la tabla */
 }
 
 
+/*noinspection CssInvalidPseudoSelector,CssUnusedSymbol*/
 .table-view .table-row-cell:is-today {
     -fx-background-color: #32361a;
 }
 
 
+/*noinspection CssInvalidPseudoSelector,CssUnusedSymbol*/
 .table-view .table-row-cell:odd:is-today {
     -fx-background-color: #32361a; /* Cambia el color de fondo de las filas impares de la tabla */
 }
 
+/*noinspection CssInvalidPseudoSelector,CssUnusedSymbol*/
 .table-view .table-row-cell:is-late {
     -fx-background-color: #442e2d;
 }
 
+/*noinspection CssInvalidPseudoSelector,CssUnusedSymbol*/
 .table-view .table-row-cell:odd:is-late {
     -fx-background-color: #442e2d; /* Cambia el color de fondo de las filas impares de la tabla */
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-column .label {
     -fx-text-fill: #ddc7a1;
     -fx-alignment: center-left;
 }
 
+/*noinspection CssUnusedSymbol*/
 .table-view .table-cell {
     -fx-border-color: #48484833; /* Cambia el color de las líneas de las celdas de la tabla */
 }
@@ -126,12 +149,14 @@
     -fx-font-size: 16px;
 }
 
+/*noinspection CssUnusedSymbol*/
 .text-area {
     -fx-text-fill: #dad5cb;
     -fx-font-size: 16px;
     -fx-background-color: transparent;
 }
 
+/*noinspection CssUnusedSymbol*/
 .text-area .content {
     -fx-background-color: #1d2021;
     -fx-border-color: #1d2021;
@@ -151,30 +176,36 @@
     -fx-cursor: hand;
 }
 
+/*noinspection CssUnusedSymbol*/
 .date-picker .text-field {
     -fx-text-fill: #fff; /* Cambia el color del texto */
     -fx-background-color: #1d2021; /* Cambia el color de fondo */
     -fx-border-color: #1d2021;
 }
 
+/*noinspection CssUnusedSymbol*/
 .date-picker {
     -fx-background-color: #1d2021; /* Cambia el color de fondo */
     -fx-border-color: #1d2021;
 }
 
 
+/*noinspection CssUnusedSymbol*/
 .choice-box .label {
     -fx-text-fill: #fff;
 }
 
+/*noinspection CssUnusedSymbol*/
 .choice-box .context-menu {
     -fx-background-color: #1d2021;
 }
 
+/*noinspection CssUnusedSymbol*/
 .color-picker .context-menu {
     -fx-background-color: #1d2021;
 }
 
+/*noinspection CssUnusedSymbol*/
 .color-picker .label {
     -fx-text-fill: #fff;
 }
@@ -185,6 +216,7 @@
     -fx-font-size: 20px;
 }
 
+/*noinspection CssUnusedSymbol*/
 .check-box .text {
     -fx-fill: #ccc;
 }

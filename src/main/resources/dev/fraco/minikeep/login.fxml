@@ -26,7 +26,7 @@
                 </ImageView>
                 <Label id="main-header" style="-fx-font-size: 48px;" text="MiniKeep">
                     <textFill>
-                        <LinearGradient cycleMethod="REFLECT" endX="1.0" endY="1.0">
+                        <LinearGradient cycleMethod="REFLECT">
                             <stops>
                                 <Stop>
                                     <color>
