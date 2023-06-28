@@ -47,14 +47,14 @@ public class SignIn {
             try {
                 registrationNumber = Long.parseLong(registrationNumberString);
             } catch (NumberFormatException nfe) {
-                error = "Numero de matricula invalido";
+                error = "Número de matrícula inválido";
             }
         }
         if (error == null && !emailPattern.matcher(email).matches()) {
-            error = "Email invalido";
+            error = "Email inválido";
         }
         if (error == null && phoneNumber.length() == 0) {
-            error = "No ha introducido un numero de telefono";
+            error = "No ha introducido un número de teléfono";
         }
         if (error == null && dateInput.getValue() == null) {
             error = "No ha introducido su fecha de nacimiento";

@@ -17,7 +17,7 @@
 
 <AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #1d2021;" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.CreateNote">
     <VBox layoutX="366.0" layoutY="68.0" prefHeight="551.0" prefWidth="547.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
-        <Label styleClass="input-label" text="Titulo" textFill="WHITE">
+        <Label styleClass="input-label" text="Título" textFill="WHITE">
         </Label>
         <TextField fx:id="titleInput" onKeyTyped="#titleHandler" styleClass="common-text-input">
             <VBox.margin>
@@ -25,7 +25,7 @@
             </VBox.margin>
         </TextField>
         <Label fx:id="headerCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/30" textAlignment="RIGHT" textFill="#b6b6b6" />
-        <Label styleClass="input-label" text="Tags" textFill="WHITE">
+        <Label styleClass="input-label" text="Tema" textFill="WHITE">
         </Label>
         <TextField fx:id="tagsInput" styleClass="common-text-input">
             <VBox.margin>
@@ -59,7 +59,7 @@
                 <ChoiceBox fx:id="priorityCombo" prefWidth="150.0" styleClass="common-text-input" />
             </VBox>
             <VBox prefHeight="200.0" prefWidth="250.0">
-                <Label styleClass="input-label" text="Fecha de Recordatorio" textFill="WHITE">
+                <Label styleClass="input-label" text="Recordatorio" textFill="WHITE">
                 </Label>
                 <DatePicker fx:id="reminderPicker">
                     <VBox.margin>

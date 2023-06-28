@@ -34,14 +34,14 @@
         <Button mnemonicParsing="false" onAction="#moveToTheTrash" prefHeight="55.0" prefWidth="147.0" styleClass="menu-btn" text="Abrir Papelera" />
         <Button mnemonicParsing="false" onAction="#moveToLogin" prefHeight="55.0" prefWidth="141.0" styleClass="menu-btn" text="Cerrar Sesion" />
     </HBox>
-    <TableView fx:id="notesTable" editable="true" layoutX="20.0" layoutY="81.0" prefHeight="620.0" prefWidth="700.0" styleClass="pretty-box">
+    <TableView fx:id="notesTable" editable="true" layoutX="20.0" layoutY="81.0" prefHeight="620.0" prefWidth="700.0" style="-fx-background-color: #282828;">
         <placeholder>
             <Label text="No hay notas en la tabla" />
         </placeholder>
         <columns>
             <TableColumn fx:id="colColor" prefWidth="20.0" reorderable="false" resizable="false" />
-            <TableColumn fx:id="colHeader" prefWidth="260.0" reorderable="false" resizable="false" text="Titulo" />
-            <TableColumn fx:id="colTags" prefWidth="90.0" reorderable="false" resizable="false" text="Tag" />
+            <TableColumn fx:id="colHeader" prefWidth="260.0" reorderable="false" resizable="false" text="Título" />
+            <TableColumn fx:id="colTags" prefWidth="90.0" reorderable="false" resizable="false" text="Tema" />
             <TableColumn fx:id="colPriority" prefWidth="90.0" reorderable="false" resizable="false" text="Prioridad" />
             <TableColumn fx:id="colCreated" prefWidth="110.0" reorderable="false" resizable="false" text="Creada" />
             <TableColumn fx:id="colEdited" prefWidth="110.0" reorderable="false" resizable="false" text="Editada" />
@@ -52,7 +52,7 @@
     </TableView>
     <VBox layoutX="735.0" layoutY="81.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
         <VBox fx:id="modifyBox" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="525.0">
-            <Label styleClass="input-label" text="Titulo" textFill="WHITE">
+            <Label styleClass="input-label" text="Título" textFill="WHITE">
             </Label>
             <TextField fx:id="titleInput" onKeyTyped="#titleHandler" prefHeight="33.0" prefWidth="483.0" styleClass="common-text-input">
                 <VBox.margin>
@@ -60,7 +60,7 @@
                 </VBox.margin>
             </TextField>
             <Label fx:id="headerCounter" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="19.0" prefWidth="496.0" text="0/30" textAlignment="RIGHT" textFill="#b6b6b6" />
-            <Label styleClass="input-label" text="Tags" textFill="WHITE">
+            <Label styleClass="input-label" text="Tema" textFill="WHITE">
             </Label>
             <TextField fx:id="tagsInput" prefHeight="33.0" prefWidth="601.0" styleClass="common-text-input">
                 <VBox.margin>
@@ -96,7 +96,7 @@
                     <ChoiceBox fx:id="priorityCombo" prefWidth="150.0" styleClass="common-text-input" />
                 </VBox>
                 <VBox prefHeight="200.0" prefWidth="250.0">
-                    <Label styleClass="input-label" text="Fecha de Recordatorio" textFill="WHITE">
+                    <Label styleClass="input-label" text="Recordatorio" textFill="WHITE">
 
                     </Label>
                     <DatePicker fx:id="reminderPicker">

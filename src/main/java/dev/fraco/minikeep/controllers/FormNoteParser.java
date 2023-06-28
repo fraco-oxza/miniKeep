@@ -51,7 +51,7 @@ public abstract class FormNoteParser implements Initializable {
             for (String s : collaboratorsUnchecked) {
                 String collaborator = s.trim().toLowerCase();
                 if (!SignIn.emailPattern.matcher(collaborator).matches()) {
-                    error = "\"" + collaborator + "\" No es un correo valido";
+                    error = "\"" + collaborator + "\" No es un correo válido";
                     return;
                 }
                 if (!ctx.users.existsEmail(collaborator)) {

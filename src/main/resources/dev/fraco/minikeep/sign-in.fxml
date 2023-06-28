@@ -44,7 +44,7 @@
             </padding>
 
         </TextField>
-        <Label styleClass="input-label" text="Numero de matricula" textFill="#ddc7a1">
+        <Label styleClass="input-label" text="Número de matrícula" textFill="#ddc7a1">
 
         </Label>
         <TextField fx:id="registrationNumberInput" styleClass="common-text-input">
@@ -68,7 +68,7 @@
             </padding>
 
         </TextField>
-        <Label styleClass="input-label" text="Telefono" textFill="#ddc7a1">
+        <Label styleClass="input-label" text="Teléfono" textFill="#ddc7a1">
 
         </Label>
         <TextField fx:id="phoneInput" styleClass="common-text-input">
@@ -100,7 +100,7 @@
             </Label>
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
-            <Button mnemonicParsing="false" onAction="#backHandler" text="Volver Atras">
+            <Button mnemonicParsing="false" onAction="#backHandler" text="Volver Atrás">
                 <styleClass>
                     <String fx:value="common-btn"/>
                     <String fx:value="error-btn"/>
