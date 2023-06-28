@@ -51,7 +51,7 @@
         </columnResizePolicy>
     </TableView>
     <VBox layoutX="735.0" layoutY="81.0" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
-        <VBox fx:id="modifyBox" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="525.0">
+        <VBox fx:id="modifyBox" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="620.0" prefWidth="525.0" visible="false">
             <Label styleClass="input-label" text="Título" textFill="WHITE">
             </Label>
             <TextField fx:id="titleInput" onKeyTyped="#titleHandler" prefHeight="33.0" prefWidth="483.0" styleClass="common-text-input">
