@@ -117,7 +117,7 @@
                     <Insets bottom="10.0" />
                 </VBox.margin>
             </TextField>
-         <CheckBox fx:id="ended" mnemonicParsing="false" styleClass="input-label" text="Terminada" textFill="#d7c29c" />
+         <CheckBox fx:id="endedCheckBox" mnemonicParsing="false" styleClass="input-label" text="Terminada" textFill="#d7c29c" />
             <HBox fx:id="errorBox" alignment="CENTER" prefHeight="45.0" prefWidth="478.0" style="-fx-background-color: #FF0D4B; -fx-border-radius: 8;" visible="false">
                 <VBox.margin>
                     <Insets bottom="20.0" top="10.0" />
@@ -132,7 +132,7 @@
                 </Label>
             </HBox>
             <HBox alignment="CENTER" prefHeight="43.0" prefWidth="493.0" spacing="30.0">
-                <Button mnemonicParsing="false" onAction="#backHandler" prefWidth="120.0" styleClass="common-btn,error-btn" text="Cancelar" />
+                <Button mnemonicParsing="false" onAction="#cancelHandler" prefWidth="120.0" styleClass="common-btn,error-btn" text="Cancelar" />
             <Button mnemonicParsing="false" onAction="#deleteBtn" prefWidth="120.0" styleClass="common-btn,error-btn" text="Eliminar" />
                 <Button mnemonicParsing="false" onAction="#addHandler" prefWidth="120.0" styleClass="common-btn" text="Guardar" />
             </HBox>

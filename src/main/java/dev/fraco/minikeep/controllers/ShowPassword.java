@@ -4,7 +4,6 @@ import dev.fraco.minikeep.Application;
 import dev.fraco.minikeep.logic.Context;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import java.net.URL;
@@ -20,7 +19,7 @@ public class ShowPassword implements Initializable {
         ctx.setActualUser(null);
     }
 
-    public void nextHandler(ActionEvent actionEvent) {
+    public void nextHandler(ActionEvent ignoredActionEvent) {
         Application.setRoot("login");
     }
 }

@@ -5,7 +5,6 @@ import dev.fraco.minikeep.logic.*;
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
@@ -19,13 +18,9 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 
-public class Workspace implements Initializable {
-    private final Context ctx = Context.getInstance();
+public class Workspace extends FormNoteParser {
     private Note actual = null;
     public TableView<Note> notesTable;
     public TableColumn<Note, String> colHeader;
@@ -37,19 +32,13 @@ public class Workspace implements Initializable {
     public TextField searchBar;
     private static final DateTimeFormatter dateFormatterV1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter dateFormatterV2 = DateTimeFormatter.ofPattern("hh:mm a");
-    public TextField titleInput;
     public Label headerCounter;
-    public TextField tagsInput;
-    public TextArea bodyInput;
     public Label bodyCounter;
-    public ColorPicker colorInput;
-    public ChoiceBox<Priority> priorityCombo;
-    public DatePicker reminderPicker;
-    public TextField collaboratorsInput;
     public HBox errorBox;
     public Label errorLabel;
     public VBox modifyBox;
-    public CheckBox ended;
+    public CheckBox endedCheckBox;
+    private boolean isEnded;
     public Label colab;
 
 
@@ -85,6 +74,7 @@ public class Workspace implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        super.initialize(url, resourceBundle);
         notesTable.setRowFactory(tv -> new TableRow<>() {
 
 
@@ -151,7 +141,6 @@ public class Workspace implements Initializable {
         setFormattedDateCellFactory(colCreated);
         colEdited.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
         setFormattedDateCellFactory(colEdited);
-        priorityCombo.setItems(FXCollections.observableArrayList(Priority.values()));
 
         ScrollPane scrollPane = new ScrollPane(notesTable);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -160,7 +149,7 @@ public class Workspace implements Initializable {
         notesTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, note, t1) -> selectHandler(t1)));
 
         notesTable.setItems(FXCollections.observableList(ctx.notes.getUserNotes(ctx.getActualUser())));
-        notesTable.getItems().sort(new NoteComparator(NoteParameter.CreationDate));
+        notesTable.getItems().sort(Comparator.comparing(Note::getCreatedAt));
     }
 
 
@@ -204,13 +193,13 @@ public class Workspace implements Initializable {
         errorBox.setVisible(false);
 
         reminderPicker.setValue(null);
-        ended.setSelected(false);
+        endedCheckBox.setSelected(false);
         if (note.getReminder() != null) {
             reminderPicker.setValue(note.getReminder().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            ended.setSelected(note.isDone());
-            ended.setVisible(true);
+            endedCheckBox.setSelected(note.isDone());
+            endedCheckBox.setVisible(true);
         } else {
-            ended.setVisible(false);
+            endedCheckBox.setVisible(false);
         }
         StringBuilder collaborators = new StringBuilder();
 
@@ -237,43 +226,28 @@ public class Workspace implements Initializable {
         modifyBox.setVisible(true);
     }
 
+    @Override
+    protected void parse() {
+        super.parse();
+        isEnded = endedCheckBox.isSelected();
+    }
+
     public void addHandler(ActionEvent ignoredActionEvent) {
-        String error = null;
-        ArrayList<Long> collaborators = new ArrayList<>();
-
-        if (titleInput.getText().length() == 0) {
-            error = "Debe ingresar un titulo";
-        }
-        if (error == null && !collaboratorsInput.getText().isEmpty()) {
-            String[] collaboratorsUnchecked = collaboratorsInput.getText().split(",");
-
-            for (String s : collaboratorsUnchecked) {
-                String collaborator = s.trim().toLowerCase();
-                if (!SignIn.emailPattern.matcher(collaborator).matches()) {
-                    error = "\"" + collaborator + "\" No es un correo valido";
-                    break;
-                }
-                if (!ctx.users.existsEmail(collaborator)) {
-                    error = "\"" + collaborator + "\" No tiene una cuenta creada";
-                    break;
-                }
-                collaborators.add(ctx.users.getRegistrationNumber(collaborator));
-            }
-        }
+        parse();
 
         if (error == null) {
             try {
-                actual.setHeader(titleInput.getText());
-                actual.setTag(tagsInput.getText());
-                actual.setBody(bodyInput.getText());
-                actual.setColor(colorInput.getValue().toString());
-                actual.setPriority(priorityCombo.getValue());
+                actual.setHeader(header);
+                actual.setTag(tag);
+                actual.setBody(body);
+                actual.setColor(color);
+                actual.setPriority(priority);
                 if (actual.getCreatedBy() == ctx.getActualUser().getRegistrationNumber()) {
                     actual.setCollaborators(collaborators);
                 }
-                if (reminderPicker.getValue() != null) {
-                    actual.setReminder(Date.from(reminderPicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                    actual.setDone(ended.isSelected());
+                if (reminder != null) {
+                    actual.setReminder(reminder);
+                    actual.setDone(isEnded);
                 }
                 selectHandler(actual);
                 notesTable.refresh();
@@ -286,7 +260,7 @@ public class Workspace implements Initializable {
         }
     }
 
-    public void backHandler(ActionEvent ignoredActionEvent) {
+    public void cancelHandler(ActionEvent ignoredActionEvent) {
         selectHandler(null);
         notesTable.getSelectionModel().select(null);
     }
