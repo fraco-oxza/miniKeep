@@ -3,10 +3,13 @@ package dev.fraco.minikeep;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Application extends javafx.application.Application {
@@ -23,7 +26,6 @@ public class Application extends javafx.application.Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-        System.gc();
     }
 
 
@@ -40,9 +42,25 @@ public class Application extends javafx.application.Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
-
     public static void handleException(Exception exception) {
-        System.out.println(exception.toString());
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Irrecuperable");
+        alert.setHeaderText("Se ha producido la siguiente excepción");
+
+        String mensaje = exception.getMessage();
+        String causa = exception.getCause() != null ? exception.getCause().toString() : "";
+        String stackTrace = Arrays.toString(exception.getStackTrace());
+
+        String detalles = "Mensaje: " + mensaje + "\n\n"
+                + "Causa: " + causa + "\n\n"
+                + "Traza de la pila:\n" + stackTrace;
+
+        TextArea textArea = new TextArea(detalles);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        alert.getDialogPane().setContent(textArea);
+        alert.showAndWait();
     }
 
     public static void main(String[] args) {

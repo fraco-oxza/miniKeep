@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 public class SignIn {
+    private final Context ctx = Context.getInstance();
+
     public DatePicker dateInput;
     public TextField emailInput;
     public TextField registrationNumberInput;
@@ -70,11 +72,8 @@ public class SignIn {
         }
 
         if (error == null) {
-            // TODO: Mostrar contraseña
-            assert user != null;
-            System.out.println(user.getPassword());
-            Application.setRoot("login");
-
+            ctx.setActualUser(user);
+            Application.setRoot("showPassword");
         } else {
             errorLabel.setText(error);
             errorBox.setVisible(true);
@@ -82,8 +81,6 @@ public class SignIn {
     }
 
     public void backHandler(ActionEvent ignoredActionEvent) {
-
         Application.setRoot("login");
-
     }
 }
