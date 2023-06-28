@@ -1,6 +1,6 @@
 package dev.fraco.minikeep.controllers;
 
-import dev.fraco.minikeep.Application;
+import dev.fraco.minikeep.MiniKeepMain;
 import dev.fraco.minikeep.logic.Context;
 import dev.fraco.minikeep.logic.User;
 import dev.fraco.minikeep.logic.UserAlreadyExistsException;
@@ -67,13 +67,13 @@ public class SignIn {
             } catch (UserAlreadyExistsException e) {
                 error = "Ya existe un usuario con sus datos";
             } catch (IOException e) {
-                Application.handleException(e);
+                MiniKeepMain.handleException(e);
             }
         }
 
         if (error == null) {
             ctx.setActualUser(user);
-            Application.setRoot("showPassword");
+            MiniKeepMain.setRoot("showPassword");
         } else {
             errorLabel.setText(error);
             errorBox.setVisible(true);
@@ -81,6 +81,6 @@ public class SignIn {
     }
 
     public void backHandler(ActionEvent ignoredActionEvent) {
-        Application.setRoot("login");
+        MiniKeepMain.setRoot("login");
     }
 }

@@ -1,6 +1,6 @@
 package dev.fraco.minikeep.controllers;
 
-import dev.fraco.minikeep.Application;
+import dev.fraco.minikeep.MiniKeepMain;
 import dev.fraco.minikeep.logic.Context;
 import dev.fraco.minikeep.logic.Note;
 import javafx.event.ActionEvent;
@@ -17,7 +17,7 @@ public class CreateNote extends FormNoteParser {
     public Label bodyCounter;
 
     public void backHandler(ActionEvent ignoredActionEvent) {
-        Application.setRoot("workspace");
+        MiniKeepMain.setRoot("workspace");
     }
 
     public void addHandler(ActionEvent ignoredActionEvent) {
@@ -29,9 +29,9 @@ public class CreateNote extends FormNoteParser {
                 if (reminderPicker.getValue() != null) {
                     note.setReminder(reminder);
                 }
-                Application.setRoot("workspace");
+                MiniKeepMain.setRoot("workspace");
             } catch (IOException e) {
-                Application.handleException(e);
+                MiniKeepMain.handleException(e);
             }
         } else {
             errorLabel.setText(error);

@@ -1,6 +1,6 @@
 package dev.fraco.minikeep.controllers;
 
-import dev.fraco.minikeep.Application;
+import dev.fraco.minikeep.MiniKeepMain;
 import dev.fraco.minikeep.logic.Context;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -20,6 +20,6 @@ public class ShowPassword implements Initializable {
     }
 
     public void nextHandler(ActionEvent ignoredActionEvent) {
-        Application.setRoot("login");
+        MiniKeepMain.setRoot("login");
     }
 }

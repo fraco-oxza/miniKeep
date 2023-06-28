@@ -1,6 +1,6 @@
 package dev.fraco.minikeep.controllers;
 
-import dev.fraco.minikeep.Application;
+import dev.fraco.minikeep.MiniKeepMain;
 import dev.fraco.minikeep.logic.*;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -14,7 +14,7 @@ public class Trash extends Workspace {
     public Button deleteBtn;
     public Button recover;
     public void backHandler(ActionEvent ignoredActionEvent) {
-        Application.setRoot("workspace");
+        MiniKeepMain.setRoot("workspace");
 
     }
 
@@ -51,9 +51,9 @@ public class Trash extends Workspace {
             for (Note note : notesTable.getItems()) {
                 ctx.notes.removeNote(note);
             }
-            Application.setRoot("workspace");
+            MiniKeepMain.setRoot("workspace");
         } catch (IOException e) {
-            Application.handleException(e);
+            MiniKeepMain.handleException(e);
         }
     }
 
@@ -73,9 +73,9 @@ public class Trash extends Workspace {
             for (Note note : notesTable.getItems()) {
                 note.restore();
             }
-            Application.setRoot("workspace");
+            MiniKeepMain.setRoot("workspace");
         } catch (IOException e) {
-            Application.handleException(e);
+            MiniKeepMain.handleException(e);
         }
     }
 }

@@ -12,15 +12,15 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Application extends javafx.application.Application {
+public class MiniKeepMain extends javafx.application.Application {
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        Image icon = new Image(Objects.requireNonNull(Application.class.getResourceAsStream("images/logo.png")));
+        Image icon = new Image(Objects.requireNonNull(MiniKeepMain.class.getResourceAsStream("images/logo.png")));
 
         scene = new Scene(loadFXML("login"), 1280, 720);
-        scene.getStylesheets().add(Objects.requireNonNull(Application.class.getResource("css/styles.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(MiniKeepMain.class.getResource("css/styles.css")).toExternalForm());
         stage.getIcons().add(icon);
         stage.setTitle("MiniKeep");
         stage.setResizable(false);
@@ -39,7 +39,7 @@ public class Application extends javafx.application.Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(MiniKeepMain.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
     public static void handleException(Exception exception) {

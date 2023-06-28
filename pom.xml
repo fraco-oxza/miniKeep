@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>dev.fraco.minikeep/dev.fraco.minikeep.Application</mainClass>
+                            <mainClass>dev.fraco.minikeep/dev.fraco.minikeep.MiniKeepMain</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

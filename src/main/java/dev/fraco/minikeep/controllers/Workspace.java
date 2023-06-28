@@ -1,6 +1,6 @@
 package dev.fraco.minikeep.controllers;
 
-import dev.fraco.minikeep.Application;
+import dev.fraco.minikeep.MiniKeepMain;
 import dev.fraco.minikeep.logic.*;
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
@@ -154,16 +154,16 @@ public class Workspace extends FormNoteParser {
 
 
     public void moveToCreateNote(ActionEvent ignoredMouseEvent) {
-        Application.setRoot("createNote");
+        MiniKeepMain.setRoot("createNote");
     }
 
     public void moveToTheTrash(ActionEvent ignoredMouseEvent) {
-        Application.setRoot("trash");
+        MiniKeepMain.setRoot("trash");
     }
 
     public void moveToLogin(ActionEvent ignoredMouseEvent) {
         ctx.setActualUser(null);
-        Application.setRoot("login");
+        MiniKeepMain.setRoot("login");
     }
 
     public void searchHandler(KeyEvent ignoredKeyEvent) {
@@ -252,7 +252,7 @@ public class Workspace extends FormNoteParser {
                 selectHandler(actual);
                 notesTable.refresh();
             } catch (IOException e) {
-                Application.handleException(e);
+                MiniKeepMain.handleException(e);
             }
         } else {
             errorLabel.setText(error);
@@ -298,7 +298,7 @@ public class Workspace extends FormNoteParser {
                 errorBox.setVisible(true);
             }
         } catch (IOException e) {
-            Application.handleException(e);
+            MiniKeepMain.handleException(e);
         }
     }
 }

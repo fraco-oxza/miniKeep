@@ -1,6 +1,6 @@
 package dev.fraco.minikeep.controllers;
 
-import dev.fraco.minikeep.Application;
+import dev.fraco.minikeep.MiniKeepMain;
 import dev.fraco.minikeep.logic.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
@@ -23,7 +23,7 @@ public class Login implements Initializable {
     public Button signInButton;
 
     public void moveToSignIn(ActionEvent ignoredActionEvent) {
-        Application.setRoot("sign-in");
+        MiniKeepMain.setRoot("sign-in");
     }
 
     public void tryToLogin(ActionEvent ignoredActionEvent) {
@@ -32,7 +32,7 @@ public class Login implements Initializable {
         if (user != null) {
             ctx.setActualUser(user);
 
-            Application.setRoot("workspace");
+            MiniKeepMain.setRoot("workspace");
         } else {
             errorLabel.setVisible(true);
         }

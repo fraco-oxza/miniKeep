@@ -25,7 +25,10 @@ public abstract class FormNoteParser implements Initializable {
     protected String error = null;
     protected ArrayList<Long> collaborators;
 
-    protected String header, tag, body, color;
+    protected String header;
+    protected String tag;
+    protected String body;
+    protected String color;
     protected Priority priority;
     protected Date reminder;
 
