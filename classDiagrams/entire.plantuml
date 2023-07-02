@@ -1,0 +1,255 @@
+@startuml
+
+!theme crt-amber
+top to bottom direction
+
+class Context {
+  - Context(): 
+  - actualUser: User
+  + users: Users
+  + notes: Notes
+  - instance: Context
+  + getActualUser(): User
+  + getInstance(): Context
+  + setActualUser(User): void
+}
+class CreateNote {
+  + CreateNote(): 
+  + headerCounter: Label
+  + errorLabel: Label
+  + errorBox: HBox
+  + bodyCounter: Label
+  + colorBar: Rectangle
+  + addHandler(ActionEvent): void
+  + backHandler(ActionEvent): void
+  + bodyHandler(KeyEvent): void
+  + titleHandler(KeyEvent): void
+  + changeColorHandler(Event): void
+}
+class FormNoteParser {
+  + FormNoteParser(): 
+  # collaborators: ArrayList<Long>
+  # reminder: Date
+  # color: String
+  # error: String
+  + reminderPicker: DatePicker
+  + collaboratorsInput: TextField
+  + titleInput: TextField
+  + tagsInput: TextField
+  + colorInput: ColorPicker
+  # header: String
+  # ctx: Context
+  # priority: Priority
+  + priorityCombo: ChoiceBox<Priority>
+  # body: String
+  # tag: String
+  + bodyInput: TextArea
+  + initialize(URL, ResourceBundle): void
+  # parse(): void
+}
+class Login {
+  + Login(): 
+  - ctx: Context
+  + passwordField: PasswordField
+  + signInButton: Button
+  + emailField: TextField
+  + errorLabel: HBox
+  + loginButton: Button
+  + tryToLogin(ActionEvent): void
+  + moveToSignIn(ActionEvent): void
+}
+class MiniKeepMain {
+  + MiniKeepMain(): 
+  - scene: Scene
+  + handleException(Exception): void
+  + setRoot(String): void
+  + main(String[]): void
+  + start(Stage): void
+  - loadFXML(String): Parent
+}
+class Note {
+  + Note(String, String, String, String, Priority, List<Long>, User): 
+  - body: String
+  - collaborators: List<Long>
+  - isDone: boolean
+  - createdBy: long
+  - deleted: boolean
+  - tag: String
+  - reminder: Date
+  - updatedAt: Date
+  - color: String
+  - header: String
+  - priority: Priority
+  - createdAt: Date
+  + getPriority(): Priority
+  + setPriority(Priority): void
+  + setReminder(Date): void
+  + setCollaborators(List<Long>): void
+  + isDone(): boolean
+  + isDeleted(): boolean
+  + setColor(String): void
+  + getTag(): String
+  + getCollaborators(): List<Long>
+  + setDone(boolean): void
+  + getUpdatedAt(): Date
+  + getBody(): String
+  + getReminder(): Date
+  + markAsDeleted(): void
+  + setTag(String): void
+  + restore(): void
+  + getColor(): String
+  + setBody(String): void
+  + setHeader(String): void
+  + getCreatedBy(): long
+  + getHeader(): String
+  + getCreatedAt(): Date
+}
+class Notes {
+  - Notes(): 
+  - notesInstance: Notes
+  - notes: ArrayList<Note>
+  - load(): void
+  + getInstance(): Notes
+  + save(): void
+  + getTrashNotes(User): List<Note>
+  + searchNote(User, String): List<Note>
+  + addNote(Note): void
+  + removeNote(Note): void
+  + getUserNotes(User): List<Note>
+}
+enum Priority << enumeration >> {
+  + Priority(): 
+  + Critical: 
+  + Normal: 
+  + Low: 
+  + High: 
+  + toString(): String
+  + values(): Priority[]
+  + valueOf(String): Priority
+}
+class ShowPassword {
+  + ShowPassword(): 
+  + password: Label
+  - ctx: Context
+  + nextHandler(ActionEvent): void
+  + initialize(URL, ResourceBundle): void
+}
+class SignIn {
+  + SignIn(): 
+  + emailInput: TextField
+  + phoneInput: TextField
+  + errorBox: HBox
+  + registrationNumberInput: TextField
+  + emailPattern: Pattern
+  + firstNameInput: TextField
+  + dateInput: DatePicker
+  - ctx: Context
+  + lastNameInput: TextField
+  + errorLabel: Label
+  + backHandler(ActionEvent): void
+  + submitHandler(ActionEvent): void
+}
+class Trash {
+  + Trash(): 
+  + deleteBtn: Button
+  + recover: Button
+  + deleteAll(ActionEvent): void
+  + recoverOne(ActionEvent): void
+  + selectHandler(Note): void
+  + deleteOne(ActionEvent): void
+  + recoverAll(ActionEvent): void
+  + backHandler(ActionEvent): void
+  + initialize(URL, ResourceBundle): void
+}
+class User {
+  + User(long, String, String, String, String, String): 
+  - lastName: String
+  - firstName: String
+  - birthdate: String
+  - phoneNumber: String
+  - registrationNumber: long
+  - email: String
+  + getRegistrationNumber(): long
+  + isCorrectPassword(String): boolean
+  + getPassword(): String
+  + getEmail(): String
+}
+class UserAlreadyExistsException {
+  ~ UserAlreadyExistsException(): 
+}
+class Users {
+  - Users(): 
+  - usersInstance: Users
+  - usersList: ArrayList<User>
+  + getInstance(): Users
+  + existsEmail(String): boolean
+  + getEmail(Long): String
+  - load(): void
+  + addUser(User): void
+  - save(): void
+  + getUser(String, String): User
+  + getRegistrationNumber(String): Long
+}
+class Workspace {
+  + Workspace(): 
+  - dateFormatterV2: DateTimeFormatter
+  + modifyBox: VBox
+  + endedCheckBox: CheckBox
+  + notesTable: TableView<Note>
+  + colHeader: TableColumn<Note, String>
+  + headerCounter: Label
+  + colTags: TableColumn<Note, ArrayList<String>>
+  - isEnded: boolean
+  + colPriority: TableColumn<Note, Priority>
+  - dateFormatterV1: DateTimeFormatter
+  + errorBox: HBox
+  + bodyCounter: Label
+  - actual: Note
+  + colab: Label
+  + colEdited: TableColumn<Note, Date>
+  + searchBar: TextField
+  + errorLabel: Label
+  + colColor: TableColumn<Note, String>
+  + colCreated: TableColumn<Note, Date>
+  + deleteBtn(ActionEvent): void
+  + moveToCreateNote(ActionEvent): void
+  + searchHandler(KeyEvent): void
+  # parse(): void
+  + moveToLogin(ActionEvent): void
+  + initialize(URL, ResourceBundle): void
+  + moveHandler(KeyEvent): void
+  + moveToTheTrash(ActionEvent): void
+  + cancelHandler(ActionEvent): void
+  + bodyHandler(KeyEvent): void
+  + selectHandler(Note): void
+  + addHandler(ActionEvent): void
+  + titleHandler(KeyEvent): void
+  + isSameDay(Date, Date): boolean
+  + setFormattedDateCellFactory(TableColumn<Note, Date>): void
+}
+
+MiniKeepMain .. CreateNote
+MiniKeepMain .. Workspace
+MiniKeepMain .. Login
+MiniKeepMain .. ShowPassword
+MiniKeepMain .. SignIn
+MiniKeepMain .. Trash
+Context                    *--> Notes
+Context                     o--> User
+Context                     *--> Users
+CreateNote                  --^  FormNoteParser
+CreateNote                  ..>  Note
+FormNoteParser              *-->  Context
+FormNoteParser              o-->  Priority
+Login                       *-->  Context
+Note                        *-->  Priority
+Notes                       o-->  Note
+ShowPassword                *-->  Context
+SignIn                      *-->  Context
+SignIn                      ...>  User
+Trash                       --^  Workspace
+Users                       o--> User
+Users                       ...>  UserAlreadyExistsException
+Workspace                   --^  FormNoteParser
+Workspace                   o--> Note
+@enduml

@@ -1,0 +1,46 @@
+@startuml
+
+!theme crt-amber
+top to bottom direction
+
+class Context
+class CreateNote
+class FormNoteParser
+class Login
+class MiniKeepMain
+class Note
+class Notes
+enum Priority
+class ShowPassword
+class SignIn
+class Trash
+class User
+class UserAlreadyExistsException
+class Users
+class Workspace
+
+MiniKeepMain .. CreateNote
+MiniKeepMain .. Workspace
+MiniKeepMain .. Login
+MiniKeepMain .. ShowPassword
+MiniKeepMain .. SignIn
+MiniKeepMain .. Trash
+Context                    *--> Notes
+Context                     o--> User
+Context                     *--> Users
+CreateNote                  --^  FormNoteParser
+CreateNote                  ..>  Note
+FormNoteParser              *-->  Context
+FormNoteParser              o-->  Priority
+Login                       *-->  Context
+Note                        *-->  Priority
+Notes                       o-->  Note
+ShowPassword                *-->  Context
+SignIn                      *-->  Context
+SignIn                      ...>  User
+Trash                       --^  Workspace
+Users                       o--> User
+Users                       ...>  UserAlreadyExistsException
+Workspace                   --^  FormNoteParser
+Workspace                   o--> Note
+@enduml
