@@ -231,3 +231,8 @@
     -fx-font-size: 14px;
     -fx-text-fill: #ddc7a1;
 }
+
+#signInButton:hover {
+    -fx-cursor: hand;
+    -fx-opacity: 0.5;
+}

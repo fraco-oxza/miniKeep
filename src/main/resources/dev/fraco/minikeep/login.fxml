@@ -84,7 +84,7 @@
             </Button>
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                 <Label prefHeight="31.0" prefWidth="190.0" text="¿Aún no tienes una cuenta?" textFill="#fbf1c7" translateX="36.0" />
-                <Button fx:id="signInButton" mnemonicParsing="false" onAction="#moveToSignIn" prefHeight="31.0" prefWidth="103.0" style="-fx-background-color: none; -fx-underline: true;" text="Crear Cuenta" textFill="#7daea3" translateX="6.0">
+                <Button id="signInButton" fx:id="signInButton" mnemonicParsing="false" onAction="#moveToSignIn" prefHeight="31.0" prefWidth="103.0" style="-fx-background-color: none; -fx-underline: true;" text="Crear Cuenta" textFill="#7daea3" translateX="6.0">
                 </Button>
             </HBox>
         </VBox>

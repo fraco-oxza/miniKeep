@@ -19,7 +19,10 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.ResourceBundle;
 
 /**
  * The Workspace class represents the main workspace of the MiniKeep application.
@@ -158,6 +161,7 @@ public class Workspace extends FormNoteParser {
         setFormattedDateCellFactory(colCreated);
         colEdited.setCellValueFactory(new PropertyValueFactory<>("updatedAt"));
         setFormattedDateCellFactory(colEdited);
+        colEdited.setSortType(TableColumn.SortType.DESCENDING);
 
         ScrollPane scrollPane = new ScrollPane(notesTable);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -166,7 +170,7 @@ public class Workspace extends FormNoteParser {
         notesTable.getSelectionModel().selectedItemProperty().addListener(((observableValue, note, t1) -> selectHandler(t1)));
 
         notesTable.setItems(FXCollections.observableList(ctx.notes.getUserNotes(ctx.getActualUser())));
-        notesTable.getItems().sort(Comparator.comparing(Note::getCreatedAt));
+        notesTable.getSortOrder().add(colEdited);
     }
 
 
@@ -303,8 +307,9 @@ public class Workspace extends FormNoteParser {
                     actual.setReminder(reminder);
                     actual.setDone(isEnded);
                 }
-                selectHandler(actual);
+                notesTable.getSelectionModel().select(null);
                 notesTable.refresh();
+                notesTable.sort();
             } catch (IOException e) {
                 MiniKeepMain.handleException(e);
             }
