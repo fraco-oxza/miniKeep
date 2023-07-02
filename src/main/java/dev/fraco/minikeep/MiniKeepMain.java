@@ -9,6 +9,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The main class for the MiniKeep application.
+ * Extends the JavaFX Application class.
+ * Initializes and starts the JavaFX application.
+ */
 public class MiniKeepMain extends javafx.application.Application {
     private static Scene scene;
 

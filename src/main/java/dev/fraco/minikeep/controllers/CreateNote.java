@@ -5,7 +5,7 @@ import dev.fraco.minikeep.logic.Context;
 import dev.fraco.minikeep.logic.Note;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;

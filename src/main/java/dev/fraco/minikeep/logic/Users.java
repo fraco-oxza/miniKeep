@@ -33,6 +33,18 @@ public class Users {
     }
 
     /**
+     * Returns the instance of the class if it exists. If the instance is not yet initialized, it
+     * initializes it and returns the newly created instance.
+     *
+     * @return The singleton instance of the class.
+     */
+    public static synchronized Users getInstance() {
+        if (usersInstance == null) usersInstance = new Users();
+
+        return usersInstance;
+    }
+
+    /**
      * Loads the list of users from a serialized file.
      *
      * @throws IOException            If an I/O error occurs while reading the file.
@@ -44,18 +56,6 @@ public class Users {
         usersList = (ArrayList<User>) objIn.readObject();
         objIn.close();
         file.close();
-    }
-
-    /**
-     * Returns the instance of the class if it exists. If the instance is not yet initialized, it
-     * initializes it and returns the newly created instance.
-     *
-     * @return The singleton instance of the class.
-     */
-    public static synchronized Users getInstance() {
-        if (usersInstance == null) usersInstance = new Users();
-
-        return usersInstance;
     }
 
     /**

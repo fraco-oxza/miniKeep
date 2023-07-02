@@ -1,7 +1,8 @@
 package dev.fraco.minikeep.controllers;
 
 import dev.fraco.minikeep.MiniKeepMain;
-import dev.fraco.minikeep.logic.*;
+import dev.fraco.minikeep.logic.Note;
+import dev.fraco.minikeep.logic.Priority;
 import javafx.collections.FXCollections;
 import javafx.css.PseudoClass;
 import javafx.event.ActionEvent;
@@ -20,6 +21,10 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * The Workspace class represents the main workspace of the MiniKeep application.
+ * It extends the FormNoteParser class and provides functionality for managing and displaying notes.
+ */
 public class Workspace extends FormNoteParser {
     private Note actual = null;
     public TableView<Note> notesTable;

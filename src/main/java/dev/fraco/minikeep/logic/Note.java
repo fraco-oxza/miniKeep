@@ -37,22 +37,22 @@ public class Note implements Serializable {
      * it to the list of notes, to allow persistence and synchronization. Every
      * note that exists in the program is stored in the persistence.
      *
-     * @param header     The title of the Note
-     * @param body       The body of the Note
-     * @param tag        A tag for the note
-     * @param color      A javafx color for the color of the note
-     * @param priority   The priority of the note
-     * @param created_by The registration number of the creating user
+     * @param header    The title of the Note
+     * @param body      The body of the Note
+     * @param tag       A tag for the note
+     * @param color     A javafx color for the color of the note
+     * @param priority  The priority of the note
+     * @param createdBy The registration number of the creating user
      * @throws IOException if an error occurs in the serialization process
      */
-    public Note(String header, String body, String tag, String color, Priority priority, List<Long> collaborators, User created_by) throws IOException {
+    public Note(String header, String body, String tag, String color, Priority priority, List<Long> collaborators, User createdBy) throws IOException {
         this.header = header;
         this.body = body;
         this.tag = tag;
         this.color = color;
         this.priority = priority;
-        this.createdBy = created_by.getRegistrationNumber();
-        this.collaborators = collaborators;
+        this.createdBy = createdBy.getRegistrationNumber();
+        this.collaborators = List.copyOf(collaborators);
         this.deleted = false;
         this.reminder = null;
 
@@ -266,7 +266,7 @@ public class Note implements Serializable {
      * @throws IOException If an error occurs while saving the changes.
      */
     public void setCollaborators(List<Long> collaborators) throws IOException {
-        this.collaborators = collaborators;
+        this.collaborators = List.copyOf(collaborators);
         Notes.getInstance().save();
     }
 

@@ -5,10 +5,10 @@ package dev.fraco.minikeep.logic;
  * It manages the current user and provides access to the Users and Notes instances.
  */
 public class Context {
-    private User actualUser;
     private static Context instance = null;
     public final Users users = Users.getInstance();
     public final Notes notes = Notes.getInstance();
+    private User actualUser;
 
     /**
      * Private constructor to enforce singleton pattern.

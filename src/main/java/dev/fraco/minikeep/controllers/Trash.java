@@ -1,10 +1,10 @@
 package dev.fraco.minikeep.controllers;
 
 import dev.fraco.minikeep.MiniKeepMain;
-import dev.fraco.minikeep.logic.*;
+import dev.fraco.minikeep.logic.Note;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
 
 import java.io.IOException;
 import java.net.URL;

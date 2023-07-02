@@ -9,6 +9,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 
+/**
+ * The Login class represents the login window of the MiniKeep application.
+ * It handles user authentication and provides the necessary functionality to log in to the application.
+ */
 public class Login {
     private final Context ctx = Context.getInstance();
     public TextField emailField;

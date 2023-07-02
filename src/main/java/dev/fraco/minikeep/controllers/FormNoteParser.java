@@ -5,6 +5,7 @@ import dev.fraco.minikeep.logic.Priority;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.ArrayList;

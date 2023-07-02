@@ -1,4 +1,5 @@
 package dev.fraco.minikeep.logic;
+
 import java.io.IOException;
 import java.io.Serializable;
 
