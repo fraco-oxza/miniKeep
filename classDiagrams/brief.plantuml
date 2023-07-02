@@ -2,6 +2,7 @@
 
 !theme crt-amber
 top to bottom direction
+skinparam linetype ortho
 
 class Context
 class CreateNote
@@ -19,13 +20,13 @@ class UserAlreadyExistsException
 class Users
 class Workspace
 
-MiniKeepMain .. CreateNote
-MiniKeepMain .. Workspace
-MiniKeepMain .. Login
-MiniKeepMain .. ShowPassword
-MiniKeepMain .. SignIn
-MiniKeepMain .. Trash
-Context                    *--> Notes
+MiniKeepMain                .. CreateNote
+MiniKeepMain                .. Workspace
+MiniKeepMain                .. Login
+MiniKeepMain                .. ShowPassword
+MiniKeepMain                .. SignIn
+MiniKeepMain                .. Trash
+Context                     *--> Notes
 Context                     o--> User
 Context                     *--> Users
 CreateNote                  --^  FormNoteParser
