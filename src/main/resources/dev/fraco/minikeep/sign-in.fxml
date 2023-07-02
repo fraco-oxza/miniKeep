@@ -10,26 +10,21 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #1d2021;" stylesheets="@css/styles.css"
-            xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="dev.fraco.minikeep.controllers.SignIn">
-    <VBox layoutX="420.0" layoutY="49.0" prefHeight="533.0" prefWidth="425.0" style="-fx-background-color: #282828;"
-          styleClass="pretty-box">
-        <Label alignment="CENTER" prefHeight="19.0" prefWidth="421.0"
-               style="-fx-font-family: OpenSans; -fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ffbb00;"
-               text="Crear Cuenta" textAlignment="CENTER" textFill="#ddc7a1">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #1d2021;" stylesheets="@css/styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.fraco.minikeep.controllers.SignIn">
+    <VBox layoutX="427.0" layoutY="32.0" prefHeight="655.0" prefWidth="426.0" style="-fx-background-color: #282828;" styleClass="pretty-box">
+        <Label alignment="CENTER" prefHeight="19.0" prefWidth="421.0" style="-fx-font-family: OpenSans; -fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #ffbb00;" text="Crear Cuenta" textAlignment="CENTER" textFill="#ddc7a1">
             <padding>
-                <Insets bottom="20.0"/>
+                <Insets bottom="20.0" />
             </padding>
         </Label>
         <Label styleClass="input-label" text="Nombre" textFill="#ddc7a1">
         </Label>
         <TextField fx:id="firstNameInput" styleClass="common-text-input">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
             <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
         </TextField>
         <Label styleClass="input-label" text="Apellido" textFill="#ddc7a1">
@@ -37,10 +32,10 @@
         </Label>
         <TextField fx:id="lastNameInput" styleClass="common-text-input">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
             <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
 
         </TextField>
@@ -49,10 +44,10 @@
         </Label>
         <TextField fx:id="registrationNumberInput" styleClass="common-text-input">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
             <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
 
         </TextField>
@@ -61,10 +56,10 @@
         </Label>
         <TextField fx:id="emailInput" styleClass="common-text-input">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
             <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
 
         </TextField>
@@ -73,43 +68,40 @@
         </Label>
         <TextField fx:id="phoneInput" styleClass="common-text-input">
             <VBox.margin>
-                <Insets bottom="10.0"/>
+                <Insets bottom="10.0" />
             </VBox.margin>
             <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
 
         </TextField>
         <Label styleClass="input-label" text="Fecha de Nacimiento" textFill="#ddc7a1">
 
         </Label>
-        <DatePicker fx:id="dateInput" prefHeight="31.0" prefWidth="409.0"
-                    style="-fx-background-color: #1D2021; -fx-text-fill: #d4be98;">
+        <DatePicker fx:id="dateInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="367.0" style="-fx-background-color: #1D2021; -fx-text-fill: #d4be98;">
             <VBox.margin>
-                <Insets bottom="20.0"/>
+                <Insets />
             </VBox.margin>
         </DatePicker>
-        <HBox fx:id="errorBox" alignment="CENTER" prefHeight="58.0" prefWidth="300.0"
-              style="-fx-background-color: #cc241d; -fx-border-radius: 8;" visible="false">
+        <HBox fx:id="errorBox" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="42.0" prefWidth="367.0" style="-fx-background-color: #ea6962; -fx-border-radius: 2; -fx-background-radius: 2;" visible="false">
             <VBox.margin>
-                <Insets bottom="10.0" top="10.0"/>
+                <Insets bottom="10.0" top="10.0" />
             </VBox.margin>
-            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="57.0" prefWidth="300.0"
-                   text="Error en email y/o contraseña" textAlignment="CENTER" textFill="#fff9e9" wrapText="true">
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="54.0" prefWidth="300.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Error en email y/o contraseña" textAlignment="CENTER" textFill="#fff9e9" wrapText="true">
 
             </Label>
         </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
             <Button mnemonicParsing="false" onAction="#backHandler" text="Volver Atrás">
                 <styleClass>
-                    <String fx:value="common-btn"/>
-                    <String fx:value="error-btn"/>
+                    <String fx:value="common-btn" />
+                    <String fx:value="error-btn" />
                 </styleClass>
             </Button>
-            <Button mnemonicParsing="false" onAction="#submitHandler" styleClass="common-btn" text="Crear Cuenta"/>
+            <Button mnemonicParsing="false" onAction="#submitHandler" styleClass="common-btn" text="Crear Cuenta" />
         </HBox>
         <padding>
-            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
+            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
         </padding>
     </VBox>
 </AnchorPane>

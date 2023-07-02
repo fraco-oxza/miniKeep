@@ -42,6 +42,13 @@ public class Workspace extends FormNoteParser {
     public Label colab;
 
 
+    /**
+     * Checks if two dates represent the same day.
+     *
+     * @param date1 The first date to compare.
+     * @param date2 The second date to compare.
+     * @return {@code true} if the dates represent the same day, {@code false} otherwise.
+     */
     public static boolean isSameDay(Date date1, Date date2) {
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
@@ -50,6 +57,11 @@ public class Workspace extends FormNoteParser {
         return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
     }
 
+    /**
+     * Sets a formatted date cell factory for a table column.
+     *
+     * @param column The table column to set the cell factory for.
+     */
     public static void setFormattedDateCellFactory(TableColumn<Note, Date> column) {
         column.setCellFactory(cell -> new TableCell<>() {
             @Override
@@ -153,19 +165,39 @@ public class Workspace extends FormNoteParser {
     }
 
 
+    /**
+     * Moves to the create note view.
+     *
+     * @param ignoredMouseEvent The ignored mouse event.
+     */
     public void moveToCreateNote(ActionEvent ignoredMouseEvent) {
         MiniKeepMain.setRoot("createNote");
     }
 
+    /**
+     * Moves to the trash view.
+     *
+     * @param ignoredMouseEvent The ignored mouse event.
+     */
     public void moveToTheTrash(ActionEvent ignoredMouseEvent) {
         MiniKeepMain.setRoot("trash");
     }
 
+    /**
+     * Moves to the login view and clears the current user session.
+     *
+     * @param ignoredMouseEvent The ignored mouse event.
+     */
     public void moveToLogin(ActionEvent ignoredMouseEvent) {
         ctx.setActualUser(null);
         MiniKeepMain.setRoot("login");
     }
 
+    /**
+     * Handles the search action triggered by a key event.
+     *
+     * @param ignoredKeyEvent The ignored key event.
+     */
     public void searchHandler(KeyEvent ignoredKeyEvent) {
         notesTable.setItems(FXCollections.observableList(ctx.notes.searchNote(ctx.getActualUser(), searchBar.getText())));
         if (!notesTable.getItems().isEmpty()) {
@@ -175,6 +207,11 @@ public class Workspace extends FormNoteParser {
         }
     }
 
+    /**
+     * Handles the selection of a note in the workspace.
+     *
+     * @param note The selected note.
+     */
     public void selectHandler(Note note) {
         actual = note;
         if (note == null) {
@@ -226,12 +263,24 @@ public class Workspace extends FormNoteParser {
         modifyBox.setVisible(true);
     }
 
+    /**
+     * Parses the input fields and updates the note information.
+     * Overrides the base class method to include additional parsing for the 'endedCheckBox' control.
+     */
     @Override
     protected void parse() {
         super.parse();
         isEnded = endedCheckBox.isSelected();
     }
 
+    /**
+     * Handles the event when the 'Add' button is clicked.
+     * Parses the input fields and updates the note information if there are no errors.
+     * Otherwise, displays the error message.
+     * Refreshes the notes table and updates the UI accordingly.
+     *
+     * @param ignoredActionEvent The action event (ignored).
+     */
     public void addHandler(ActionEvent ignoredActionEvent) {
         parse();
 
@@ -260,11 +309,23 @@ public class Workspace extends FormNoteParser {
         }
     }
 
+    /**
+     * Handles the event when the 'Cancel' button is clicked.
+     * Clears the selection in the notes table and resets the UI to its initial state.
+     *
+     * @param ignoredActionEvent The action event (ignored).
+     */
     public void cancelHandler(ActionEvent ignoredActionEvent) {
         selectHandler(null);
         notesTable.getSelectionModel().select(null);
     }
 
+    /**
+     * Handles the event when there is a key event in the title input field.
+     * Truncates the title input to a maximum length of 30 characters and updates the character counter.
+     *
+     * @param ignoredActionEvent The key event (ignored).
+     */
     public void titleHandler(KeyEvent ignoredActionEvent) {
         while (titleInput.getText().length() > 30) {
             titleInput.deletePreviousChar();
@@ -272,6 +333,12 @@ public class Workspace extends FormNoteParser {
         headerCounter.setText(titleInput.getText().length() + "/30");
     }
 
+    /**
+     * Handles the event when there is a key event in the body input field.
+     * Truncates the body input to a maximum length of 200 characters and updates the character counter.
+     *
+     * @param ignoredKeyEvent The key event (ignored).
+     */
     public void bodyHandler(KeyEvent ignoredKeyEvent) {
         while (bodyInput.getText().length() > 200) {
             bodyInput.deletePreviousChar();
@@ -279,6 +346,12 @@ public class Workspace extends FormNoteParser {
         bodyCounter.setText(bodyInput.getText().length() + "/200");
     }
 
+    /**
+     * Handles the event when a key is pressed in the workspace.
+     * Moves the selection in the notes table based on the pressed key.
+     *
+     * @param keyEvent The key event.
+     */
     public void moveHandler(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.DOWN) {
             notesTable.getSelectionModel().selectBelowCell();
@@ -287,6 +360,12 @@ public class Workspace extends FormNoteParser {
         }
     }
 
+    /**
+     * Handles the event when the delete button is clicked.
+     * Deletes the selected note from the workspace.
+     *
+     * @param ignoredActionEvent The action event (ignored).
+     */
     public void deleteBtn(ActionEvent ignoredActionEvent) {
         try {
             if (actual.getCreatedBy() == ctx.getActualUser().getRegistrationNumber()) {

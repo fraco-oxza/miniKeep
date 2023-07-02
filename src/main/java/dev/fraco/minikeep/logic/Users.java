@@ -120,6 +120,12 @@ public class Users {
         return null;
     }
 
+    /**
+     * Retrieves the registration number associated with the specified email.
+     *
+     * @param email The email to search for.
+     * @return The registration number associated with the email, or null if not found.
+     */
     public Long getRegistrationNumber(String email) {
         for (User user : usersList) {
             if (user.getEmail().equals(email)) {
@@ -129,6 +135,12 @@ public class Users {
         return null;
     }
 
+    /**
+     * Retrieves the email associated with the specified registration number.
+     *
+     * @param registrationNumber The registration number to search for.
+     * @return The email associated with the registration number, or null if not found.
+     */
     public String getEmail(Long registrationNumber) {
         for (User user : usersList) {
             if (user.getRegistrationNumber() == registrationNumber) {
@@ -138,6 +150,12 @@ public class Users {
         return null;
     }
 
+    /**
+     * Checks if an email already exists in the user list.
+     *
+     * @param email The email to check.
+     * @return True if the email exists, false otherwise.
+     */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean existsEmail(String email) {
         for (User user : usersList) {

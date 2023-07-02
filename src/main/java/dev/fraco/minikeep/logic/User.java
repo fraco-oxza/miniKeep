@@ -93,9 +93,4 @@ public class User implements Serializable {
     public boolean isCorrectPassword(String password) {
         return getPassword().equals(password);
     }
-
-    @Override
-    public String toString() {
-        return "Numero de matricula: " + registrationNumber + "\n" + "Nombre               : " + firstName + "\n" + "Apellido             : " + lastName + "\n" + "Email                : " + email + "\n" + "Numero de telefono   : " + phoneNumber + "\n" + "Fecha de nacimiento  : " + birthdate + "\n";
-    }
 }

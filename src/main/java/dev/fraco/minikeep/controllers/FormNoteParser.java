@@ -5,13 +5,15 @@ import dev.fraco.minikeep.logic.Priority;
 import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-
 import java.net.URL;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 
+/**
+ * The base abstract class for parsing note input from a form.
+ */
 public abstract class FormNoteParser implements Initializable {
     protected final Context ctx = Context.getInstance();
     public TextField titleInput;
@@ -24,7 +26,6 @@ public abstract class FormNoteParser implements Initializable {
 
     protected String error = null;
     protected ArrayList<Long> collaborators;
-
     protected String header;
     protected String tag;
     protected String body;
@@ -32,6 +33,12 @@ public abstract class FormNoteParser implements Initializable {
     protected Priority priority;
     protected Date reminder;
 
+    /**
+     * Initializes the form note parser.
+     *
+     * @param url            The location used to resolve relative paths for the root object.
+     * @param resourceBundle The resources used to localize the root object.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         if (priorityCombo != null) {
@@ -40,6 +47,10 @@ public abstract class FormNoteParser implements Initializable {
         }
     }
 
+    /**
+     * Parses the input fields and populates the corresponding fields.
+     * Performs validations and sets an error message if validation fails.
+     */
     protected void parse() {
         error = null;
         collaborators = new ArrayList<>();

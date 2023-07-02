@@ -20,17 +20,6 @@ public class Note implements Serializable {
     // generate problems. then for more security we use the registration number,
     // which we also ensure that it is unique foreach user registered in the system.
     private final long createdBy;
-
-    public List<Long> getCollaborators() {
-        return collaborators;
-    }
-
-    public void setCollaborators(List<Long> collaborators) throws IOException {
-        this.collaborators = collaborators;
-        Notes.getInstance().save();
-
-    }
-
     private List<Long> collaborators;
     private final Date createdAt;
     private String header;
@@ -40,17 +29,6 @@ public class Note implements Serializable {
     private Priority priority;
     private Date updatedAt;
     private Date reminder;
-
-    public boolean isDone() {
-        return isDone;
-    }
-
-    public void setDone(boolean done) throws IOException {
-        isDone = done;
-        Notes.getInstance().save();
-
-    }
-
     private boolean isDone;
     private boolean deleted;
 
@@ -84,14 +62,24 @@ public class Note implements Serializable {
         Notes.getInstance().addNote(this);
     }
 
+    /**
+     * Retrieves the reminder date for the note.
+     *
+     * @return The reminder date.
+     */
     public Date getReminder() {
         return reminder;
     }
 
+    /**
+     * Sets the reminder date for the note and saves the changes.
+     *
+     * @param reminder The reminder date.
+     * @throws IOException If an error occurs while saving the changes.
+     */
     public void setReminder(Date reminder) throws IOException {
         this.reminder = reminder;
         Notes.getInstance().save();
-
     }
 
     /**
@@ -262,4 +250,43 @@ public class Note implements Serializable {
         Notes.getInstance().save();
     }
 
+    /**
+     * Retrieves the list of collaborators for the note.
+     *
+     * @return The list of collaborator identifiers.
+     */
+    public List<Long> getCollaborators() {
+        return collaborators;
+    }
+
+    /**
+     * Sets the list of collaborators for the note and saves the changes.
+     *
+     * @param collaborators The list of collaborator identifiers.
+     * @throws IOException If an error occurs while saving the changes.
+     */
+    public void setCollaborators(List<Long> collaborators) throws IOException {
+        this.collaborators = collaborators;
+        Notes.getInstance().save();
+    }
+
+    /**
+     * Checks if the note is marked as done.
+     *
+     * @return {@code true} if the note is marked as done, {@code false} otherwise.
+     */
+    public boolean isDone() {
+        return isDone;
+    }
+
+    /**
+     * Marks the note as done or undone and saves the changes.
+     *
+     * @param done {@code true} to mark the note as done, {@code false} to mark it as undone.
+     * @throws IOException If an error occurs while saving the changes.
+     */
+    public void setDone(boolean done) throws IOException {
+        isDone = done;
+        Notes.getInstance().save();
+    }
 }

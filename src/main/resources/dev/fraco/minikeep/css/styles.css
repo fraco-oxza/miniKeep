@@ -62,15 +62,15 @@
 
 /*noinspection CssUnusedSymbol*/
 .table-column .column-header-background {
-    -fx-text-fill: #fff;
+    -fx-text-fill: #fbf1c7;
 
-    -fx-background-color: #1d2021; /* Cambia el color de fondo de las cabeceras de las columnas */
+    -fx-background-color: #1d2021;
 }
 
 /*noinspection CssUnusedSymbol*/
 .table-view .table-row-cell {
-    -fx-text-fill: #fff;
-    -fx-background-color: #1d2021; /* Cambia el color de fondo de las filas impares de la tabla */
+    -fx-text-fill: #fbf1c7;
+    -fx-background-color: #1d2021;
 }
 
 
@@ -92,7 +92,7 @@
 
 /*noinspection CssUnusedSymbol*/
 .table-view .table-row-cell:odd {
-    -fx-background-color: #282828; /* Cambia el color de fondo de las filas impares de la tabla */
+    -fx-background-color: #282828;
 }
 
 
@@ -104,7 +104,7 @@
 
 /*noinspection CssInvalidPseudoSelector,CssUnusedSymbol*/
 .table-view .table-row-cell:odd:is-today {
-    -fx-background-color: #32361a; /* Cambia el color de fondo de las filas impares de la tabla */
+    -fx-background-color: #32361a;
 }
 
 /*noinspection CssInvalidPseudoSelector,CssUnusedSymbol*/
@@ -114,7 +114,7 @@
 
 /*noinspection CssInvalidPseudoSelector,CssUnusedSymbol*/
 .table-view .table-row-cell:odd:is-late {
-    -fx-background-color: #442e2d; /* Cambia el color de fondo de las filas impares de la tabla */
+    -fx-background-color: #442e2d;
 }
 
 /*noinspection CssUnusedSymbol*/
@@ -125,7 +125,7 @@
 
 /*noinspection CssUnusedSymbol*/
 .table-view .table-cell {
-    -fx-border-color: #48484833; /* Cambia el color de las líneas de las celdas de la tabla */
+    -fx-border-color: #48484833;
 }
 
 .menu-btn {
@@ -145,13 +145,14 @@
 
 .common-text-input {
     -fx-background-color: #1d2021;
-    -fx-text-fill: #dad5cb;
+    -fx-text-fill: #fbf1c7;
     -fx-font-size: 16px;
+    -fx-prompt-text-fill: #a89984;
 }
 
 /*noinspection CssUnusedSymbol*/
 .text-area {
-    -fx-text-fill: #dad5cb;
+    -fx-text-fill: #fbf1c7;
     -fx-font-size: 16px;
     -fx-background-color: transparent;
 }
@@ -165,7 +166,7 @@
 }
 
 .common-btn {
-    -fx-background-color: #fff;
+    -fx-background-color: #fbf1c7;
     -fx-border-color: none;
     -fx-font-weight: bold;
 }
@@ -178,21 +179,21 @@
 
 /*noinspection CssUnusedSymbol*/
 .date-picker .text-field {
-    -fx-text-fill: #fff; /* Cambia el color del texto */
-    -fx-background-color: #1d2021; /* Cambia el color de fondo */
+    -fx-text-fill: #fbf1c7;
+    -fx-background-color: #1d2021;
     -fx-border-color: #1d2021;
 }
 
 /*noinspection CssUnusedSymbol*/
 .date-picker {
-    -fx-background-color: #1d2021; /* Cambia el color de fondo */
+    -fx-background-color: #1d2021;
     -fx-border-color: #1d2021;
 }
 
 
 /*noinspection CssUnusedSymbol*/
 .choice-box .label {
-    -fx-text-fill: #fff;
+    -fx-text-fill: #fbf1c7;
 }
 
 /*noinspection CssUnusedSymbol*/
@@ -207,18 +208,18 @@
 
 /*noinspection CssUnusedSymbol*/
 .color-picker .label {
-    -fx-text-fill: #fff;
+    -fx-text-fill: #fbf1c7;
 }
 
 #note-header {
-    -fx-fill: #ccc;
+    -fx-fill: #fbf1c7;
     -fx-font-weight: bold;
     -fx-font-size: 20px;
 }
 
 /*noinspection CssUnusedSymbol*/
 .check-box .text {
-    -fx-fill: #ccc;
+    -fx-fill: #fbf1c7;
 }
 
 .error-btn:hover {

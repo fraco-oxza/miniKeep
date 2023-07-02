@@ -67,22 +67,23 @@
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                 </padding>
             </PasswordField>
-            <HBox fx:id="errorLabel" alignment="CENTER" prefHeight="60.0" prefWidth="317.0" style="-fx-background-color: #ea6962;" visible="false">
+            <HBox fx:id="errorLabel" alignment="CENTER" prefHeight="60.0" prefWidth="317.0" style="-fx-background-color: #EA6962;" visible="false">
                 <VBox.margin>
                     <Insets bottom="10.0" top="10.0" />
                 </VBox.margin>
                 <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="365.0" style="-fx-font-size: 16px;-fx-font-weight: bold" text="Email y/o contraseña incorrecto" textAlignment="CENTER" textFill="#282828">
 
                 </Label>
+
                 <padding>
                     <Insets bottom="10.0" top="10.0" />
                 </padding>
             </HBox>
-            <Button id="loginButton" fx:id="loginButton" mnemonicParsing="false" onAction="#tryToLogin" prefHeight="31.0" prefWidth="398.0" style="-fx-background-color: #fff; -fx-border-color: none;" text="Iniciar Sesión" textFill="#111111">
+            <Button fx:id="loginButton" mnemonicParsing="false" onAction="#tryToLogin" prefHeight="31.0" prefWidth="398.0" styleClass="common-btn" text="Iniciar Sesión" textFill="#111111">
 
             </Button>
             <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
-                <Label prefHeight="31.0" prefWidth="190.0" text="¿Aún no tienes una cuenta?" textFill="WHITE" translateX="36.0" />
+                <Label prefHeight="31.0" prefWidth="190.0" text="¿Aún no tienes una cuenta?" textFill="#fbf1c7" translateX="36.0" />
                 <Button fx:id="signInButton" mnemonicParsing="false" onAction="#moveToSignIn" prefHeight="31.0" prefWidth="103.0" style="-fx-background-color: none; -fx-underline: true;" text="Crear Cuenta" textFill="#7daea3" translateX="6.0">
                 </Button>
             </HBox>

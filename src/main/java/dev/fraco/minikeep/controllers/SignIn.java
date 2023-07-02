@@ -13,6 +13,11 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
+/**
+ * Represents the sign-up window where users can create a new account.
+ * Allows users to enter their name, email, and password to create a new user account.
+ * Provides validation for input fields and checks for existing email addresses.
+ */
 public class SignIn {
     private final Context ctx = Context.getInstance();
 
@@ -27,6 +32,12 @@ public class SignIn {
     public Label errorLabel;
     public HBox errorBox;
 
+    /**
+     * Handles the event when the user clicks the submit button.
+     * Performs the necessary actions when the user submits a form or interacts with the submit button.
+     *
+     * @param ignoredActionEvent the action event (ignored)
+     */
     public void submitHandler(ActionEvent ignoredActionEvent) {
         String registrationNumberString = registrationNumberInput.getText().trim();
         Long registrationNumber = null;
@@ -80,6 +91,12 @@ public class SignIn {
         }
     }
 
+    /**
+     * Handles the event when the user clicks the back button.
+     * Performs the necessary actions to navigate back to the login screen.
+     *
+     * @param ignoredActionEvent the action event (ignored)
+     */
     public void backHandler(ActionEvent ignoredActionEvent) {
         MiniKeepMain.setRoot("login");
     }

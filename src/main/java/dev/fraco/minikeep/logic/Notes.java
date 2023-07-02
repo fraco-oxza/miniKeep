@@ -104,6 +104,13 @@ public class Notes {
         return userNotes;
     }
 
+    /**
+     * Searches for notes that match the given search expression within the specified user's notes.
+     *
+     * @param user The user whose notes to search.
+     * @param exp  The search expression.
+     * @return A list of notes that match the search expression.
+     */
     public List<Note> searchNote(User user, String exp) {
         List<Note> userNotes = getUserNotes(user);
         ArrayList<Note> filteredNotes = new ArrayList<>();
