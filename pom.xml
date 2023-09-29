@@ -6,7 +6,7 @@
 
     <groupId>dev.fraco</groupId>
     <artifactId>miniKeep</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.4</version>
     <name>miniKeep</name>
 
     <properties>
